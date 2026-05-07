@@ -29,8 +29,8 @@
                   <div class="col-12 col-md-6 col-xl-4">
                      <div class="footer__widget" data-aos="fade-up" data-aos-duration="1200">
                         <div class="footer__logo">
-                           <a href="index.html">
-                           <img src="assets/images/logo-light.png" alt="Image">
+                           <a href="{{ route('home') }}">
+                           <img src="{{ asset('assets/images/logo-light.png') }}" alt="Image">
                            </a>
                         </div>
                         <div class="footer__widget-content">
@@ -87,7 +87,7 @@
                            <div class="footer__blog-single">
                               <div class="thumb">
                                  <a href="blog-details.html">
-                                 <img src="assets/images/blog/footer-one.png" alt="Image">
+                                 <img src="{{ asset('assets/images/blog/footer-one.png') }}" alt="Image">
                                  </a>
                               </div>
                               <div class="content">
@@ -100,7 +100,7 @@
                            <div class="footer__blog-single">
                               <div class="thumb">
                                  <a href="blog-details.html">
-                                 <img src="assets/images/blog/footer-two.png" alt="Image">
+                                 <img src="{{ asset('assets/images/blog/footer-two.png') }}" alt="Image">
                                  </a>
                               </div>
                               <div class="content">
@@ -157,7 +157,7 @@
                                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
                                     </ul>
                                     <p class="text-center text-lg-start">Copyright &copy; <span id="copyrightYear"></span> <a
-                                       href="index.html">Charitia</a>.
+                                       href="{{ route('home') }}">Charitia</a>.
                                        All rights
                                        reserved.
                                     </p>
@@ -190,13 +190,13 @@
                </div>
             </div>
             <div class="sprade" data-aos="zoom-in" data-aos-duration="1000">
-               <img src="assets/images/sprade.png" alt="Image" class="base-img">
+               <img src="{{ asset('assets/images/sprade.png') }}" alt="Image" class="base-img">
             </div>
             <div class="sprade-light" data-aos="zoom-in" data-aos-duration="1000">
-               <img src="assets/images/sprade-light.png" alt="Image">
+               <img src="{{ asset('assets/images/sprade-light.png') }}" alt="Image">
             </div>
             <div class="footer__thumb-right" data-aos="fade-left" data-aos-duration="1000">
-               <img src="assets/images/mask/footer-right.png" alt="Image">
+               <img src="{{ asset('assets/images/mask/footer-right.png') }}" alt="Image">
             </div>
          </footer>
          <!-- ==== / footer end ==== -->
@@ -224,14 +224,14 @@
                <h6>Switch Color</h6>
                <div class="various-color">
                   <div class="colors-list">
-                     <span class="palate default-color active" data-theme-file="assets/css/default-theme.css"></span>
-                     <span class="palate brown-color" data-theme-file="assets/css/brown-theme.css"></span>
-                     <span class="palate blue-color" data-theme-file="assets/css/blue-theme.css"></span>
-                     <span class="palate green-color" data-theme-file="assets/css/green-theme.css"></span>
-                     <span class="palate coral-color" data-theme-file="assets/css/coral-theme.css"></span>
-                     <span class="palate peach-color" data-theme-file="assets/css/peach-theme.css"></span>
-                     <span class="palate gray-color" data-theme-file="assets/css/gray-theme.css"></span>
-                     <span class="palate emerald-color" data-theme-file="assets/css/emerald-theme.css"></span>
+                     <span class="palate default-color active" data-theme-file="{{ asset('assets/css/default-theme.css') }}"></span>
+                     <span class="palate brown-color" data-theme-file="{{ asset('assets/css/brown-theme.css') }}"></span>
+                     <span class="palate blue-color" data-theme-file="{{ asset('assets/css/blue-theme.css') }}"></span>
+                     <span class="palate green-color" data-theme-file="{{ asset('assets/css/green-theme.css') }}"></span>
+                     <span class="palate coral-color" data-theme-file="{{ asset('assets/css/coral-theme.css') }}"></span>
+                     <span class="palate peach-color" data-theme-file="{{ asset('assets/css/peach-theme.css') }}"></span>
+                     <span class="palate gray-color" data-theme-file="{{ asset('assets/css/gray-theme.css') }}"></span>
+                     <span class="palate emerald-color" data-theme-file="{{ asset('assets/css/emerald-theme.css') }}"></span>
                   </div>
                </div>
                <h6>Direction</h6>
@@ -258,7 +258,7 @@
                   <p>More color and styling options are available in the admin panel. This picker is for demo purposes
                      only.
                   </p>
-                  <a href="index.html" class="purchase-box__btn">buy now</a>
+                  <a href="{{ route('home') }}" class="purchase-box__btn">buy now</a>
                </div>
             </div>
          </div>
@@ -266,39 +266,39 @@
       </div>
       <!-- ==== js dependencies start ==== -->
       <!-- jquery -->
-      <script src="assets/js/jquery-3.7.1.min.js"></script>
+      <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
       <!-- bootstrap five js -->
-      <script src="assets/js/bootstrap.bundle.min.js"></script>
+      <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
       <!-- nice select js -->
-      <script src="assets/js/jquery.nice-select.min.js"></script>
+      <script src="{{ asset('assets/js/jquery.nice-select.min.js') }}"></script>
       <!-- magnific popup js -->
-      <script src="assets/js/jquery.magnific-popup.min.js"></script>
+      <script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
       <!-- swiper slider js -->
-      <script src="assets/js/swiper-bundle.min.js"></script>
+      <script src="{{ asset('assets/js/swiper-bundle.min.js') }}"></script>
       <!-- viewport js -->
-      <script src="assets/js/viewport.jquery.js"></script>
+      <script src="{{ asset('assets/js/viewport.jquery.js') }}"></script>
       <!-- odometer js -->
-      <script src="assets/js/odometer.min.js"></script>
+      <script src="{{ asset('assets/js/odometer.min.js') }}"></script>
       <!-- vanilla tilt js -->
-      <script src="assets/js/vanilla-tilt.min.js"></script>
+      <script src="{{ asset('assets/js/vanilla-tilt.min.js') }}"></script>
       <!-- aos js -->
-      <script src="assets/js/aos.js"></script>
+      <script src="{{ asset('assets/js/aos.js') }}"></script>
       <!-- phospor icons js -->
-      <script src="assets/js/phosphor-icon.js"></script>
+      <script src="{{ asset('assets/js/phosphor-icon.js') }}"></script>
       <!-- splittext js -->
-      <script src="assets/js/SplitText.min.js"></script>
+      <script src="{{ asset('assets/js/SplitText.min.js') }}"></script>
       <!-- scrollto js -->
-      <script src="assets/js/ScrollToPlugin.min.js"></script>
+      <script src="{{ asset('assets/js/ScrollToPlugin.min.js') }}"></script>
       <!-- scrolltrigger js -->
-      <script src="assets/js/ScrollTrigger.min.js"></script>
+      <script src="{{ asset('assets/js/ScrollTrigger.min.js') }}"></script>
       <!-- gsap js -->
-      <script src="assets/js/gsap.min.js"></script>
+      <script src="{{ asset('assets/js/gsap.min.js') }}"></script>
       <!-- ==== / js dependencies end ==== -->
       <!-- template settings js -->
-      <script src="assets/js/template-settings.js"></script>
+      <script src="{{ asset('assets/js/template-settings.js') }}"></script>
       <!-- main js -->
-      <script src="assets/js/custom.js"></script>
+      <script src="{{ asset('assets/js/custom.js') }}"></script>
    </body>
 
-<!-- Mirrored from webnextpro.com/tf/charitia/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 May 2026 11:34:59 GMT -->
+<!-- Mirrored from webnextpro.com/tf/charitia/{{ route('home') }} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 May 2026 11:34:59 GMT -->
 </html>

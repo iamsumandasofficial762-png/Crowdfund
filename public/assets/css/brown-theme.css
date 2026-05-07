@@ -2,13 +2,13 @@
  --------- brown color scheme styles start ---------
  ==== */
 :root {
-  --base-bg: #efc940;
+  --base-bg: #ffb33f;
   --base-color: #000000;
 }
 
 .base-img {
-  -webkit-filter: brightness(0) saturate(100%) invert(82%) sepia(10%) saturate(982%) hue-rotate(167deg) brightness(105%) contrast(98%);
-          filter: brightness(0) saturate(100%) invert(82%) sepia(10%) saturate(982%) hue-rotate(167deg) brightness(105%) contrast(98%);
+  -webkit-filter: brightness(0) saturate(100%) invert(72%) sepia(84%) saturate(726%) hue-rotate(337deg) brightness(105%) contrast(101%);
+          filter: brightness(0) saturate(100%) invert(72%) sepia(84%) saturate(726%) hue-rotate(337deg) brightness(105%) contrast(101%);
 }
 
 /* ==== 

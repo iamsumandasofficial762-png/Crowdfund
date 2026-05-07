@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
    
-<!-- Mirrored from webnextpro.com/tf/charitia/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 May 2026 11:34:44 GMT -->
+<!-- Mirrored from webnextpro.com/tf/charitia/{{ route('home') }} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 May 2026 11:34:44 GMT -->
 <head>
       <!-- #required meta -->
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- #favicon -->
-      <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
-      <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+      <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
+      <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
       <!-- #title -->
       <title>Charitia | Nonprofit NGO Fundraising HTML5 Template</title>
       <!-- #keywords -->
@@ -23,21 +23,21 @@
          href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&amp;family=Nunito:ital,wght@0,200..1000;1,200..1000&amp;display=swap"
          rel="stylesheet">
       <!-- color themes -->
-      <link rel="stylesheet" href="assets/css/default-theme.css" id="switch-color">
+      <link rel="stylesheet" href="{{ asset('assets/css/default-theme.css') }}" id="switch-color">
       <!-- template settings css -->
-      <link rel="stylesheet" href="assets/css/template-settings.css">
+      <link rel="stylesheet" href="{{ asset('assets/css/template-settings.css') }}">
       <!-- main css -->
-      <link rel="stylesheet" href="assets/css/main.css">
+      <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
       <!-- responsive css -->
-      <link rel="stylesheet" href="assets/css/responsive.css">
+      <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
       <!-- sticky header css -->
-      <link rel="stylesheet" href="assets/css/sticky-header.css">
+      <link rel="stylesheet" href="{{ asset('assets/css/sticky-header.css') }}">
       <!-- box layout css -->
-      <link rel="stylesheet" href="assets/css/box-layout.css">
+      <link rel="stylesheet" href="{{ asset('assets/css/box-layout.css') }}">
       <!-- dark mode css -->
-      <link rel="stylesheet" href="assets/css/dark-mode.css">
+      <link rel="stylesheet" href="{{ asset('assets/css/dark-mode.css') }}">
       <!-- rtl version css -->
-      <link rel="stylesheet" href="assets/css/rtl-version.css">
+      <link rel="stylesheet" href="{{ asset('assets/css/rtl-version.css') }}">
    </head>
    <body>
       <!--[if lte IE 9]>
@@ -126,64 +126,28 @@
                      <div class="main-header__menu-box">
                         <nav class="navbar p-0">
                            <div class="navbar-logo">
-                              <a href="index.html">
-                              <img src="assets/images/logo.png" alt="Image">
+                              <a href="{{ route('home') }}">
+                              <img src="{{ asset('assets/images/logo.png') }}" alt="Image">
                               </a>
                            </div>
                            <div class="navbar__menu d-none d-xl-block">
                               <ul class="navbar__list">
-                                 <li class="navbar__item navbar__item--has-children nav-fade">
-                                    <a href="#" aria-label="dropdown menu"
-                                       class="navbar__dropdown-label dropdown-label-alter">Home</a>
-                                    <ul class="navbar__sub-menu mega-menu">
-                                       <li>
-                                          <div class="mega-content-wrapper">
-                                             <img src="assets/images/home-one.png" alt="Image">
-                                             <div class="mega-content">
-                                                <a href="index.html" class="btn--primary">Multipage</a>
-                                                <a href="index-one-page.html" class="btn--secondary">One
-                                                Page</a>
-                                             </div>
-                                          </div>
-                                          <a href="index.html">Home One</a>
-                                       </li>
-                                       <li>
-                                          <div class="mega-content-wrapper">
-                                             <img src="assets/images/home-two.png" alt="Image">
-                                             <div class="mega-content">
-                                                <a href="index-two.html" class="btn--primary">Multipage</a>
-                                                <a href="index-two-one-page.html" class="btn--secondary">One
-                                                Page</a>
-                                             </div>
-                                          </div>
-                                          <a href="index-two.html">Home Two</a>
-                                       </li>
-                                       <li>
-                                          <div class="mega-content-wrapper">
-                                             <img src="assets/images/home-three.png" alt="Image">
-                                             <div class="mega-content">
-                                                <a href="index-three.html" class="btn--primary">Multipage</a>
-                                                <a href="index-three-one-page.html" class="btn--secondary">One Page</a>
-                                             </div>
-                                          </div>
-                                          <a href="index-three.html">Home Three</a>
-                                       </li>
-                                       <li>
-                                          <div class="mega-content-wrapper">
-                                             <img src="assets/images/home-four.png" alt="Image">
-                                             <div class="mega-content">
-                                                <a href="index-four.html" class="btn--primary">Multipage</a>
-                                                <a href="index-four-one-page.html" class="btn--secondary">One Page</a>
-                                             </div>
-                                          </div>
-                                          <a href="index-four.html">Home Four</a>
-                                       </li>
-                                    </ul>
+                                 <li class="navbar__item nav-fade">
+                                    <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'is-active' : '' }}">Home</a>
                                  </li>
                                  <li class="navbar__item nav-fade">
-                                    <a href="about-us.html">About Us</a>
+                                    <a href="{{ route('coming-soon', ['menu' => 'donate']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'donate' ? 'is-active' : '' }}">Donate</a>
                                  </li>
-                                 <li class="navbar__item navbar__item--has-children nav-fade">
+                                 <li class="navbar__item nav-fade">
+                                    <a href="{{ route('coming-soon', ['menu' => 'pricing']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'pricing' ? 'is-active' : '' }}">Pricing</a>
+                                 </li>
+                                 <li class="navbar__item nav-fade">
+                                    <a href="{{ route('coming-soon', ['menu' => 'resource']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'resource' ? 'is-active' : '' }}">Resource</a>
+                                 </li>
+                                 <li class="navbar__item nav-fade">
+                                    <a href="{{ route('coming-soon', ['menu' => 'code-of-practice']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'code-of-practice' ? 'is-active' : '' }}">Code of practice</a>
+                                 </li>
+                                 <!-- <li class="navbar__item navbar__item--has-children nav-fade">
                                     <a href="#" aria-label="dropdown menu"
                                        class="navbar__dropdown-label dropdown-label-alter">Causes</a>
                                     <ul class="navbar__sub-menu">
@@ -278,15 +242,15 @@
                                           <a href="blog-details.html">News Details</a>
                                        </li>
                                     </ul>
-                                 </li>
+                                 </li> -->
                                  <li class="navbar__item nav-fade">
-                                    <a href="contact-us.html">Contact Us</a>
+                                    <a href="{{ route('contact-us') }}" class="{{ request()->routeIs('contact-us') ? 'is-active' : '' }}">Contact Us</a>
                                  </li>
                               </ul>
                            </div>
                            <div class="navbar__options">
                               <div class="navbar__mobile-options ">
-                                 <div class="search-box">
+                                 <!-- <div class="search-box">
                                     <button class="open-search" aria-label="search products" title="open search box">
                                     <i class="ph ph-magnifying-glass"></i>
                                     </button>
@@ -297,9 +261,13 @@
                                     <i class="ph ph-shopping-cart-simple"></i>
                                     <span>02</span>
                                     </button>
+                                 </div> -->
+                                 <div class="navbar__cta-row d-none d-md-flex">
+                                    <a href="donate-us.html" class="btn--secondary" data-text="Start a fundraiser"><span>Start a fundraiser</span></a>
+                                    <span class="navbar__cta-divider"></span>
+                                    <a href="donate-us.html" class="btn--secondary" data-text="Donate Now"><span>Donate
+                                    Now</span></a>
                                  </div>
-                                 <a href="donate-us.html" class="btn--secondary d-none d-md-flex" data-text="Donate Now"><span>Donate
-                                 Now</span></a>
                               </div>
                               <button class="open-offcanvas-nav d-flex d-xl-none" aria-label="toggle mobile menu"
                                  title="open offcanvas menu">

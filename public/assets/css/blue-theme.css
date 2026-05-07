@@ -2,13 +2,13 @@
  --------- blue color scheme styles start ---------
  ==== */
 :root {
-  --base-bg: #b3e5fc;
-  --base-color: #000000;
+  --base-bg: #134e8e;
+  --base-color: #ffffff;
 }
 
 .base-img {
-  -webkit-filter: brightness(0) saturate(100%) invert(82%) sepia(10%) saturate(982%) hue-rotate(167deg) brightness(105%) contrast(98%);
-          filter: brightness(0) saturate(100%) invert(82%) sepia(10%) saturate(982%) hue-rotate(167deg) brightness(105%) contrast(98%);
+  -webkit-filter: brightness(0) saturate(100%) invert(25%) sepia(61%) saturate(1240%) hue-rotate(181deg) brightness(91%) contrast(90%);
+          filter: brightness(0) saturate(100%) invert(25%) sepia(61%) saturate(1240%) hue-rotate(181deg) brightness(91%) contrast(90%);
 }
 
 /* ==== 

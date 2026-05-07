@@ -764,7 +764,7 @@
   color: var(--black) !important;
 }
 .dark-mode .footer-two {
-  background-color: #122f2a;
+  background-color: #000000;
 }
 .dark-mode .footer-two__newsletter-form form input {
   background-color: rgba(255, 255, 255, 0.2);
