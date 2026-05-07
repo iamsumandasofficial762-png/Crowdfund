@@ -264,9 +264,9 @@
                                  </div> -->
                                  <div class="navbar__cta-row d-none d-md-flex">
                                     <a href="donate-us.html" class="btn--secondary" data-text="Start a fundraiser"><span>Start a fundraiser</span></a>
-                                    <span class="navbar__cta-divider"></span>
+                                    <!-- <span class="navbar__cta-divider"></span>
                                     <a href="donate-us.html" class="btn--secondary" data-text="Donate Now"><span>Donate
-                                    Now</span></a>
+                                    Now</span></a> -->
                                  </div>
                               </div>
                               <button class="open-offcanvas-nav d-flex d-xl-none" aria-label="toggle mobile menu"

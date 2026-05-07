@@ -169,7 +169,8 @@
     inset-inline-start: 40px;
   }
   .about-area .about__thumb-sm {
-    width: auto;
+    width: 330px;
+    max-width: 60%;
   }
   .about-area .help__content-list li {
     width: calc(50% - 8px);
