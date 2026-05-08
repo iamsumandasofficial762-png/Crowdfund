@@ -16,7 +16,7 @@
                </div>
                <div class="mobile-menu__list"></div>
                <div class="mobile-menu__cta nav-fade d-block d-md-none">
-                  <a href="donate-us.html" class="btn--secondary" data-text="Donate Now"><span>Donate
+                  <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" class="btn--secondary" data-text="Donate Now"><span>Donate
                   Now</span></a>
                </div>
                <div class="mobile-menu__social social nav-fade">
@@ -65,16 +65,16 @@
                <div class="cart-items">
                   <div class="cart-item-single">
                      <div class="cart-item-thumb">
-                        <a href="event-details.html">
+                        <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
                         <img src="{{ asset('assets/images/shop/cart-one.png') }}" alt="Image">
                         </a>
                      </div>
                      <div class="cart-item-content">
                         <h6 class="h6 title-anim">
-                           <a href="product-single.html">Headset</a>
+                           <a href="{{ route('coming-soon', ['menu' => 'product-single']) }}">Headset</a>
                         </h6>
                         <p class="price">
-                           $
+                           ₹
                            <span class="item-price">14.99</span>
                         </p>
                         <div class="measure">
@@ -93,16 +93,16 @@
                   </div>
                   <div class="cart-item-single">
                      <div class="cart-item-thumb">
-                        <a href="event-details.html">
+                        <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
                         <img src="{{ asset('assets/images/shop/cart-two.png') }}" alt="Image">
                         </a>
                      </div>
                      <div class="cart-item-content">
                         <h6 class="h6 title-anim">
-                           <a href="product-single.html">Headphone</a>
+                           <a href="{{ route('coming-soon', ['menu' => 'product-single']) }}">Headphone</a>
                         </h6>
                         <p class="price">
-                           $
+                           ₹
                            <span class="item-price">34.99</span>
                         </p>
                         <div class="measure">
@@ -124,14 +124,14 @@
                   <div class="subtotal">
                      <span class="label">Subtotal:</span>
                      <span class="amount ">
-                     $
+                     ₹
                      <span class="total-price">0.00</span>
                      </span>
                   </div>
                </div>
                <div class="action-buttons">
-                  <a class="view-cart-button" href="cart.html" aria-label="go to cart">Cart</a>
-                  <a class="checkout-button" href="checkout.html" aria-label="go to checkout">
+                  <a class="view-cart-button" href="{{ route('coming-soon', ['menu' => 'cart']) }}" aria-label="go to cart">Cart</a>
+                  <a class="checkout-button" href="{{ route('coming-soon', ['menu' => 'checkout']) }}" aria-label="go to checkout">
                   Checkout
                   <i class="fa-solid fa-arrow-right-long"></i>
                   </a>
@@ -160,8 +160,8 @@
                                        Who Need It.
                                     </h1>
                                     <div class="banner__content-cta mt-40">
-                                       <a href="our-causes.html" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
-                                       <!-- <a href="contact-us.html" aria-label="contact us" title="contact us" data-text="Get A Quote"
+                                       <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
+                                       <!-- <a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}" aria-label="contact us" title="contact us" data-text="Get A Quote"
                                           class="btn--secondary"><span>Get A Quote</span></a> -->
                                     </div>
                                  </div>
@@ -185,8 +185,8 @@
                                        Who Need It.
                                     </h1>
                                     <div class="banner__content-cta mt-40">
-                                       <a href="our-causes.html" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
-                                       <!-- <a href="contact-us.html" aria-label="contact us" title="contact us" data-text="Get A Quote"
+                                       <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
+                                       <!-- <a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}" aria-label="contact us" title="contact us" data-text="Get A Quote"
                                           class="btn--secondary"><span>Get A Quote</span></a> -->
                                     </div>
                                  </div>
@@ -210,8 +210,8 @@
                                        Who Need It.
                                     </h1>
                                     <div class="banner__content-cta mt-40">
-                                       <a href="our-causes.html" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
-                                       <!-- <a href="contact-us.html" aria-label="contact us" title="contact us" data-text="Get A Quote"
+                                       <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
+                                       <!-- <a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}" aria-label="contact us" title="contact us" data-text="Get A Quote"
                                           class="btn--secondary"><span>Get A Quote</span></a> -->
                                     </div>
                                  </div>
@@ -235,8 +235,8 @@
                                        Who Need It.
                                     </h1>
                                     <div class="banner__content-cta mt-40">
-                                       <a href="our-causes.html" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
-                                       <!-- <a href="contact-us.html" aria-label="contact us" title="contact us" data-text="Get A Quote"
+                                       <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
+                                       <!-- <a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}" aria-label="contact us" title="contact us" data-text="Get A Quote"
                                           class="btn--secondary"><span>Get A Quote</span></a> -->
                                     </div>
                                  </div>
@@ -398,16 +398,16 @@
                               </div>
                               <div class="join-users">
                                  <div class="single-user">
-                                    <img src="{{ asset('assets/images/avatar/avatar-one.png') }}" alt="Image">
+                                    <img src="{{ asset('assets/images/avatar/avatar-user.png') }}" alt="Image">
                                  </div>
                                  <div class="single-user">
-                                    <img src="{{ asset('assets/images/avatar/avatar-two.png') }}" alt="Image">
+                                    <img src="{{ asset('assets/images/avatar/avatar-user.png') }}" alt="Image">
                                  </div>
                                  <div class="single-user">
-                                    <img src="{{ asset('assets/images/avatar/avatar-three.png') }}" alt="Image">
+                                    <img src="{{ asset('assets/images/avatar/avatar-user.png') }}" alt="Image">
                                  </div>
                                  <div class="single-user">
-                                    <img src="{{ asset('assets/images/avatar/avatar-four.png') }}" alt="Image">
+                                    <img src="{{ asset('assets/images/avatar/avatar-user.png') }}" alt="Image">
                                  </div>
                               </div>
                            </div>
@@ -451,15 +451,15 @@
                      <div class="cause__slider-inner" data-aos="fade-up" data-aos-duration="1000">
                         <div class="cause__slider-single van-tilt">
                            <div class="thumb">
-                              <a href="cause-details.html">
+                              <a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">
                               <img src="{{ asset('assets/images/cause/one.png') }}" alt="Image">
                               </a>
                               <div class="tag">
-                                 <a href="our-causes.html">Health</a>
+                                 <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}">Health</a>
                               </div>
                            </div>
                            <div class="content">
-                              <h6><a href="cause-details.html">Children we work with</a></h6>
+                              <h6><a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">Children we work with</a></h6>
                               <p>Lorem ipsum dolor sit amet, consete
                                  sadipscing elitr, sed diam nonum
                               </p>
@@ -480,13 +480,13 @@
                                     </div>
                                  </div>
                                  <div class="cause-progress__goal">
-                                    <p>Raised: <span class="raised">$8500</span></p>
-                                    <p>Goal: <span class="goal">$1,0000</span></p>
+                                    <p>Raised: <span class="raised">₹8500</span></p>
+                                    <p>Goal: <span class="goal">₹1,0000</span></p>
                                  </div>
                               </div>
                            </div>
                            <div class="cause__cta">
-                              <a href="donate-us.html" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
+                              <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
                                  class="fa-solid fa-arrow-right-long"></i></a>
                            </div>
                         </div>
@@ -496,15 +496,15 @@
                      <div class="cause__slider-inner" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
                         <div class="cause__slider-single van-tilt">
                            <div class="thumb">
-                              <a href="cause-details.html">
+                              <a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">
                               <img src="{{ asset('assets/images/cause/two.png') }}" alt="Image">
                               </a>
                               <div class="tag">
-                                 <a href="our-causes.html">Food</a>
+                                 <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}">Food</a>
                               </div>
                            </div>
                            <div class="content">
-                              <h6><a href="cause-details.html">Help For Education</a></h6>
+                              <h6><a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">Help For Education</a></h6>
                               <p>Lorem ipsum dolor sit amet, consete
                                  sadipscing elitr, sed diam nonum
                               </p>
@@ -525,13 +525,13 @@
                                     </div>
                                  </div>
                                  <div class="cause-progress__goal">
-                                    <p>Raised: <span class="raised">$8500</span></p>
-                                    <p>Goal: <span class="goal">$1,0000</span></p>
+                                    <p>Raised: <span class="raised">₹8500</span></p>
+                                    <p>Goal: <span class="goal">₹1,0000</span></p>
                                  </div>
                               </div>
                            </div>
                            <div class="cause__cta">
-                              <a href="donate-us.html" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
+                              <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
                                  class="fa-solid fa-arrow-right-long"></i></a>
                            </div>
                         </div>
@@ -541,15 +541,15 @@
                      <div class="cause__slider-inner" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
                         <div class="cause__slider-single van-tilt">
                            <div class="thumb">
-                              <a href="cause-details.html">
+                              <a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">
                               <img src="{{ asset('assets/images/cause/three.png') }}" alt="Image">
                               </a>
                               <div class="tag">
-                                 <a href="our-causes.html">Health</a>
+                                 <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}">Health</a>
                               </div>
                            </div>
                            <div class="content">
-                              <h6><a href="cause-details.html">Help For Food</a></h6>
+                              <h6><a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">Help For Food</a></h6>
                               <p>Lorem ipsum dolor sit amet, consete
                                  sadipscing elitr, sed diam nonum
                               </p>
@@ -570,13 +570,13 @@
                                     </div>
                                  </div>
                                  <div class="cause-progress__goal">
-                                    <p>Raised: <span class="raised">$8500</span></p>
-                                    <p>Goal: <span class="goal">$1,0000</span></p>
+                                    <p>Raised: <span class="raised">₹8500</span></p>
+                                    <p>Goal: <span class="goal">₹1,0000</span></p>
                                  </div>
                               </div>
                            </div>
                            <div class="cause__cta">
-                              <a href="donate-us.html" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
+                              <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
                                  class="fa-solid fa-arrow-right-long"></i></a>
                            </div>
                         </div>
@@ -586,7 +586,7 @@
                <div class="row justify-content-center">
                   <div class="col-12 col-lg-6">
                      <div class="mt-60 text-center">
-                        <a href="our-causes.html" data-text="Explore All" class="btn--secondary"><span>Explore All</span></a>
+                        <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" data-text="Explore All" class="btn--secondary"><span>Explore All</span></a>
                      </div>
                   </div>
                </div>
@@ -597,7 +597,165 @@
          </section>
          <!-- ==== / cause slider section end ==== -->
          <!-- ==== testimonial section start ==== -->
-         <section class="testimonial-area pt-120 pb-120">
+         <section class="donor-reviews" aria-labelledby="donorReviewsTitle">
+            <div class="donor-reviews__shape donor-reviews__shape--left"></div>
+            <div class="donor-reviews__shape donor-reviews__shape--right"></div>
+            <div class="donor-reviews__dots donor-reviews__dots--top"></div>
+            <div class="donor-reviews__dots donor-reviews__dots--bottom"></div>
+            <div class="container">
+               <div class="donor-reviews__header text-center">
+                  <div class="donor-reviews__rating">
+                     <i class="fa-solid fa-star"></i>
+                     <span>4.6 | 28K+ Reviews</span>
+                  </div>
+                  <div class="donor-reviews__eyebrow">
+                     <span></span>
+                     <p>Donor Reviews</p>
+                     <span></span>
+                  </div>
+                  <h2 id="donorReviewsTitle">What Our Donors Say</h2>
+                  <p>Real words from people who helped create real impact.</p>
+                  <a href="https://www.google.com/search?q=Karna+Ka+reviews" class="donor-reviews__google" target="_blank" rel="noopener">
+                     <span class="donor-reviews__google-mark">G</span>
+                     <span>Check Google Reviews</span>
+                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  </a>
+               </div>
+               <div class="donor-reviews__slider-wrap">
+                  <button type="button" class="donor-reviews__arrow donor-reviews__arrow--prev" aria-label="previous reviews">
+                     <i class="fa-solid fa-angle-left"></i>
+                  </button>
+                  <div class="donor-reviews__carousel swiper">
+                     <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                           <article class="donor-review-card">
+                              <div class="donor-review-card__quote">&ldquo;</div>
+                              <h3>Ritika Dadhich</h3>
+                              <time datetime="2026-03-20">20 March 2026</time>
+                              <div class="donor-review-card__stars" aria-label="5 out of 5 stars">
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-certificate"></i>
+                              </div>
+                              <p>I'm happy with their services. It's an amazing platform and they helped us in the difficult time. I Hartley thank milap and team. Thank you so much God bless you ...</p>
+                              <div class="donor-review-card__author">
+                                 <span>R</span>
+                                 <div>
+                                    <h4>Ritika Dadhich</h4>
+                                    <p>Verified Donor</p>
+                                 </div>
+                              </div>
+                           </article>
+                        </div>
+                        <div class="swiper-slide">
+                           <article class="donor-review-card">
+                              <div class="donor-review-card__quote">&ldquo;</div>
+                              <h3>Shilpa Sonal</h3>
+                              <time datetime="2026-03-27">27 March 2026</time>
+                              <div class="donor-review-card__stars" aria-label="5 out of 5 stars">
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-certificate"></i>
+                              </div>
+                              <p>As always, Sanshil Foundation has had a fantastic experience with Milaap! Over the years we have benefitted immensely with our association. Thank you Milaap!...</p>
+                              <div class="donor-review-card__author">
+                                 <span>S</span>
+                                 <div>
+                                    <h4>Shilpa Sonal</h4>
+                                    <p>Verified Donor</p>
+                                 </div>
+                              </div>
+                           </article>
+                        </div>
+                        <div class="swiper-slide">
+                           <article class="donor-review-card">
+                              <div class="donor-review-card__quote">&ldquo;</div>
+                              <h3>Bhushandeep Gogoi</h3>
+                              <time datetime="2026-03-28">28 March 2026</time>
+                              <div class="donor-review-card__stars" aria-label="5 out of 5 stars">
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-certificate"></i>
+                              </div>
+                              <p>Wish you all best of luck!! Give your 100% and our support is always there. Jai hind!!!!!</p>
+                              <div class="donor-review-card__author">
+                                 <span>B</span>
+                                 <div>
+                                    <h4>Bhushandeep Gogoi</h4>
+                                    <p>Verified Donor</p>
+                                 </div>
+                              </div>
+                           </article>
+                        </div>
+                        <div class="swiper-slide">
+                           <article class="donor-review-card">
+                              <div class="donor-review-card__quote">&ldquo;</div>
+                              <h3>Anjali Sharma</h3>
+                              <time datetime="2026-03-30">30 March 2026</time>
+                              <div class="donor-review-card__stars" aria-label="5 out of 5 stars">
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-certificate"></i>
+                              </div>
+                              <p>The team kept everything transparent and simple. We could follow every update and support reached the right people at the right time.</p>
+                              <div class="donor-review-card__author">
+                                 <span>A</span>
+                                 <div>
+                                    <h4>Anjali Sharma</h4>
+                                    <p>Verified Donor</p>
+                                 </div>
+                              </div>
+                           </article>
+                        </div>
+                        <div class="swiper-slide">
+                           <article class="donor-review-card">
+                              <div class="donor-review-card__quote">&ldquo;</div>
+                              <h3>Rahul Mehta</h3>
+                              <time datetime="2026-04-02">02 April 2026</time>
+                              <div class="donor-review-card__stars" aria-label="5 out of 5 stars">
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-star"></i>
+                                 <i class="fa-solid fa-certificate"></i>
+                              </div>
+                              <p>Very smooth experience from start to finish. The updates were clear, and the support team answered every question with patience.</p>
+                              <div class="donor-review-card__author">
+                                 <span>R</span>
+                                 <div>
+                                    <h4>Rahul Mehta</h4>
+                                    <p>Verified Donor</p>
+                                 </div>
+                              </div>
+                           </article>
+                        </div>
+                     </div>
+                  </div>
+                  <button type="button" class="donor-reviews__arrow donor-reviews__arrow--next" aria-label="next reviews">
+                     <i class="fa-solid fa-angle-right"></i>
+                  </button>
+               </div>
+               <div class="donor-reviews__pagination"></div>
+               <div class="donor-reviews__hands" aria-hidden="true">
+                  <i class="fa-solid fa-heart"></i>
+                  <span></span>
+               </div>
+            </div>
+         </section>
+         <!-- <section class="testimonial-area pt-120 pb-120">
             <div class="container">
                <div class="row justify-content-center">
                   <div class="col-12 col-lg-10 col-xl-5">
@@ -629,7 +787,7 @@
                                        <div class="row align-items-center gutter-40">
                                           <div class="col-12 col-lg-4 col-xl-4">
                                              <div class="testimonial__slider-thumb">
-                                                <img src="{{ asset('assets/images/testimonial/one.png') }}" alt="Image">
+                                                <img src="{{ asset('assets/images/testimonial/user.png') }}" alt="Image">
                                              </div>
                                           </div>
                                           <div class="col-12 col-lg-8 col-xl-7">
@@ -665,7 +823,7 @@
                                        <div class="row align-items-center gutter-40">
                                           <div class="col-12 col-lg-4 col-xl-4">
                                              <div class="testimonial__slider-thumb">
-                                                <img src="{{ asset('assets/images/testimonial/two.png') }}" alt="Image">
+                                                <img src="{{ asset('assets/images/testimonial/user.png') }}" alt="Image">
                                              </div>
                                           </div>
                                           <div class="col-12 col-lg-8 col-xl-7">
@@ -701,7 +859,7 @@
                                        <div class="row align-items-center gutter-40">
                                           <div class="col-12 col-lg-4 col-xl-4">
                                              <div class="testimonial__slider-thumb">
-                                                <img src="{{ asset('assets/images/testimonial/three.png') }}" alt="Image">
+                                                <img src="{{ asset('assets/images/testimonial/user.png') }}" alt="Image">
                                              </div>
                                           </div>
                                           <div class="col-12 col-lg-8 col-xl-7">
@@ -748,7 +906,7 @@
                   </div>
                </div>
             </div>
-         </section>
+         </section> -->
          <!-- ==== / testimonial section end ==== -->
          <!-- ==== difference two section start ==== -->
          <section class="difference-two pt-120 pb-120">
@@ -759,9 +917,9 @@
                         <div class="difference-two__thumb">
                            <div class="thumb-lg" data-aos="fade-right" data-aos-duration="1000">
                               <img src="{{ asset('assets/images/difference/thumb-sm.png') }}" alt="Image">
-                              <div class="grid-line">
+                              <!-- <div class="grid-line">
                                  <img src="{{ asset('assets/images/help/grid.png') }}" alt="Image" class="base-img">
-                              </div>
+                              </div> -->
                               <div class="video-btn-wrapper">
                                  <a href="https://www.youtube.com/watch?v=RvreULjnzFo" target="_blank" title="video Player"
                                     class="open-video-popup">
@@ -885,7 +1043,7 @@
                                  </div>
                                  <div class="content">
                                     <h6>Donate Now</h6>
-                                    <p>$40,456</p>
+                                    <p>40,456</p>
                                  </div>
                               </div>
                               <hr>
@@ -895,7 +1053,7 @@
                                  </div>
                                  <div class="content">
                                     <h6>Total Fundraised</h6>
-                                    <p>$1,540,456</p>
+                                    <p>₹1,540,456</p>
                                  </div>
                               </div>
                            </div>
@@ -928,18 +1086,13 @@
                      <div class="community-donation" data-aos="fade-up" data-aos-duration="1000">
                         <div class="community-donation__inner">
                            <h4>Support Where It Counts.</h4>
-                           <div class="warning">
-                              <div class="line"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                              <p><strong>Notice:</strong> Test mode is enabled. While in test mode no live
-                                 donations are processed.
-                              </p>
-                           </div>
+                           
                            <div class="donation-form">
                               <div class="donation-form__single">
                                  <h5>Your Donation:</h5>
                                  <div class="input-group-icon">
                                     <div class="thumb">
-                                       <i class="fa-solid fa-dollar-sign"></i>
+                                       <i class="fa-solid fa-indian-rupee-sign"></i>
                                     </div>
                                     <input type="text" name="donation-amount" id="donationAmount">
                                  </div>
@@ -969,7 +1122,7 @@
                                  </div>
                               </div>
                               <div class="mt-40">
-                                 <a href="donate-us.html" aria-label="donate us" title="donate us" data-text="Donate Now"
+                                 <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" aria-label="donate us" title="donate us" data-text="Donate Now"
                                     class="btn--secondary"><span>Donate Now</span></a>
                               </div>
                            </div>
@@ -1019,58 +1172,58 @@
                      <div class="explore__wrapper">
                         <div class="explore__single" data-aos="fade-up" data-aos-duration="1000">
                            <div class="thumb">
-                              <a href="event-details.html">
+                              <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
                               <img src="{{ asset('assets/images/award/one.png') }}" alt="Image">
                               </a>
                            </div>
-                           <a href="event-details.html" class="arr">
+                           <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}" class="arr">
                            <i class="fa-solid fa-arrow-up"></i>
                            </a>
                            <div class="content">
                               <p>Food & Transport</p>
-                              <h5><a href="event-details.html">Child Trouble & Care</a></h5>
+                              <h5><a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">Child Trouble & Care</a></h5>
                            </div>
                         </div>
                         <div class="explore__single" data-aos="fade-up" data-aos-duration="1000">
                            <div class="thumb">
-                              <a href="event-details.html">
+                              <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
                               <img src="{{ asset('assets/images/award/two.png') }}" alt="Image">
                               </a>
                            </div>
-                           <a href="event-details.html" class="arr">
+                           <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}" class="arr">
                            <i class="fa-solid fa-arrow-up"></i>
                            </a>
                            <div class="content">
                               <p>Health & Food</p>
-                              <h5><a href="event-details.html">Health Care Program</a></h5>
+                              <h5><a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">Health Care Program</a></h5>
                            </div>
                         </div>
                         <div class="explore__single explore__single-tall" data-aos="fade-up" data-aos-duration="1000">
                            <div class="thumb">
-                              <a href="event-details.html">
+                              <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
                               <img src="{{ asset('assets/images/award/three.jpg') }}" alt="Image">
                               </a>
                            </div>
-                           <a href="event-details.html" class="arr">
+                           <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}" class="arr">
                            <i class="fa-solid fa-arrow-up"></i>
                            </a>
                            <div class="content">
                               <p>Education & Food</p>
-                              <h5><a href="event-details.html">Education & Safety Program</a></h5>
+                              <h5><a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">Education & Safety Program</a></h5>
                            </div>
                         </div>
                         <div class="explore__single explore__single-wide" data-aos="fade-up" data-aos-duration="1000">
                            <div class="thumb">
-                              <a href="event-details.html">
+                              <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
                               <img src="{{ asset('assets/images/award/four.jpg') }}" alt="Image">
                               </a>
                            </div>
-                           <a href="event-details.html" class="arr">
+                           <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}" class="arr">
                            <i class="fa-solid fa-arrow-up"></i>
                            </a>
                            <div class="content">
                               <p>Transport & Food</p>
-                              <h5><a href="event-details.html">Transport & Food Program </a></h5>
+                              <h5><a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">Transport & Food Program </a></h5>
                            </div>
                         </div>
                      </div>
@@ -1085,7 +1238,7 @@
                   </div>
                   <div class="col-12 col-lg-4">
                      <div class="text-start text-lg-end">
-                        <a href="events.html" class="btn--secondary" data-text="Explore All"><span>Explore All</span></a>
+                        <a href="{{ route('coming-soon', ['menu' => 'events']) }}" class="btn--secondary" data-text="Explore All"><span>Explore All</span></a>
                      </div>
                   </div>
                </div>
@@ -1216,7 +1369,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="team-details.html">Andren Willium</a></h4>
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Andren Willium</a></h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
                                        </p>
@@ -1251,7 +1404,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="team-details.html">Cathy Decosta
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Cathy Decosta
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -1289,7 +1442,7 @@
                                     <div class="content">
                                        <span>Volunteer
                                        </span>
-                                       <h4><a href="team-details.html">Thomas Ster
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Thomas Ster
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -1326,7 +1479,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="team-details.html">Andren Willium</a></h4>
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Andren Willium</a></h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
                                        </p>
@@ -1361,7 +1514,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="team-details.html">Cathy Decosta
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Cathy Decosta
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -1399,7 +1552,7 @@
                                     <div class="content">
                                        <span>Volunteer
                                        </span>
-                                       <h4><a href="team-details.html">Thomas Ster
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Thomas Ster
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -1605,7 +1758,7 @@
                   <div class="col-12 col-md-6 col-xl-4">
                      <div class="blog__single" data-aos="fade-up" data-aos-duration="1000">
                         <div class="blog__single-thumb">
-                           <a href="blog-details.html">
+                           <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">
                            <img src="{{ asset('assets/images/blog/one.png') }}" alt="Image">
                            </a>
                         </div>
@@ -1615,14 +1768,14 @@
                               <span>25</span>
                            </div>
                            <div class="tag">
-                              <a href="blog.html"><i class="fa-solid fa-tags"></i>Education</a>
+                              <a href="{{ route('coming-soon', ['menu' => 'blog']) }}"><i class="fa-solid fa-tags"></i>Education</a>
                            </div>
                            <div class="blog__single-title">
-                              <h5><a href="blog-details.html">IT Service Case Studies Accelerate Business</a>
+                              <h5><a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">IT Service Case Studies Accelerate Business</a>
                               </h5>
                            </div>
                            <div class="blog__single-cta">
-                              <a href="blog-details.html">Read More<i class="fa-solid fa-arrow-right-long"></i></a>
+                              <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">Read More<i class="fa-solid fa-arrow-right-long"></i></a>
                            </div>
                         </div>
                      </div>
@@ -1630,7 +1783,7 @@
                   <div class="col-12 col-md-6 col-xl-4">
                      <div class="blog__single" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
                         <div class="blog__single-thumb">
-                           <a href="blog-details.html">
+                           <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">
                            <img src="{{ asset('assets/images/blog/two.png') }}" alt="Image">
                            </a>
                         </div>
@@ -1640,14 +1793,14 @@
                               <span>25</span>
                            </div>
                            <div class="tag">
-                              <a href="blog.html"><i class="fa-solid fa-tags"></i> Health</a>
+                              <a href="{{ route('coming-soon', ['menu' => 'blog']) }}"><i class="fa-solid fa-tags"></i> Health</a>
                            </div>
                            <div class="blog__single-title">
-                              <h5><a href="blog-details.html">IT Service Case Studies Accelerate Business</a>
+                              <h5><a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">IT Service Case Studies Accelerate Business</a>
                               </h5>
                            </div>
                            <div class="blog__single-cta">
-                              <a href="blog-details.html">Read More<i class="fa-solid fa-arrow-right-long"></i></a>
+                              <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">Read More<i class="fa-solid fa-arrow-right-long"></i></a>
                            </div>
                         </div>
                      </div>
@@ -1655,7 +1808,7 @@
                   <div class="col-12 col-md-6 col-xl-4">
                      <div class="blog__single" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
                         <div class="blog__single-thumb">
-                           <a href="blog-details.html">
+                           <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">
                            <img src="{{ asset('assets/images/blog/three.png') }}" alt="Image">
                            </a>
                         </div>
@@ -1665,13 +1818,13 @@
                               <span>25</span>
                            </div>
                            <div class="tag">
-                              <a href="blog.html"><i class="fa-solid fa-tags"></i> Food</a>
+                              <a href="{{ route('coming-soon', ['menu' => 'blog']) }}"><i class="fa-solid fa-tags"></i> Food</a>
                            </div>
                            <div class="blog__single-title">
-                              <h5><a href="blog-details.html">IT Service Case Studies Accelerate Business</a></h5>
+                              <h5><a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">IT Service Case Studies Accelerate Business</a></h5>
                            </div>
                            <div class="blog__single-cta">
-                              <a href="blog-details.html">Read More<i class="fa-solid fa-arrow-right-long"></i></a>
+                              <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">Read More<i class="fa-solid fa-arrow-right-long"></i></a>
                            </div>
                         </div>
                      </div>

@@ -80,9 +80,9 @@
                                        <i class="ph ph-user"></i>
                                     </div>
                                     <ul class="topbar__items-menu__link">
-                                       <li><a href="sign-in.html">Sign In</a></li>
+                                       <li><a href="{{ route('coming-soon', ['menu' => 'sign-in']) }}">Sign In</a></li>
                                        <li>/</li>
-                                       <li><a href="sign-up.html">Register</a></li>
+                                       <li><a href="{{ route('coming-soon', ['menu' => 'sign-up']) }}">Register</a></li>
                                     </ul>
                                  </div>
                                  <div class="select-country topbar__select">
@@ -152,10 +152,10 @@
                                        class="navbar__dropdown-label dropdown-label-alter">Causes</a>
                                     <ul class="navbar__sub-menu">
                                        <li>
-                                          <a href="our-causes.html">Our Causes</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}">Our Causes</a>
                                        </li>
                                        <li>
-                                          <a href="cause-details.html">Cause Details</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">Cause Details</a>
                                        </li>
                                     </ul>
                                  </li>
@@ -164,16 +164,16 @@
                                        class="navbar__dropdown-label dropdown-label-alter">Shop</a>
                                     <ul class="navbar__sub-menu">
                                        <li>
-                                          <a href="shop.html">Our Shop</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'shop']) }}">Our Shop</a>
                                        </li>
                                        <li>
-                                          <a href="product-single.html">Product Details</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'product-single']) }}">Product Details</a>
                                        </li>
                                        <li>
-                                          <a href="cart.html">View Cart</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'cart']) }}">View Cart</a>
                                        </li>
                                        <li>
-                                          <a href="checkout.html">checkout</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'checkout']) }}">checkout</a>
                                        </li>
                                     </ul>
                                  </li>
@@ -182,23 +182,23 @@
                                        class="navbar__dropdown-label dropdown-label-alter">Pages</a>
                                     <ul class="navbar__sub-menu">
                                        <li>
-                                          <a href="faq.html">FAQ</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'faq']) }}">FAQ</a>
                                        </li>
                                        <li>
-                                          <a href="donate-us.html">Donate Us</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}">Donate Us</a>
                                        </li>
                                        <li>
-                                          <a href="become-volunteer.html">Become Volunteer</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'become-volunteer']) }}">Become Volunteer</a>
                                        </li>
                                        <li class="navbar__item navbar__item--has-children">
                                           <a aria-label="dropdown menu"
                                              class="navbar__dropdown-label navbar__dropdown-label-sub">Events</a>
                                           <ul class="navbar__sub-menu navbar__sub-menu__nested">
                                              <li>
-                                                <a href="events.html">Events</a>
+                                                <a href="{{ route('coming-soon', ['menu' => 'events']) }}">Events</a>
                                              </li>
                                              <li>
-                                                <a href="event-details.html">Event Details</a>
+                                                <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">Event Details</a>
                                              </li>
                                           </ul>
                                        </li>
@@ -207,24 +207,24 @@
                                              class="navbar__dropdown-label navbar__dropdown-label-sub">Team</a>
                                           <ul class="navbar__sub-menu navbar__sub-menu__nested">
                                              <li>
-                                                <a href="our-team.html">Our Team</a>
+                                                <a href="{{ route('coming-soon', ['menu' => 'our-team']) }}">Our Team</a>
                                              </li>
                                              <li>
-                                                <a href="team-details.html">Team Details</a>
+                                                <a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Team Details</a>
                                              </li>
                                           </ul>
                                        </li>
                                        <li>
-                                          <a href="sign-in.html">Sign In</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'sign-in']) }}">Sign In</a>
                                        </li>
                                        <li>
-                                          <a href="sign-up.html">Create Account</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'sign-up']) }}">Create Account</a>
                                        </li>
                                        <li>
-                                          <a href="coming-soon.html">Coming Soon</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'coming-soon']) }}">Coming Soon</a>
                                        </li>
                                        <li>
-                                          <a href="404.html">Error</a>
+                                          <a href="{{ route('coming-soon', ['menu' => '404']) }}">Error</a>
                                        </li>
                                     </ul>
                                  </li>
@@ -233,13 +233,13 @@
                                        class="navbar__dropdown-label dropdown-label-alter">News</a>
                                     <ul class="navbar__sub-menu">
                                        <li>
-                                          <a href="blog-list.html">News List View</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'blog-list']) }}">News List View</a>
                                        </li>
                                        <li>
-                                          <a href="blog-grid.html">News Grid View</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'blog-grid']) }}">News Grid View</a>
                                        </li>
                                        <li>
-                                          <a href="blog-details.html">News Details</a>
+                                          <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">News Details</a>
                                        </li>
                                     </ul>
                                  </li> -->
@@ -263,9 +263,9 @@
                                     </button>
                                  </div> -->
                                  <div class="navbar__cta-row d-none d-md-flex">
-                                    <a href="donate-us.html" class="btn--secondary" data-text="Start a fundraiser"><span>Start a fundraiser</span></a>
+                                    <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" class="btn--secondary" data-text="Start a fundraiser"><span>Start a fundraiser</span></a>
                                     <!-- <span class="navbar__cta-divider"></span>
-                                    <a href="donate-us.html" class="btn--secondary" data-text="Donate Now"><span>Donate
+                                    <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" class="btn--secondary" data-text="Donate Now"><span>Donate
                                     Now</span></a> -->
                                  </div>
                               </div>

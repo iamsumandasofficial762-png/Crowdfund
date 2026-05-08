@@ -14322,3 +14322,627 @@ div {
 /* ==== 
  --------- (5.21) error section styles end ---------
  ==== */
+
+/* Header layout fix */
+.header-secondary .main-header__menu-box {
+  top: 0;
+  margin-bottom: 0;
+  padding-inline: 24px;
+}
+
+.header-secondary .navbar {
+  min-height: 100px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.header .navbar-logo {
+  flex: 0 0 auto;
+}
+
+.header .navbar-logo img {
+  display: block;
+  height: auto;
+  max-height: 84px;
+  max-width: clamp(170px, 18vw, 250px);
+}
+
+.header .navbar__menu {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin-inline-start: clamp(20px, 3vw, 54px);
+}
+
+.header .navbar__list {
+  justify-content: flex-start;
+  gap: 6px;
+}
+
+.header .navbar__item a {
+  padding: 42px clamp(10px, 0.9vw, 16px);
+  white-space: nowrap;
+}
+
+.header .navbar__options {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+}
+
+.header-secondary .navbar__mobile-options .navbar__cta-row {
+  margin-inline-start: clamp(8px, 1vw, 20px);
+}
+
+.header-secondary .navbar__mobile-options .navbar__cta-row .btn--secondary {
+  min-height: 100px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 clamp(26px, 3vw, 40px);
+  white-space: nowrap;
+}
+
+@media only screen and (max-width: 1399.98px) {
+  .header .navbar {
+    gap: 10px;
+  }
+
+  .header .navbar__item a {
+    font-size: 15px;
+    padding-inline: 10px;
+  }
+
+  .header .navbar__list {
+    gap: 4px;
+  }
+
+  .header .navbar__menu {
+    margin-inline-start: 24px;
+  }
+}
+
+@media only screen and (max-width: 1199.98px) {
+  .header-secondary .navbar {
+    min-height: 88px;
+  }
+
+  .header .navbar-logo img {
+    max-height: 72px;
+  }
+}
+
+/* Donor reviews section */
+.donor-reviews {
+  position: relative;
+  overflow: hidden;
+  padding: 70px 0 58px;
+  background:
+    radial-gradient(ellipse at top left, rgba(255, 179, 63, 0.14) 0%, rgba(255, 179, 63, 0.08) 22%, rgba(255, 255, 255, 0) 42%),
+    radial-gradient(ellipse at bottom right, rgba(255, 179, 63, 0.18) 0%, rgba(255, 179, 63, 0.08) 24%, rgba(255, 255, 255, 0) 45%),
+    #ffffff;
+}
+
+.donor-reviews,
+.donor-reviews div,
+.donor-reviews article {
+  line-height: normal;
+}
+
+.donor-reviews .container {
+  max-width: 1360px;
+  position: relative;
+  z-index: 2;
+}
+
+.donor-reviews__header {
+  max-width: 760px;
+  margin: 0 auto 30px;
+}
+
+.donor-reviews__rating,
+.donor-reviews__google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.donor-reviews__rating {
+  padding: 12px 24px;
+  margin-bottom: 48px;
+}
+
+.donor-reviews__rating i,
+.donor-reviews__rating span,
+.donor-reviews__google span,
+.donor-reviews__google i {
+  line-height: 1;
+}
+
+.donor-reviews__rating i,
+.donor-reviews__google-mark,
+.donor-reviews__eyebrow p,
+.donor-review-card__quote,
+.donor-review-card__stars i,
+.donor-review-card__author span {
+  color: #f6a800;
+}
+
+.donor-reviews__rating span {
+  color: #0f0f12;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.donor-reviews__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.donor-reviews__eyebrow span {
+  width: 48px;
+  height: 2px;
+  background-color: #f6a800;
+}
+
+.donor-reviews__eyebrow p {
+  position: relative;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.donor-reviews__eyebrow p::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  width: 14px;
+  height: 22px;
+  border-radius: 14px 14px 2px 14px;
+  background-color: #f6a800;
+  transform: translateX(-50%) rotate(-25deg);
+}
+
+.donor-reviews__eyebrow p::after {
+  content: "";
+  position: absolute;
+  top: -24px;
+  left: calc(50% + 15px);
+  width: 12px;
+  height: 18px;
+  border-radius: 12px 12px 12px 2px;
+  background-color: #f6a800;
+  transform: rotate(32deg);
+}
+
+.donor-reviews__header h2 {
+  color: #050505;
+  font-size: clamp(42px, 5vw, 68px);
+  line-height: 1.08;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+
+.donor-reviews__header > p {
+  color: #5e6268;
+  font-size: 22px;
+  line-height: 1.35;
+  margin-bottom: 18px;
+}
+
+.donor-reviews__google {
+  padding: 12px 22px;
+  color: #3c3d41;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.donor-reviews__google:hover {
+  color: #000000;
+  transform: translateY(-2px);
+}
+
+.donor-reviews__google-mark {
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.donor-reviews__slider-wrap {
+  position: relative;
+}
+
+.donor-reviews__carousel {
+  overflow: hidden;
+  padding: 16px 2px 18px;
+}
+
+.donor-reviews__carousel .swiper-wrapper {
+  align-items: stretch;
+}
+
+.donor-reviews__carousel .swiper-slide {
+  height: auto;
+}
+
+.donor-review-card {
+  position: relative;
+  min-height: 420px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 28px 24px;
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease;
+  will-change: transform;
+}
+
+.donor-review-card--featured {
+  border-color: #f6a800;
+  background: linear-gradient(135deg, #fff6df 0%, #fffaf0 48%, #ffffff 100%);
+  box-shadow: 0 22px 45px rgba(246, 168, 0, 0.18);
+}
+
+.donor-review-card:hover {
+  border-color: #f6a800;
+  background: linear-gradient(135deg, #fff6df 0%, #fffaf0 48%, #ffffff 100%);
+  box-shadow: 0 28px 60px rgba(246, 168, 0, 0.2), 0 18px 34px rgba(0, 0, 0, 0.1);
+  transform: translateY(-10px);
+}
+
+.donor-review-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  pointer-events: none;
+  transition: border-color 0.35s ease;
+}
+
+.donor-review-card--featured::after,
+.donor-review-card:hover::after {
+  border-color: #f6a800;
+}
+
+.donor-review-card:hover .donor-review-card__author span {
+  color: #ffffff;
+  background-color: #f6a800;
+  transform: scale(1.06);
+}
+
+.donor-review-card__quote {
+  height: 42px;
+  font-family: Georgia, serif;
+  font-size: 78px;
+  line-height: 0.8;
+  font-weight: 900;
+}
+
+.donor-review-card h3 {
+  color: #050505;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 900;
+  margin-top: 10px;
+}
+
+.donor-review-card time {
+  display: block;
+  color: #6f7378;
+  font-size: 15px;
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+.donor-review-card__stars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 14px;
+}
+
+.donor-review-card__stars i {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.donor-review-card__stars i:last-child {
+  font-size: 15px;
+  margin-left: 8px;
+}
+
+.donor-review-card > p {
+  color: #1f2227;
+  font-size: 16px;
+  line-height: 1.62;
+  margin-top: 14px;
+}
+
+.donor-review-card__author {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid #e6e0d6;
+}
+
+.donor-review-card__author span {
+  width: 58px;
+  min-width: 58px;
+  height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(246, 168, 0, 0.16);
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 900;
+  transition: transform 0.35s ease, background-color 0.35s ease, color 0.35s ease;
+}
+
+.donor-review-card--featured .donor-review-card__author span {
+  color: #ffffff;
+  background-color: #f6a800;
+}
+
+.donor-review-card__author h4 {
+  color: #050505;
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+.donor-review-card__author p {
+  color: #f6a800;
+  font-size: 15px;
+  line-height: 1.3;
+  margin-top: 4px;
+}
+
+.donor-reviews__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #f6a800;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.13);
+  transform: translateY(-50%);
+}
+
+.donor-reviews__arrow i {
+  font-size: 28px;
+}
+
+.donor-reviews__arrow--prev {
+  left: -28px;
+}
+
+.donor-reviews__arrow--next {
+  right: -28px;
+}
+
+.donor-reviews__pagination {
+  position: static;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.donor-reviews__pagination .swiper-pagination-bullet {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #dedede;
+  opacity: 1;
+  margin: 0 !important;
+}
+
+.donor-reviews__pagination .swiper-pagination-bullet-active {
+  background-color: #f6bf45;
+}
+
+.donor-reviews__hands {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.donor-reviews__hands i {
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #f6a800;
+  color: #ffffff;
+  font-size: 22px;
+  box-shadow: 0 0 0 10px rgba(246, 168, 0, 0.1);
+}
+
+.donor-reviews__shape {
+  position: absolute;
+  z-index: 1;
+  width: 220px;
+  height: 220px;
+  opacity: 0.44;
+  pointer-events: none;
+}
+
+.donor-reviews__shape::before,
+.donor-reviews__shape::after {
+  content: "";
+  position: absolute;
+  background-color: rgba(246, 168, 0, 0.2);
+}
+
+.donor-reviews__shape::before {
+  left: 100px;
+  top: 20px;
+  width: 4px;
+  height: 170px;
+  border-radius: 99px;
+  transform: rotate(34deg);
+}
+
+.donor-reviews__shape::after {
+  left: 56px;
+  top: 42px;
+  width: 128px;
+  height: 146px;
+  background:
+    radial-gradient(ellipse at 24px 24px, rgba(246, 168, 0, 0.28) 0 22px, transparent 23px),
+    radial-gradient(ellipse at 76px 12px, rgba(246, 168, 0, 0.24) 0 24px, transparent 25px),
+    radial-gradient(ellipse at 102px 56px, rgba(246, 168, 0, 0.24) 0 24px, transparent 25px),
+    radial-gradient(ellipse at 38px 78px, rgba(246, 168, 0, 0.24) 0 24px, transparent 25px),
+    radial-gradient(ellipse at 88px 118px, rgba(246, 168, 0, 0.24) 0 24px, transparent 25px);
+}
+
+.donor-reviews__shape--left {
+  left: -42px;
+  top: 150px;
+  transform: rotate(188deg);
+}
+
+.donor-reviews__shape--right {
+  right: -42px;
+  bottom: -6px;
+}
+
+.donor-reviews__dots {
+  position: absolute;
+  z-index: 1;
+  width: 96px;
+  height: 76px;
+  background-image: radial-gradient(circle, rgba(246, 168, 0, 0.28) 3px, transparent 4px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+.donor-reviews__dots--top {
+  top: 88px;
+  right: 136px;
+}
+
+.donor-reviews__dots--bottom {
+  bottom: 64px;
+  left: 42px;
+}
+
+@media only screen and (max-width: 1199.98px) {
+  .donor-reviews__arrow {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 767.98px) {
+  .donor-reviews {
+    padding: 54px 0 44px;
+  }
+
+  .donor-reviews__rating {
+    margin-bottom: 34px;
+  }
+
+  .donor-reviews__eyebrow {
+    gap: 12px;
+  }
+
+  .donor-reviews__eyebrow span {
+    width: 34px;
+  }
+
+  .donor-reviews__eyebrow p {
+    font-size: 15px;
+    letter-spacing: 3px;
+  }
+
+  .donor-reviews__header h2 {
+    font-size: 40px;
+  }
+
+  .donor-reviews__header > p {
+    font-size: 18px;
+  }
+
+  .donor-reviews__carousel {
+    padding-inline: 0;
+  }
+
+  .donor-review-card {
+    min-height: 400px;
+  }
+
+  .donor-reviews__shape,
+  .donor-reviews__dots {
+    display: none;
+  }
+}
+
+/* Restore the original overlapping image proportions after the donor section */
+.difference-two .difference-two__thumb {
+  min-width: min(60vw, 760px);
+}
+
+.difference-two .difference-two__thumb .thumb-lg {
+  margin-bottom: 86px;
+  margin-inline-end: 82px;
+}
+
+.difference-two .difference-two__thumb .thumb-lg img {
+  width: 480px;
+  height: 582px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.difference-two .difference-two__thumb .thumb-sm img {
+  width: 300px;
+  height: 300px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media only screen and (min-width: 1400px) {
+  .difference-two .difference-two__thumb-wrapper {
+    transform: translateX(-18px);
+  }
+}
+
+@media only screen and (max-width: 1199.98px) {
+  .difference-two .difference-two__thumb {
+    min-width: 680px;
+  }
+
+  .difference-two .difference-two__thumb .thumb-lg img {
+    width: 440px;
+    height: 532px;
+  }
+
+  .difference-two .difference-two__thumb .thumb-sm img {
+    width: 280px;
+    height: 280px;
+  }
+}

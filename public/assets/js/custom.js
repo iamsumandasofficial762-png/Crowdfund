@@ -1023,7 +1023,48 @@
 
     /**
      * ======================================
-     * 29. product details tab
+     * 29. donor reviews slider
+     * ======================================
+     */
+    var donorReviews = new Swiper(".donor-reviews__carousel", {
+      loop: true,
+      speed: 900,
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+      spaceBetween: 18,
+      grabCursor: true,
+      autoplay: {
+        delay: 3500,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      navigation: {
+        nextEl: ".donor-reviews__arrow--next",
+        prevEl: ".donor-reviews__arrow--prev",
+      },
+      pagination: {
+        el: ".donor-reviews__pagination",
+        clickable: true,
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1200: {
+          slidesPerView: 3,
+          spaceBetween: 24,
+        },
+        1400: {
+          slidesPerView: 4,
+          spaceBetween: 24,
+        },
+      },
+    });
+
+    /**
+     * ======================================
+     * 30. product details tab
      * ======================================
      */
 

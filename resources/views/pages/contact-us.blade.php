@@ -7,7 +7,7 @@
             <nav class="mobile-menu__wrapper">
                <div class="mobile-menu__header nav-fade">
                   <div class="logo">
-                     <a href="index.html" aria-label="home page" title="logo">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}" aria-label="home page" title="logo">
                      <img src="assets/images/logo.png" alt="Image">
                      </a>
                   </div>
@@ -17,7 +17,7 @@
                </div>
                <div class="mobile-menu__list"></div>
                <div class="mobile-menu__cta nav-fade d-block d-md-none">
-                  <a href="donate-us.html" class="btn--secondary" data-text="Donate Now"><span>Donate
+                  <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" class="btn--secondary" data-text="Donate Now"><span>Donate
                   Now</span></a>
                </div>
                <div class="mobile-menu__social social nav-fade">
@@ -68,13 +68,13 @@
                <div class="cart-items">
                   <div class="cart-item-single">
                      <div class="cart-item-thumb">
-                        <a href="event-details.html">
+                        <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
                         <img src="assets/images/shop/cart-one.png" alt="Image">
                         </a>
                      </div>
                      <div class="cart-item-content">
                         <h6 class="h6 title-anim">
-                           <a href="product-single.html">Headset</a>
+                           <a href="{{ route('coming-soon', ['menu' => 'product-single']) }}">Headset</a>
                         </h6>
                         <p class="price">
                            $
@@ -96,13 +96,13 @@
                   </div>
                   <div class="cart-item-single">
                      <div class="cart-item-thumb">
-                        <a href="event-details.html">
+                        <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
                         <img src="assets/images/shop/cart-two.png" alt="Image">
                         </a>
                      </div>
                      <div class="cart-item-content">
                         <h6 class="h6 title-anim">
-                           <a href="product-single.html">Headphone</a>
+                           <a href="{{ route('coming-soon', ['menu' => 'product-single']) }}">Headphone</a>
                         </h6>
                         <p class="price">
                            $
@@ -133,8 +133,8 @@
                   </div>
                </div>
                <div class="action-buttons">
-                  <a class="view-cart-button" href="cart.html" aria-label="go to cart">Cart</a>
-                  <a class="checkout-button" href="checkout.html" aria-label="go to checkout">
+                  <a class="view-cart-button" href="{{ route('coming-soon', ['menu' => 'cart']) }}" aria-label="go to cart">Cart</a>
+                  <a class="checkout-button" href="{{ route('coming-soon', ['menu' => 'checkout']) }}" aria-label="go to checkout">
                   Checkout
                   <i class="fa-solid fa-arrow-right-long"></i>
                   </a>
@@ -157,7 +157,7 @@
             <nav aria-label="breadcrumb">
                <ol class="breadcrumb">
                   <li class="breadcrumb-item">
-                     <a href="index.html">Home</a>
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">Home</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
                      Contact Us

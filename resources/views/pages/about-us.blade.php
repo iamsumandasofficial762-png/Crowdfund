@@ -15,7 +15,7 @@
             <nav aria-label="breadcrumb">
                <ol class="breadcrumb">
                   <li class="breadcrumb-item">
-                     <a href="index.html">Home</a>
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">Home</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
                      About Us
@@ -113,7 +113,7 @@
                            </div>
                            <div class="about__content-inner__cta mt-40" data-aos="fade-up" data-aos-duration="1000">
                               <div class="about__content-inner__btn">
-                                 <a href="about-us.html" class="btn--secondary" data-text="More About Us"><span>More About
+                                 <a href="{{ route('coming-soon', ['menu' => 'about-us']) }}" class="btn--secondary" data-text="More About Us"><span>More About
                                  Us</span></a>
                               </div>
                            </div>
@@ -244,7 +244,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="team-details.html">Andren Willium</a></h4>
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Andren Willium</a></h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
                                        </p>
@@ -279,7 +279,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="team-details.html">Cathy Decosta
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Cathy Decosta
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -317,7 +317,7 @@
                                     <div class="content">
                                        <span>Volunteer
                                        </span>
-                                       <h4><a href="team-details.html">Thomas Ster
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Thomas Ster
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -354,7 +354,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="team-details.html">Andren Willium</a></h4>
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Andren Willium</a></h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
                                        </p>
@@ -389,7 +389,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="team-details.html">Cathy Decosta
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Cathy Decosta
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -427,7 +427,7 @@
                                     <div class="content">
                                        <span>Volunteer
                                        </span>
-                                       <h4><a href="team-details.html">Thomas Ster
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Thomas Ster
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -778,73 +778,73 @@
                <div class="gallery__slider">
                   <div class="gallery__single">
                      <img src="assets/images/gallery/one.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/two.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/three.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/four.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/five.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/six.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/one.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/two.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/three.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/four.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/five.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
                      <img src="assets/images/gallery/six.png" alt="Image">
-                     <a href="index.html">
+                     <a href="{{ route('coming-soon', ['menu' => 'index']) }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>

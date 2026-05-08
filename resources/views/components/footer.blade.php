@@ -57,17 +57,17 @@
                         </div>
                         <div class="footer__widget-content">
                            <ul class="footer__widget-list">
-                              <li><a href="about-us.html"><i class="fa-solid fa-angle-right"></i> About Us</a>
+                              <li><a href="{{ route('coming-soon', ['menu' => 'about-us']) }}"><i class="fa-solid fa-angle-right"></i> About Us</a>
                               </li>
-                              <li><a href="donate-us.html"><i class="fa-solid fa-angle-right"></i>
+                              <li><a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}"><i class="fa-solid fa-angle-right"></i>
                                  Donate Us</a>
                               </li>
-                              <li><a href="our-causes.html"><i class="fa-solid fa-angle-right"></i>Our Causes</a>
+                              <li><a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}"><i class="fa-solid fa-angle-right"></i>Our Causes</a>
                               </li>
-                              <li><a href="shop.html"><i class="fa-solid fa-angle-right"></i> Our
+                              <li><a href="{{ route('coming-soon', ['menu' => 'shop']) }}"><i class="fa-solid fa-angle-right"></i> Our
                                  Shop</a>
                               </li>
-                              <li><a href="events.html"><i class="fa-solid fa-angle-right"></i>Events</a>
+                              <li><a href="{{ route('coming-soon', ['menu' => 'events']) }}"><i class="fa-solid fa-angle-right"></i>Events</a>
                               </li>
                            </ul>
                         </div>
@@ -86,12 +86,12 @@
                         <div class="footer__widget-content">
                            <div class="footer__blog-single">
                               <div class="thumb">
-                                 <a href="blog-details.html">
+                                 <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">
                                  <img src="{{ asset('assets/images/blog/footer-one.png') }}" alt="Image">
                                  </a>
                               </div>
                               <div class="content">
-                                 <h6><a href="blog-details.html">Unity in Giving Community
+                                 <h6><a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">Unity in Giving Community
                                     Charity</a>
                                  </h6>
                                  <p>Aug 25, 2024</p>
@@ -99,12 +99,12 @@
                            </div>
                            <div class="footer__blog-single">
                               <div class="thumb">
-                                 <a href="blog-details.html">
+                                 <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">
                                  <img src="{{ asset('assets/images/blog/footer-two.png') }}" alt="Image">
                                  </a>
                               </div>
                               <div class="content">
-                                 <h6><a href="blog-details.html">Poverty Not Only Money It Can</a>
+                                 <h6><a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">Poverty Not Only Money It Can</a>
                                  </h6>
                                  <p>Aug 25, 2024</p>
                               </div>
@@ -150,11 +150,11 @@
                               <div class="col-12 col-lg-7">
                                  <div class="footer__bottom-left">
                                     <ul class="footer__bottom-list justify-content-center justify-content-lg-start">
-                                       <li><a href="contact-us.html">Contact us</a></li>
+                                       <li><a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}">Contact us</a></li>
                                        <li><span></span></li>
-                                       <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                                       <li><a href="{{ route('coming-soon', ['menu' => 'terms-conditions']) }}">Terms & Conditions</a></li>
                                        <li><span></span></li>
-                                       <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                       <li><a href="{{ route('coming-soon', ['menu' => 'privacy-policy']) }}">Privacy Policy</a></li>
                                     </ul>
                                     <p class="text-center text-lg-start">Copyright &copy; <span id="copyrightYear"></span> <a
                                        href="{{ route('home') }}">Charitia</a>.
