@@ -65,6 +65,12 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 46px;
+            width: max-content;
+            border: 1px solid rgba(255, 179, 63, 0.28);
+            border-radius: 999px;
+            padding: 9px 15px;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 14px 34px rgba(23, 33, 27, 0.12);
             color: var(--admin-ink);
             font-size: 20px;
             font-weight: 900;
@@ -75,6 +81,7 @@
             width: 142px;
             max-width: 100%;
             height: auto;
+            display: block;
         }
 
         .admin-login__eyebrow {

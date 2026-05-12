@@ -18,7 +18,7 @@ class FundraiserAuthController extends Controller
     public function showLogin(): View|RedirectResponse
     {
         if (session()->has('fundraiser_id')) {
-            $fundraiser = Fundraiser::approved()->find(session('fundraiser_id'));
+            $fundraiser = Fundraiser::find(session('fundraiser_id'));
 
             if ($fundraiser) {
                 return redirect()->route('fundraiser.dashboard');
@@ -49,7 +49,7 @@ class FundraiserAuthController extends Controller
             $documents[] = $document->store('fundraiser-documents', 'public');
         }
 
-        Fundraiser::create([
+        $fundraiser = Fundraiser::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
@@ -57,13 +57,16 @@ class FundraiserAuthController extends Controller
             'phone' => $validated['phone'],
             'cause' => $validated['cause'],
             'documents' => $documents,
-            'status' => Fundraiser::STATUS_PENDING,
+            'status' => Fundraiser::STATUS_APPROVED,
+            'approved_at' => now(),
         ]);
 
+        $request->session()->regenerate();
+        $request->session()->put('fundraiser_id', $fundraiser->id);
+
         return redirect()
-            ->route('fundraiser.login')
-            ->with('auth_mode', 'register')
-            ->with('status', 'Your fundraiser profile has been submitted successfully. You will receive a message when your profile is approved.');
+            ->route('fundraiser.dashboard')
+            ->with('status', 'Your fundraiser account has been created successfully.');
     }
 
     public function login(Request $request): RedirectResponse
@@ -79,18 +82,6 @@ class FundraiserAuthController extends Controller
             return back()
                 ->withInput($request->only('email') + ['auth_mode' => 'login'])
                 ->withErrors(['email' => 'Invalid fundraiser login credentials.']);
-        }
-
-        if ($fundraiser->status === Fundraiser::STATUS_PENDING) {
-            return back()
-                ->withInput($request->only('email') + ['auth_mode' => 'login'])
-                ->withErrors(['email' => 'Your fundraiser profile is pending admin approval.']);
-        }
-
-        if ($fundraiser->status === Fundraiser::STATUS_REJECTED) {
-            return back()
-                ->withInput($request->only('email') + ['auth_mode' => 'login'])
-                ->withErrors(['email' => 'Your fundraiser profile was rejected. Please contact support.']);
         }
 
         $request->session()->regenerate();

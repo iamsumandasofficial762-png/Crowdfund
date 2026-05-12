@@ -10,7 +10,7 @@
                 <h1 class="fw-black mb-2">Fundraiser Dashboard</h1>
                 <p class="muted mb-0">Create campaigns, track approval status, and monitor donation progress.</p>
             </div>
-            <span class="status-badge approved"><i class="fa-solid fa-circle-check"></i> Approved Account</span>
+            <span class="status-badge approved"><i class="fa-solid fa-circle-check"></i> Active Account</span>
         </div>
     </section>
 

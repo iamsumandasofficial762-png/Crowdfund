@@ -92,16 +92,19 @@
             display: inline-flex;
             width: max-content;
             align-items: center;
+            border: 1px solid rgba(255, 179, 63, 0.34);
             border-radius: 999px;
-            padding: 10px 16px;
-            background: rgba(0, 0, 0, 0.44);
-            backdrop-filter: blur(14px);
+            padding: 10px 17px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
         }
 
         .auth-brand__logo img {
             width: 148px;
             max-width: 52vw;
             height: auto;
+            display: block;
         }
 
         .auth-brand__content {

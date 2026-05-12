@@ -63,8 +63,25 @@
             color: #ffffff;
         }
 
-        .auth-brand img {
-            width: 148px;
+        .auth-brand__logo {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            width: max-content;
+            align-items: center;
+            border: 1px solid rgba(255, 179, 63, 0.32);
+            border-radius: 999px;
+            padding: 9px 15px;
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.26);
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-brand__logo img {
+            width: 150px;
+            max-width: 46vw;
+            height: auto;
+            display: block;
         }
 
         .auth-brand h1 {
@@ -280,11 +297,13 @@
     <main class="auth-page">
         <section class="auth-card" data-card data-mode="{{ $mode === 'register' ? 'register' : 'login' }}">
             <aside class="auth-brand">
-                <a href="{{ route('home') }}"><img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach"></a>
+                <a class="auth-brand__logo" href="{{ route('home') }}" aria-label="Karna Kabach home">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
+                </a>
                 <div>
                     <p class="text-warning fw-bold text-uppercase mb-2">Fundraiser Access</p>
-                    <h1>Start only after approval.</h1>
-                    <p class="mb-0 text-white-50">Create your fundraiser profile, wait for admin approval, then login to submit campaign posts.</p>
+                    <h1>Start your fundraiser today.</h1>
+                    <p class="mb-0 text-white-50">Create your account, enter the dashboard instantly, and submit campaign posts for review.</p>
                 </div>
             </aside>
 
@@ -314,7 +333,7 @@
                         <input type="hidden" name="auth_mode" value="login">
 
                         <h2 class="fw-black mb-2">Fundraiser Login</h2>
-                        <p class="muted mb-4">Only approved fundraiser accounts can login and create posts.</p>
+                        <p class="muted mb-4">Login to access your dashboard and manage fundraiser posts.</p>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold" for="login_email">Email</label>
@@ -334,7 +353,7 @@
                         <input type="hidden" name="auth_mode" value="register">
 
                         <h2 class="fw-black mb-2">Create Fundraiser Account</h2>
-                        <p class="muted mb-4">Your profile will be saved as pending until the admin approves it.</p>
+                        <p class="muted mb-4">Create your account and go directly to your fundraiser dashboard.</p>
 
                         <div class="row g-3">
                             <div class="col-md-6">

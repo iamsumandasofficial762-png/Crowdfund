@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminFundraiserController;
 use App\Http\Controllers\Admin\AdminFundraiserPostController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\AuthController;
@@ -26,7 +25,7 @@ Route::post('/fundraiser/login', [FundraiserAuthController::class, 'login'])->na
 Route::post('/fundraiser/register', [FundraiserAuthController::class, 'register'])->name('fundraiser.register.submit');
 Route::post('/fundraiser/logout', [FundraiserAuthController::class, 'logout'])->name('fundraiser.logout');
 
-Route::prefix('fundraiser')->name('fundraiser.')->middleware('fundraiser.approved')->group(function () {
+Route::prefix('fundraiser')->name('fundraiser.')->middleware('fundraiser.authenticated')->group(function () {
     Route::get('/dashboard', [FundraiserDashboardController::class, 'index'])->name('dashboard');
     Route::get('/posts', [FundraiserPostController::class, 'myPosts'])->name('posts.index');
     Route::get('/posts/create', [FundraiserPostController::class, 'create'])->name('posts.create');
@@ -45,18 +44,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->middleware('jwt.session')
     ->name('admin.dashboard');
-
-Route::get('/admin/fundraiser-profiles', [AdminFundraiserController::class, 'index'])
-    ->middleware('jwt.session')
-    ->name('admin.fundraisers.index');
-
-Route::patch('/admin/fundraiser-profiles/{fundraiser}/approve', [AdminFundraiserController::class, 'approve'])
-    ->middleware('jwt.session')
-    ->name('admin.fundraisers.approve');
-
-Route::patch('/admin/fundraiser-profiles/{fundraiser}/reject', [AdminFundraiserController::class, 'reject'])
-    ->middleware('jwt.session')
-    ->name('admin.fundraisers.reject');
 
 Route::get('/admin/fundraiser-posts', [AdminFundraiserPostController::class, 'index'])
     ->middleware('jwt.session')

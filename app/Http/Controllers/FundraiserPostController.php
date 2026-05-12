@@ -95,7 +95,7 @@ class FundraiserPostController extends Controller
 
         return redirect()
             ->route('fundraiser.posts.index')
-            ->with('status', 'Your fundraiser post has been submitted and is waiting for admin approval.');
+            ->with('status', 'Your fundraiser post has been submitted successfully and is waiting for admin approval.');
     }
 
     public function show(Request $request, FundraiserPost $post): View

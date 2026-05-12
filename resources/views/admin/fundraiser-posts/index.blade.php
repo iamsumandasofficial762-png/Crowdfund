@@ -196,7 +196,6 @@
             </a>
             <nav>
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
-                <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Fundraiser Profiles</a>
                 <a class="nav-link active" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
             </nav>
         </aside>
