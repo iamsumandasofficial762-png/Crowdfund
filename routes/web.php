@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminFundraiserPostController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FundraiserAuthController;
+use App\Http\Controllers\FundraiserDashboardController;
 use App\Http\Controllers\FundraiserController;
 use App\Http\Controllers\FundraiserPostController;
 use App\Http\Controllers\PageController;
@@ -25,13 +26,16 @@ Route::post('/fundraiser/login', [FundraiserAuthController::class, 'login'])->na
 Route::post('/fundraiser/register', [FundraiserAuthController::class, 'register'])->name('fundraiser.register.submit');
 Route::post('/fundraiser/logout', [FundraiserAuthController::class, 'logout'])->name('fundraiser.logout');
 
-Route::get('/fundraiser/posts/create', [FundraiserPostController::class, 'create'])
-    ->middleware('fundraiser.approved')
-    ->name('fundraiser.posts.create');
-
-Route::post('/fundraiser/posts', [FundraiserPostController::class, 'store'])
-    ->middleware('fundraiser.approved')
-    ->name('fundraiser.posts.store');
+Route::prefix('fundraiser')->name('fundraiser.')->middleware('fundraiser.approved')->group(function () {
+    Route::get('/dashboard', [FundraiserDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/posts', [FundraiserPostController::class, 'myPosts'])->name('posts.index');
+    Route::get('/posts/create', [FundraiserPostController::class, 'create'])->name('posts.create');
+    Route::post('/posts', [FundraiserPostController::class, 'store'])->name('posts.store');
+    Route::get('/posts/{post}', [FundraiserPostController::class, 'show'])->name('posts.show');
+    Route::get('/posts/{post}/edit', [FundraiserPostController::class, 'edit'])->name('posts.edit');
+    Route::put('/posts/{post}', [FundraiserPostController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{post}', [FundraiserPostController::class, 'destroy'])->name('posts.destroy');
+});
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');

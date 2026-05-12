@@ -29,6 +29,7 @@ class FundraiserPost extends Model
         'status',
         'approved_at',
         'rejected_at',
+        'admin_remarks',
     ];
 
     protected function casts(): array

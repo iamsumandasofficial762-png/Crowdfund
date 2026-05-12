@@ -319,8 +319,11 @@
       left: 50%;
       bottom: 58px;
       transform: translateX(-50%);
-      width: 164px;
+      width: calc(100% - 14px);
+      max-width: 164px;
       height: 36px;
+      box-sizing: border-box;
+      padding: 0 12px;
       border: 1px solid #ffb33f;
       border-radius: 999px;
       color: #000000;

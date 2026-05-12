@@ -21,7 +21,7 @@ class FundraiserAuthController extends Controller
             $fundraiser = Fundraiser::approved()->find(session('fundraiser_id'));
 
             if ($fundraiser) {
-                return redirect()->route('fundraiser.posts.create');
+                return redirect()->route('fundraiser.dashboard');
             }
 
             session()->forget('fundraiser_id');
@@ -96,7 +96,7 @@ class FundraiserAuthController extends Controller
         $request->session()->regenerate();
         $request->session()->put('fundraiser_id', $fundraiser->id);
 
-        return redirect()->route('fundraiser.posts.create');
+        return redirect()->route('fundraiser.dashboard');
     }
 
     public function logout(Request $request): RedirectResponse
