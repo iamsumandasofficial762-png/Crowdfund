@@ -16,7 +16,7 @@
                </div>
                <div class="mobile-menu__list"></div>
                <div class="mobile-menu__cta nav-fade d-block d-md-none">
-                  <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" class="btn--secondary" data-text="Donate Now"><span>Donate
+                  <a href="{{ route('donate-us') }}" class="btn--secondary" data-text="Donate Now"><span>Donate
                   Now</span></a>
                </div>
                <div class="mobile-menu__social social nav-fade">
@@ -160,7 +160,7 @@
                                        Who Need It.
                                     </h1>
                                     <div class="banner__content-cta mt-40">
-                                       <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
+                                       <a href="{{ route('fundraiser-details') }}" aria-label="start a fundraiser" title="start a fundraiser" class="btn--primary">Start a fundraiser</a>
                                        <!-- <a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}" aria-label="contact us" title="contact us" data-text="Get A Quote"
                                           class="btn--secondary"><span>Get A Quote</span></a> -->
                                     </div>
@@ -185,7 +185,7 @@
                                        Who Need It.
                                     </h1>
                                     <div class="banner__content-cta mt-40">
-                                       <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
+                                       <a href="{{ route('fundraiser-details') }}" aria-label="start a fundraiser" title="start a fundraiser" class="btn--primary">Start a fundraiser</a>
                                        <!-- <a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}" aria-label="contact us" title="contact us" data-text="Get A Quote"
                                           class="btn--secondary"><span>Get A Quote</span></a> -->
                                     </div>
@@ -210,7 +210,7 @@
                                        Who Need It.
                                     </h1>
                                     <div class="banner__content-cta mt-40">
-                                       <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
+                                       <a href="{{ route('fundraiser-details') }}" aria-label="start a fundraiser" title="start a fundraiser" class="btn--primary">Start a fundraiser</a>
                                        <!-- <a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}" aria-label="contact us" title="contact us" data-text="Get A Quote"
                                           class="btn--secondary"><span>Get A Quote</span></a> -->
                                     </div>
@@ -235,7 +235,7 @@
                                        Who Need It.
                                     </h1>
                                     <div class="banner__content-cta mt-40">
-                                       <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" aria-label="about us" title="about us" class="btn--primary">Start a fundraiser</a>
+                                       <a href="{{ route('fundraiser-details') }}" aria-label="start a fundraiser" title="start a fundraiser" class="btn--primary">Start a fundraiser</a>
                                        <!-- <a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}" aria-label="contact us" title="contact us" data-text="Get A Quote"
                                           class="btn--secondary"><span>Get A Quote</span></a> -->
                                     </div>
@@ -447,32 +447,38 @@
                   </div>
                </div>
                <div class="row gutter-30">
+                  @forelse (($recentFundraiserPosts ?? collect()) as $post)
+                     @php
+                        $goalAmount = max((float) $post->goal_amount, 1);
+                        $raisedAmount = max((float) $post->raised_amount, 0);
+                        $progress = min(100, (int) round(($raisedAmount / $goalAmount) * 100));
+                        $postImage = $post->main_image ? asset('storage/' . $post->main_image) : asset('assets/images/cause/one.png');
+                        $postLink = route('donate-us', $post);
+                     @endphp
                   <div class="col-12 col-md-6 col-xl-4">
-                     <div class="cause__slider-inner" data-aos="fade-up" data-aos-duration="1000">
+                     <div class="cause__slider-inner" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="{{ $loop->index * 300 }}">
                         <div class="cause__slider-single van-tilt">
                            <div class="thumb">
-                              <a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">
-                              <img src="{{ asset('assets/images/cause/one.png') }}" alt="Image">
+                              <a href="{{ $postLink }}">
+                              <img src="{{ $postImage }}" alt="{{ $post->title }}">
                               </a>
                               <div class="tag">
-                                 <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}">Health</a>
+                                 <a href="{{ $postLink }}">{{ $post->category }}</a>
                               </div>
                            </div>
                            <div class="content">
-                              <h6><a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">Children we work with</a></h6>
-                              <p>Lorem ipsum dolor sit amet, consete
-                                 sadipscing elitr, sed diam nonum
-                              </p>
+                              <h6><a href="{{ $postLink }}">{{ $post->title }}</a></h6>
+                              <p>{{ \Illuminate\Support\Str::limit($post->short_description, 95) }}</p>
                            </div>
                            <div class="cause__slider-cta">
                               <div class="cause__progress progress-bar-single">
                                  <div class="cause-progress__intro">
                                     <p><span>Donation</span>
-                                       <span class="percent-value">85%</span>
+                                       <span class="percent-value">{{ $progress }}%</span>
                                     </p>
                                  </div>
                                  <div class="cause-progress__bar">
-                                    <div class="progress-bar-wrapper" data-percent="85%">
+                                    <div class="progress-bar-wrapper" data-percent="{{ $progress }}%">
                                        <div class="progress-bar">
                                           <div class="progress-bar-percent">
                                           </div>
@@ -480,31 +486,40 @@
                                     </div>
                                  </div>
                                  <div class="cause-progress__goal">
-                                    <p>Raised: <span class="raised">₹8500</span></p>
-                                    <p>Goal: <span class="goal">₹1,0000</span></p>
+                                    <p>Raised: <span class="raised">Rs. {{ number_format($raisedAmount, 0) }}</span></p>
+                                    <p>Goal: <span class="goal">Rs. {{ number_format($goalAmount, 0) }}</span></p>
                                  </div>
                               </div>
                            </div>
                            <div class="cause__cta">
-                              <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
+                              <a href="{{ $postLink }}" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
                                  class="fa-solid fa-arrow-right-long"></i></a>
                            </div>
                         </div>
                      </div>
                   </div>
+                  @empty
+                  <div class="col-12">
+                     <div class="text-center">
+                        <h6>No approved fundraiser posts yet.</h6>
+                        <p>Approved fundraiser campaigns will appear here.</p>
+                     </div>
+                  </div>
+                  @endforelse
+                  @if(false)
                   <div class="col-12 col-md-6 col-xl-4">
                      <div class="cause__slider-inner" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
                         <div class="cause__slider-single van-tilt">
                            <div class="thumb">
-                              <a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">
+                              <a href="{{ route('donate-us') }}">
                               <img src="{{ asset('assets/images/cause/two.png') }}" alt="Image">
                               </a>
                               <div class="tag">
-                                 <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}">Food</a>
+                                 <a href="{{ route('donate-us') }}">Food</a>
                               </div>
                            </div>
                            <div class="content">
-                              <h6><a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">Help For Education</a></h6>
+                              <h6><a href="{{ route('donate-us') }}">Help For Education</a></h6>
                               <p>Lorem ipsum dolor sit amet, consete
                                  sadipscing elitr, sed diam nonum
                               </p>
@@ -531,7 +546,7 @@
                               </div>
                            </div>
                            <div class="cause__cta">
-                              <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
+                              <a href="{{ route('donate-us') }}" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
                                  class="fa-solid fa-arrow-right-long"></i></a>
                            </div>
                         </div>
@@ -541,15 +556,15 @@
                      <div class="cause__slider-inner" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
                         <div class="cause__slider-single van-tilt">
                            <div class="thumb">
-                              <a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">
+                              <a href="{{ route('donate-us') }}">
                               <img src="{{ asset('assets/images/cause/three.png') }}" alt="Image">
                               </a>
                               <div class="tag">
-                                 <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}">Health</a>
+                                 <a href="{{ route('donate-us') }}">Health</a>
                               </div>
                            </div>
                            <div class="content">
-                              <h6><a href="{{ route('coming-soon', ['menu' => 'cause-details']) }}">Help For Food</a></h6>
+                              <h6><a href="{{ route('donate-us') }}">Help For Food</a></h6>
                               <p>Lorem ipsum dolor sit amet, consete
                                  sadipscing elitr, sed diam nonum
                               </p>
@@ -576,17 +591,18 @@
                               </div>
                            </div>
                            <div class="cause__cta">
-                              <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
+                              <a href="{{ route('donate-us') }}" aria-label="donate now" title="donate now" class="btn--primary">Donate Now <i
                                  class="fa-solid fa-arrow-right-long"></i></a>
                            </div>
                         </div>
                      </div>
                   </div>
+                  @endif
                </div>
                <div class="row justify-content-center">
                   <div class="col-12 col-lg-6">
                      <div class="mt-60 text-center">
-                        <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}" data-text="Explore All" class="btn--secondary"><span>Explore All</span></a>
+                        <a href="{{ route('fundraiser-posts.index') }}" data-text="Explore All" class="btn--secondary"><span>Explore All</span></a>
                      </div>
                   </div>
                </div>
@@ -1122,7 +1138,7 @@
                                  </div>
                               </div>
                               <div class="mt-40">
-                                 <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" aria-label="donate us" title="donate us" data-text="Donate Now"
+                                 <a href="{{ route('donate-us') }}" aria-label="donate us" title="donate us" data-text="Donate Now"
                                     class="btn--secondary"><span>Donate Now</span></a>
                               </div>
                            </div>
@@ -1345,7 +1361,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="{{ asset('assets/images/team/one.png') }}" alt="Image">
+                                          <img src="{{ asset('assets/images/team/images.png') }}" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -1369,7 +1385,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Andren Willium</a></h4>
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Arjun Mukherjee</a></h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
                                        </p>
@@ -1380,7 +1396,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="{{ asset('assets/images/team/two.png') }}" alt="Image">
+                                          <img src="{{ asset('assets/images/team/images.png') }}" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -1404,7 +1420,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Cathy Decosta
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Ananya Sen
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -1417,7 +1433,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="{{ asset('assets/images/team/three.png') }}" alt="Image">
+                                          <img src="{{ asset('assets/images/team/images.png') }}" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -1442,7 +1458,7 @@
                                     <div class="content">
                                        <span>Volunteer
                                        </span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Thomas Ster
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Rohan Das
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -1455,7 +1471,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="{{ asset('assets/images/team/one.png') }}" alt="Image">
+                                          <img src="{{ asset('assets/images/team/images.png') }}" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -1479,7 +1495,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Andren Willium</a></h4>
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Priya Roy</a></h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
                                        </p>
@@ -1490,7 +1506,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="{{ asset('assets/images/team/two.png') }}" alt="Image">
+                                          <img src="{{ asset('assets/images/team/images.png') }}" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -1514,7 +1530,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Cathy Decosta
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Aarav Sharma
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -1527,7 +1543,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="{{ asset('assets/images/team/three.png') }}" alt="Image">
+                                          <img src="{{ asset('assets/images/team/images.png') }}" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>

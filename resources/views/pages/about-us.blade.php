@@ -98,25 +98,20 @@
                               </div>
                               <div class="join-users">
                                  <div class="single-user">
-                                    <img src="assets/images/avatar/avatar-one.png" alt="Image">
+                                    <img src="assets/images/avatar/avatar-user.png" alt="Image">
                                  </div>
                                  <div class="single-user">
-                                    <img src="assets/images/avatar/avatar-two.png" alt="Image">
+                                    <img src="assets/images/avatar/avatar-user.png" alt="Image">
                                  </div>
                                  <div class="single-user">
-                                    <img src="assets/images/avatar/avatar-three.png" alt="Image">
+                                    <img src="assets/images/avatar/avatar-user.png" alt="Image">
                                  </div>
                                  <div class="single-user">
-                                    <img src="assets/images/avatar/avatar-four.png" alt="Image">
+                                    <img src="assets/images/avatar/avatar-user.png" alt="Image">
                                  </div>
                               </div>
                            </div>
-                           <div class="about__content-inner__cta mt-40" data-aos="fade-up" data-aos-duration="1000">
-                              <div class="about__content-inner__btn">
-                                 <a href="{{ route('coming-soon', ['menu' => 'about-us']) }}" class="btn--secondary" data-text="More About Us"><span>More About
-                                 Us</span></a>
-                              </div>
-                           </div>
+                           
                         </div>
                      </div>
                   </div>
@@ -220,7 +215,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="assets/images/team/one.png" alt="Image">
+                                          <img src="assets/images/team/images.png" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -244,7 +239,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Andren Willium</a></h4>
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Arjun Mukherjee</a></h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
                                        </p>
@@ -255,7 +250,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="assets/images/team/two.png" alt="Image">
+                                          <img src="assets/images/team/images.png" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -279,7 +274,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Cathy Decosta
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Ananya Sen
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -292,7 +287,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="assets/images/team/three.png" alt="Image">
+                                          <img src="assets/images/team/images.png" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -317,7 +312,7 @@
                                     <div class="content">
                                        <span>Volunteer
                                        </span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Thomas Ster
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Suman kumar
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -330,7 +325,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="assets/images/team/one.png" alt="Image">
+                                          <img src="assets/images/team/images.png" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -354,7 +349,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Andren Willium</a></h4>
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Priya Roy</a></h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
                                        </p>
@@ -365,7 +360,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="assets/images/team/two.png" alt="Image">
+                                          <img src="assets/images/team/images.png" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -389,7 +384,7 @@
                                     </div>
                                     <div class="content">
                                        <span>Volunteer</span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Cathy Decosta
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Aarav Sharma
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -402,7 +397,7 @@
                                  <div class="team__single">
                                     <div class="thumb-wrapper">
                                        <div class="thumb">
-                                          <img src="assets/images/team/three.png" alt="Image">
+                                          <img src="assets/images/team/images.png" alt="Image">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none">
                                              <circle cx="150" cy="150" r="130" stroke-linecap="round" />
                                           </svg>
@@ -427,7 +422,7 @@
                                     <div class="content">
                                        <span>Volunteer
                                        </span>
-                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Thomas Ster
+                                       <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Rohan Das
                                           </a>
                                        </h4>
                                        <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
@@ -651,7 +646,7 @@
                                        <div class="row align-items-center gutter-40">
                                           <div class="col-12 col-lg-4 col-xl-4">
                                              <div class="testimonial__slider-thumb">
-                                                <img src="assets/images/testimonial/one.png" alt="Image">
+                                                <img src="assets/images/testimonial/user.png" alt="Image">
                                              </div>
                                           </div>
                                           <div class="col-12 col-lg-8 col-xl-7">
@@ -674,7 +669,7 @@
                                                    </div>
                                                    <div class="testimonial__cta-content">
                                                       <span>Marketing Manager</span>
-                                                      <h4>Raven Steel</h4>
+                                                      <h4>Rohan Dutta</h4>
                                                    </div>
                                                 </div>
                                              </div>
@@ -687,7 +682,7 @@
                                        <div class="row align-items-center gutter-40">
                                           <div class="col-12 col-lg-4 col-xl-4">
                                              <div class="testimonial__slider-thumb">
-                                                <img src="assets/images/testimonial/two.png" alt="Image">
+                                                <img src="assets/images/testimonial/user.png" alt="Image">
                                              </div>
                                           </div>
                                           <div class="col-12 col-lg-8 col-xl-7">
@@ -710,7 +705,7 @@
                                                    </div>
                                                    <div class="testimonial__cta-content">
                                                       <span>Marketing Manager</span>
-                                                      <h4>Robina smith</h4>
+                                                      <h4>Meera Kapoor</h4>
                                                    </div>
                                                 </div>
                                              </div>
@@ -723,7 +718,7 @@
                                        <div class="row align-items-center gutter-40">
                                           <div class="col-12 col-lg-4 col-xl-4">
                                              <div class="testimonial__slider-thumb">
-                                                <img src="assets/images/testimonial/three.png" alt="Image">
+                                                <img src="assets/images/testimonial/user.png" alt="Image">
                                              </div>
                                           </div>
                                           <div class="col-12 col-lg-8 col-xl-7">
@@ -746,7 +741,7 @@
                                                    </div>
                                                    <div class="testimonial__cta-content">
                                                       <span>Marketing Manager</span>
-                                                      <h4>Robet Michel</h4>
+                                                      <h4>Aarav Sen</h4>
                                                    </div>
                                                 </div>
                                              </div>

@@ -11,7 +11,7 @@
       <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
       <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
       <!-- #title -->
-      <title>Charitia | Nonprofit NGO Fundraising HTML5 Template</title>
+      <title>Karna Kabach</title>
       <!-- #keywords -->
       <meta name="keywords" content="charity, nonprofit, fundraising, donation, html, bootstrap, scss">
       <!-- #description -->
@@ -24,8 +24,6 @@
          rel="stylesheet">
       <!-- color themes -->
       <link rel="stylesheet" href="{{ asset('assets/css/default-theme.css') }}" id="switch-color">
-      <!-- template settings css -->
-      <link rel="stylesheet" href="{{ asset('assets/css/template-settings.css') }}">
       <!-- main css -->
       <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
       <!-- responsive css -->
@@ -51,7 +49,7 @@
          <!-- ==== preloader start ==== -->
          <div class="preloader">
             <i class="icon-donation"></i>
-            <p>CHARITIA</p>
+            <p>Karna Kabach</p>
          </div>
          <!-- ==== / preloader end ==== -->
          <!-- ==== topbar start ==== -->
@@ -80,9 +78,9 @@
                                        <i class="ph ph-user"></i>
                                     </div>
                                     <ul class="topbar__items-menu__link">
-                                       <li><a href="{{ route('coming-soon', ['menu' => 'sign-in']) }}">Sign In</a></li>
+                                       <li><a href="{{ route('fundraiser.login', ['mode' => 'login']) }}">Sign In</a></li>
                                        <li>/</li>
-                                       <li><a href="{{ route('coming-soon', ['menu' => 'sign-up']) }}">Register</a></li>
+                                       <li><a href="{{ route('fundraiser.login', ['mode' => 'register']) }}">Register</a></li>
                                     </ul>
                                  </div>
                                  <div class="select-country topbar__select">
@@ -136,7 +134,7 @@
                                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'is-active' : '' }}">Home</a>
                                  </li>
                                  <li class="navbar__item nav-fade">
-                                    <a href="{{ route('coming-soon', ['menu' => 'donate']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'donate' ? 'is-active' : '' }}">Donate</a>
+                                    <a href="{{ route('fundraiser-posts.index', ['menu' => 'donate']) }}" class="{{ request()->routeIs('fundraiser-posts.index') && request('menu') === 'donate' ? 'is-active' : '' }}">Donate</a>
                                  </li>
                                  <li class="navbar__item nav-fade">
                                     <a href="{{ route('coming-soon', ['menu' => 'pricing']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'pricing' ? 'is-active' : '' }}">Pricing</a>
@@ -144,9 +142,9 @@
                                  <li class="navbar__item nav-fade">
                                     <a href="{{ route('coming-soon', ['menu' => 'resource']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'resource' ? 'is-active' : '' }}">Resource</a>
                                  </li>
-                                 <li class="navbar__item nav-fade">
+                                 <!-- <li class="navbar__item nav-fade">
                                     <a href="{{ route('coming-soon', ['menu' => 'code-of-practice']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'code-of-practice' ? 'is-active' : '' }}">Code of practice</a>
-                                 </li>
+                                 </li> -->
                                  <!-- <li class="navbar__item navbar__item--has-children nav-fade">
                                     <a href="#" aria-label="dropdown menu"
                                        class="navbar__dropdown-label dropdown-label-alter">Causes</a>
@@ -215,10 +213,10 @@
                                           </ul>
                                        </li>
                                        <li>
-                                          <a href="{{ route('coming-soon', ['menu' => 'sign-in']) }}">Sign In</a>
+                                          <a href="{{ route('fundraiser.login', ['mode' => 'login']) }}">Sign In</a>
                                        </li>
                                        <li>
-                                          <a href="{{ route('coming-soon', ['menu' => 'sign-up']) }}">Create Account</a>
+                                          <a href="{{ route('fundraiser.login', ['mode' => 'register']) }}">Create Account</a>
                                        </li>
                                        <li>
                                           <a href="{{ route('coming-soon', ['menu' => 'coming-soon']) }}">Coming Soon</a>
@@ -263,7 +261,7 @@
                                     </button>
                                  </div> -->
                                  <div class="navbar__cta-row d-none d-md-flex">
-                                    <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" class="btn--secondary" data-text="Start a fundraiser"><span>Start a fundraiser</span></a>
+                                    <a href="{{ route('fundraiser-details') }}" class="btn--secondary" data-text="Start a fundraiser"><span>Start a fundraiser</span></a>
                                     <!-- <span class="navbar__cta-divider"></span>
                                     <a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}" class="btn--secondary" data-text="Donate Now"><span>Donate
                                     Now</span></a> -->

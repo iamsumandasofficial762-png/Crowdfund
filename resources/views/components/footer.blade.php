@@ -1,25 +1,5 @@
-<footer class="footer footer-two pt-120">
+<footer class="footer footer-two">
             <div class="container">
-               <div class="row align-items-center gutter-30">
-                  <div class="col-12 col-lg-7 col-xxl-6">
-                     <div class="footer__newsletter-content">
-                        <h3 class="title-animation">
-                           Subscribe to Our Newsletter
-                        </h3>
-                        <p>Regular inspections and feedback mechanisms</p>
-                     </div>
-                  </div>
-                  <div class="col-12 col-lg-5 col-xxl-5 offset-xxl-1">
-                     <div class="footer__newsletter-form">
-                        <form action="#" method="post">
-                           <input type="email" required name="subscribe-email" id="subscribeEmail" placeholder="Enter Email">
-                           <button type="submit" aria-label="subscribe to our newsletter" title="subscribe to our newsletter"
-                              class="btn--tertiary"> <i class="fa-solid fa-paper-plane"></i>
-                           </button>
-                        </form>
-                     </div>
-                  </div>
-               </div>
                <div class="row">
                   <div class="col-12">
                      <hr class="divider">
@@ -30,7 +10,7 @@
                      <div class="footer__widget" data-aos="fade-up" data-aos-duration="1200">
                         <div class="footer__logo">
                            <a href="{{ route('home') }}">
-                           <img src="{{ asset('assets/images/logo-light.png') }}" alt="Image">
+                           <img src="{{ asset('assets/images/logo.png') }}" alt="Image">
                            </a>
                         </div>
                         <div class="footer__widget-content">
@@ -125,10 +105,9 @@
                         <div class="footer__widget-content">
                            <ul class="footer__contact-list">
                               <li><a
-                                 href="https://www.google.com/maps/place/Kentucky,+USA/@37.8172108,-87.087054,8z/data=!3m1!4b1!4m6!3m5!1s0x8842734c8b1953c9:0x771f6f4ec5ccdffc!8m2!3d37.8393332!4d-84.2700179!16zL20vMDQ5OHk?entry=ttu"
-                                 target="_blank"><i class="fa-solid fa-location-dot"></i>Flat 20, Reynolds
-                                 Neck,
-                                 North Helenaville, FV77 8WS
+                                 href="https://maps.app.goo.gl/VR5s8LHLYJkszX1Y8"
+                                 target="_blank"><i class="fa-solid fa-location-dot"></i>Shrachi EK Tower, EKT/5/Office-B,
+Newtown, Kolkata, West Bengal 700161
                                  </a>
                               </li>
                               <li><a href="tel:2305-587-3407"><i class="fa-solid fa-phone-flip"></i>+2(305)
@@ -157,7 +136,7 @@
                                        <li><a href="{{ route('coming-soon', ['menu' => 'privacy-policy']) }}">Privacy Policy</a></li>
                                     </ul>
                                     <p class="text-center text-lg-start">Copyright &copy; <span id="copyrightYear"></span> <a
-                                       href="{{ route('home') }}">Charitia</a>.
+                                       href="{{ route('home') }}">Ebluesoft </a>.
                                        All rights
                                        reserved.
                                     </p>
@@ -212,57 +191,6 @@
             </svg>
          </button>
          <!-- ==== / scroll to top end ==== -->
-         <!-- ==== color switcher start ==== -->
-         <div class="color-palate">
-            <button class="color-trigger">
-            <i class="fa-solid fa-gear"></i>
-            </button>
-            <button class="close-color-trigger">
-            <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="color-palate-inner">
-               <h6>Switch Color</h6>
-               <div class="various-color">
-                  <div class="colors-list">
-                     <span class="palate default-color active" data-theme-file="{{ asset('assets/css/default-theme.css') }}"></span>
-                     <span class="palate brown-color" data-theme-file="{{ asset('assets/css/brown-theme.css') }}"></span>
-                     <span class="palate blue-color" data-theme-file="{{ asset('assets/css/blue-theme.css') }}"></span>
-                     <span class="palate green-color" data-theme-file="{{ asset('assets/css/green-theme.css') }}"></span>
-                     <span class="palate coral-color" data-theme-file="{{ asset('assets/css/coral-theme.css') }}"></span>
-                     <span class="palate peach-color" data-theme-file="{{ asset('assets/css/peach-theme.css') }}"></span>
-                     <span class="palate gray-color" data-theme-file="{{ asset('assets/css/gray-theme.css') }}"></span>
-                     <span class="palate emerald-color" data-theme-file="{{ asset('assets/css/emerald-theme.css') }}"></span>
-                  </div>
-               </div>
-               <h6>Direction</h6>
-               <ul class="rtl-version option-box">
-                  <li class="rtl">RTL</li>
-                  <li class="active">LTR</li>
-               </ul>
-               <h6>Page Width</h6>
-               <ul class="box-version option-box">
-                  <li class="box">Boxed</li>
-                  <li class="active">Full width</li>
-               </ul>
-               <h6>Sticky Header</h6>
-               <ul class="header-version option-box">
-                  <li class="box active">Yes</li>
-                  <li>No</li>
-               </ul>
-               <h6>Dark Mode</h6>
-               <ul class="dark-version option-box">
-                  <li class="box">Enable</li>
-                  <li class="active">Disable</li>
-               </ul>
-               <div class="purchase-box">
-                  <p>More color and styling options are available in the admin panel. This picker is for demo purposes
-                     only.
-                  </p>
-                  <a href="{{ route('home') }}" class="purchase-box__btn">buy now</a>
-               </div>
-            </div>
-         </div>
-         <!-- ==== / color switcher end ==== -->
       </div>
       <!-- ==== js dependencies start ==== -->
       <!-- jquery -->
@@ -294,8 +222,6 @@
       <!-- gsap js -->
       <script src="{{ asset('assets/js/gsap.min.js') }}"></script>
       <!-- ==== / js dependencies end ==== -->
-      <!-- template settings js -->
-      <script src="{{ asset('assets/js/template-settings.js') }}"></script>
       <!-- main js -->
       <script src="{{ asset('assets/js/custom.js') }}"></script>
    </body>

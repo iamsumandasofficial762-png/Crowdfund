@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'jwt.session' => \App\Http\Middleware\JwtSessionAuthenticate::class,
+            'fundraiser.approved' => \App\Http\Middleware\EnsureApprovedFundraiser::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
