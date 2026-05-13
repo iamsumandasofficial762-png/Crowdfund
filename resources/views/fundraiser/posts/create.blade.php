@@ -10,7 +10,9 @@
                 <h1 class="fw-black mb-2">Create Fundraiser Post</h1>
                 <p class="muted mb-0">Submit a new campaign. It will stay pending until admin approval.</p>
             </div>
-            <span class="icon-pill"><i class="fa-solid fa-plus"></i></span>
+            <a class="btn btn-soft" href="{{ route('fundraiser.posts.index') }}">
+                <i class="fa-solid fa-arrow-left me-2"></i>Back
+            </a>
         </div>
 
         @include('fundraiser.posts._form', ['post' => null])

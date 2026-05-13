@@ -36,6 +36,75 @@
       <link rel="stylesheet" href="{{ asset('assets/css/dark-mode.css') }}">
       <!-- rtl version css -->
       <link rel="stylesheet" href="{{ asset('assets/css/rtl-version.css') }}">
+      <style>
+         :root {
+            --site-header-height: 70px;
+         }
+
+         .header-secondary {
+            padding-block: 0;
+         }
+
+         .header-secondary .main-header__menu-box,
+         .header-secondary .navbar {
+            height: var(--site-header-height);
+            min-height: var(--site-header-height);
+         }
+
+         .header-secondary .main-header__menu-box {
+            display: flex;
+            align-items: center;
+         }
+
+         .header-secondary .navbar {
+            width: 100%;
+            align-items: stretch;
+         }
+
+         .header .navbar-logo,
+         .header .navbar-logo a,
+         .header .navbar__menu,
+         .header .navbar__list,
+         .header .navbar__options,
+         .header .navbar__mobile-options,
+         .header-secondary .navbar__mobile-options .navbar__cta-row {
+            height: 100%;
+            min-height: var(--site-header-height);
+            display: flex;
+            align-items: center;
+         }
+
+         .header .navbar-logo img {
+            width: auto;
+            height: auto;
+            max-height: 58px;
+         }
+
+         .header .navbar__item > a {
+            min-height: var(--site-header-height);
+            display: flex;
+            align-items: center;
+            padding-top: 0;
+            padding-bottom: 0;
+         }
+
+         .header-secondary .navbar__mobile-options .navbar__cta-row .btn--secondary {
+            min-height: var(--site-header-height);
+            display: inline-flex;
+            align-items: center;
+         }
+
+         @media only screen and (max-width: 1199.98px) {
+            .header-secondary .navbar {
+               height: var(--site-header-height);
+               min-height: var(--site-header-height);
+            }
+
+            .header .navbar-logo img {
+               max-height: 58px;
+            }
+         }
+      </style>
    </head>
    <body>
       <!--[if lte IE 9]>

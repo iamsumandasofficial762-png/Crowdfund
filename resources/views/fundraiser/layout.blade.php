@@ -204,6 +204,22 @@
             color: var(--muted);
         }
 
+        .file-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        .file-input-row .form-control {
+            min-width: 0;
+        }
+
+        .file-clear-button {
+            flex: 0 0 auto;
+            min-height: 48px;
+            padding-inline: 14px;
+        }
+
         @media (max-width: 767px) {
             .fundraiser-brand img {
                 width: 132px;
@@ -266,6 +282,68 @@
     </main>
 
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        (() => {
+            const retainedFiles = new WeakMap();
+
+            function cloneFileList(files) {
+                if (!files || !files.length || typeof DataTransfer === 'undefined') {
+                    return null;
+                }
+
+                const transfer = new DataTransfer();
+                Array.from(files).forEach((file) => transfer.items.add(file));
+
+                return transfer.files;
+            }
+
+            function toggleClearButton(input) {
+                const button = document.querySelector(`[data-clear-file="${input.id}"]`);
+
+                if (button) {
+                    button.classList.toggle('d-none', !input.files.length);
+                }
+            }
+
+            document.querySelectorAll('input[type="file"][data-retain-file]').forEach((input) => {
+                if (input.files.length) {
+                    retainedFiles.set(input, cloneFileList(input.files));
+                    toggleClearButton(input);
+                }
+
+                input.addEventListener('change', () => {
+                    if (input.files.length) {
+                        retainedFiles.set(input, cloneFileList(input.files));
+                        toggleClearButton(input);
+                        return;
+                    }
+
+                    const previousFiles = retainedFiles.get(input);
+
+                    if (previousFiles && previousFiles.length) {
+                        input.files = cloneFileList(previousFiles);
+                    }
+
+                    toggleClearButton(input);
+                });
+            });
+
+            document.querySelectorAll('[data-clear-file]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const input = document.getElementById(button.dataset.clearFile);
+
+                    if (!input) {
+                        return;
+                    }
+
+                    retainedFiles.delete(input);
+                    input.value = '';
+                    toggleClearButton(input);
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                });
+            });
+        })();
+    </script>
     @stack('scripts')
 </body>
 </html>

@@ -36,7 +36,7 @@ Route::prefix('fundraiser')->name('fundraiser.')->middleware('fundraiser.authent
     Route::delete('/posts/{post}', [FundraiserPostController::class, 'destroy'])->name('posts.destroy');
 });
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/admin', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

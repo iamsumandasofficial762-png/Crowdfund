@@ -16,7 +16,7 @@
     <style>
         :root {
             --gold: #ffb33f;
-            --gold-soft: #fff3dd;
+            --gold-soft: #fde3b3;
             --ink: #121827;
             --muted: #647083;
             --line: #dde2ea;
@@ -193,6 +193,28 @@
             background: var(--gold);
             color: #080808;
             font-weight: 900;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn-gold:hover,
+        .btn-gold:focus,
+        .btn-gold:active,
+        .btn-gold:focus-visible,
+        .btn-gold:first-child:active {
+            background-color: var(--gold-soft);
+            border-color: var(--gold-dark);
+            color: #080808;
+            box-shadow: 0 10px 22px rgba(255, 179, 63, 0.34);
+        }
+
+        .btn-gold:hover,
+        .btn-gold:focus-visible {
+            transform: translateY(-1px);
+        }
+
+        .btn-gold:active,
+        .btn-gold:first-child:active {
+            transform: translateY(0);
         }
 
         .muted {
@@ -262,6 +284,41 @@
             color: #8a5400;
         }
 
+        .upload-clear {
+            position: relative;
+            z-index: 2;
+            margin-top: 8px;
+            border: 0;
+            border-radius: 999px;
+            padding: 4px 12px;
+            background: #ffffff;
+            color: #8a5400;
+            font-size: 11px;
+            font-weight: 900;
+            box-shadow: 0 6px 14px rgba(255, 179, 63, 0.2);
+        }
+
+        .upload-clear:hover,
+        .upload-clear:focus {
+            background: #ffe6b7;
+            color: #000000;
+        }
+
+        .alert-auto-dismiss {
+            transition: opacity 0.35s ease, transform 0.35s ease, margin 0.35s ease, padding 0.35s ease, border-width 0.35s ease;
+        }
+
+        .alert-auto-dismiss.is-hiding {
+            opacity: 0;
+            transform: translateY(-8px);
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            border-width: 0;
+            overflow: hidden;
+        }
+
         @media (max-width: 991px) {
             .auth-card {
                 grid-template-columns: 1fr;
@@ -314,7 +371,7 @@
                 </div>
 
                 @if (session('status'))
-                    <div class="alert alert-success">{{ session('status') }}</div>
+                    <div class="alert alert-success alert-auto-dismiss" role="status" data-auto-dismiss="3500">{{ session('status') }}</div>
                 @endif
 
                 @if ($errors->any())
@@ -403,6 +460,7 @@
                                     <span class="upload-title">Upload documents</span>
                                     <span class="upload-help">PDF, JPG, PNG - Max 4 documents</span>
                                     <span class="upload-selected" data-file-label>No file chosen</span>
+                                    <button class="upload-clear d-none" type="button" data-clear-file="documents">Remove</button>
                                 </label>
                             </div>
                         </div>
@@ -428,20 +486,71 @@
         switches.forEach((button) => button.addEventListener('click', () => setMode(button.dataset.switch)));
 
         document.querySelectorAll('[data-file-input]').forEach((input) => {
-            const label = input.closest('.upload-box').querySelector('[data-file-label]');
+            const retainedFiles = new WeakMap();
 
-            input.addEventListener('change', () => {
+            function cloneFileList(files) {
+                if (!files || !files.length || typeof DataTransfer === 'undefined') {
+                    return null;
+                }
+
+                const transfer = new DataTransfer();
+                Array.from(files).forEach((file) => transfer.items.add(file));
+
+                return transfer.files;
+            }
+
+            function updateUploadState(input) {
+                const box = input.closest('.upload-box');
+                const label = box.querySelector('[data-file-label]');
+                const clearButton = box.querySelector('[data-clear-file]');
                 const files = Array.from(input.files || []);
 
-                if (!files.length) {
-                    label.textContent = 'No file chosen';
+                label.textContent = files.length === 0
+                    ? 'No file chosen'
+                    : files.length === 1
+                        ? files[0].name
+                        : `${files.length} files selected`;
+
+                if (clearButton) {
+                    clearButton.classList.toggle('d-none', files.length === 0);
+                }
+            }
+
+            input.addEventListener('change', () => {
+                if (input.files.length) {
+                    retainedFiles.set(input, cloneFileList(input.files));
+                    updateUploadState(input);
                     return;
                 }
 
-                label.textContent = files.length === 1
-                    ? files[0].name
-                    : `${files.length} files selected`;
+                const previousFiles = retainedFiles.get(input);
+
+                if (previousFiles && previousFiles.length) {
+                    input.files = cloneFileList(previousFiles);
+                }
+
+                updateUploadState(input);
             });
+
+            input.closest('.upload-box').querySelectorAll('[data-clear-file]').forEach((button) => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    retainedFiles.delete(input);
+                    input.value = '';
+                    updateUploadState(input);
+                });
+            });
+        });
+
+        document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
+            const delay = Number(alert.dataset.autoDismiss) || 3500;
+
+            window.setTimeout(() => {
+                alert.classList.add('is-hiding');
+                window.setTimeout(() => alert.remove(), 400);
+            }, delay);
         });
     </script>
 </body>

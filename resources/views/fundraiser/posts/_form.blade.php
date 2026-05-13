@@ -43,14 +43,20 @@
         </div>
         <div class="col-md-6">
             <label class="form-label fw-bold" for="main_image">Main Image Upload</label>
-            <input class="form-control" id="main_image" type="file" name="main_image" accept=".jpg,.jpeg,.png,.webp" @required(! $isEdit)>
+            <div class="file-input-row">
+                <input class="form-control" id="main_image" type="file" name="main_image" accept=".jpg,.jpeg,.png,.webp" data-retain-file @required(! $isEdit)>
+                <button class="btn btn-soft file-clear-button d-none" type="button" data-clear-file="main_image">Remove</button>
+            </div>
             @if ($isEdit && $post->main_image)
                 <p class="small muted mt-2 mb-0">Current: {{ basename($post->main_image) }}</p>
             @endif
         </div>
         <div class="col-md-6">
             <label class="form-label fw-bold" for="supporting_file">Supporting Document Upload</label>
-            <input class="form-control" id="supporting_file" type="file" name="supporting_file" accept=".pdf,.jpg,.jpeg,.png,.webp">
+            <div class="file-input-row">
+                <input class="form-control" id="supporting_file" type="file" name="supporting_file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-retain-file>
+                <button class="btn btn-soft file-clear-button d-none" type="button" data-clear-file="supporting_file">Remove</button>
+            </div>
             @if ($isEdit && $post->supporting_file)
                 <p class="small muted mt-2 mb-0">Current: {{ basename($post->supporting_file) }}</p>
             @endif
