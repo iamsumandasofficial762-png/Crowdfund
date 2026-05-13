@@ -11,7 +11,9 @@
     <style>
         :root {
             --gold: #ffb33f;
+            --gold-dark: #f5a400;
             --gold-soft: #fff5e4;
+            --gold-hover: #ffe1a8;
             --ink: #071226;
             --muted: #647083;
             --line: #dde2ea;
@@ -27,6 +29,7 @@
             background:
                 radial-gradient(circle at 82% 10%, rgba(255, 179, 63, 0.18), transparent 28%),
                 var(--page);
+            overflow-x: hidden;
         }
 
         a {
@@ -44,6 +47,8 @@
 
         .fundraiser-brand img {
             width: 156px;
+            height: auto;
+            display: block;
         }
 
         .fundraiser-shell {
@@ -54,6 +59,11 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .fundraiser-nav form {
+            margin: 0;
         }
 
         .fundraiser-nav a,
@@ -74,10 +84,12 @@
 
         .fundraiser-nav a:hover,
         .fundraiser-nav a.active,
+        .fundraiser-nav a:focus,
+        .fundraiser-nav a:active,
         .logout-button:hover {
             border-color: rgba(255, 179, 63, 0.75);
             color: #000000;
-            background: var(--gold-soft);
+            background: var(--gold-hover);
             box-shadow: 0 14px 28px rgba(255, 179, 63, 0.18);
             transform: translateY(-1px);
         }
@@ -87,7 +99,16 @@
             background: var(--gold);
         }
 
+        .logout-button:focus,
+        .logout-button:active {
+            border-color: var(--gold-dark);
+            color: #000000;
+            background: var(--gold-dark);
+            box-shadow: 0 14px 28px rgba(255, 179, 63, 0.22);
+        }
+
         .dashboard-panel {
+            max-width: 100%;
             border: 1px solid var(--line);
             border-radius: 18px;
             background: var(--panel);
@@ -130,12 +151,182 @@
             font-weight: 900;
         }
 
+        .btn-gold:hover,
+        .btn-gold:focus,
+        .btn-gold:active,
+        .btn-gold:first-child:active {
+            border-color: var(--gold-dark);
+            color: #000000;
+            background: var(--gold-dark);
+            box-shadow: 0 14px 28px rgba(255, 179, 63, 0.24);
+        }
+
         .btn-soft {
             min-height: 42px;
             border: 1px solid rgba(255, 179, 63, 0.55);
             border-radius: 12px;
             color: var(--ink);
             background: var(--gold-soft);
+            font-weight: 900;
+        }
+
+        .btn-soft:hover,
+        .btn-soft:focus,
+        .btn-soft:active,
+        .btn-soft:first-child:active {
+            border-color: rgba(255, 179, 63, 0.8);
+            color: #000000;
+            background: var(--gold-hover);
+            box-shadow: 0 12px 24px rgba(255, 179, 63, 0.18);
+        }
+
+        .btn-outline-dark:hover,
+        .btn-outline-dark:focus,
+        .btn-outline-dark:active,
+        .btn-outline-dark:first-child:active {
+            border-color: var(--ink);
+            color: #ffffff;
+            background: var(--ink);
+        }
+
+        .btn-outline-danger:hover,
+        .btn-outline-danger:focus,
+        .btn-outline-danger:active,
+        .btn-outline-danger:first-child:active {
+            border-color: #b42318;
+            color: #ffffff;
+            background: #b42318;
+        }
+
+        .btn-gold,
+        .btn-soft,
+        .dashboard-card .btn,
+        .dashboard-panel .btn,
+        .post-action-form .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 6px;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .btn-gold i,
+        .btn-soft i,
+        .dashboard-card .btn i,
+        .dashboard-panel .btn i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            font-size: 0.95em;
+        }
+
+        .posts-panel-header {
+            align-items: center !important;
+        }
+
+        .posts-panel-header .btn-gold {
+            min-height: 40px;
+            padding: 9px 14px;
+        }
+
+        .dashboard-card .btn-sm,
+        .post-action-form .btn-sm {
+            min-height: 38px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-weight: 900;
+        }
+
+        .post-card-actions {
+            display: grid;
+            grid-template-columns: minmax(118px, 1fr) minmax(70px, 0.8fr) minmax(78px, 0.8fr);
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        .post-card-actions .btn,
+        .post-card-actions form,
+        .post-card-actions button {
+            width: 100%;
+        }
+
+        .post-action-form {
+            margin: 0;
+        }
+
+        .delete-confirm-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: grid;
+            place-items: center;
+            padding: 18px;
+            background: rgba(7, 18, 38, 0.42);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .delete-confirm-modal.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .delete-confirm-card {
+            width: min(100%, 430px);
+            border: 1px solid rgba(255, 179, 63, 0.35);
+            border-radius: 18px;
+            padding: 24px;
+            background: #ffffff;
+            box-shadow: 0 24px 70px rgba(7, 18, 38, 0.24);
+            transform: translateY(12px) scale(0.98);
+            transition: transform 0.2s ease;
+        }
+
+        .delete-confirm-modal.is-open .delete-confirm-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .delete-confirm-icon {
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            color: #a12828;
+            background: #ffe1e1;
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+
+        .delete-confirm-card h3 {
+            margin: 0 0 8px;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .delete-confirm-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .delete-confirm-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .delete-confirm-actions .btn {
+            min-height: 42px;
+            border-radius: 12px;
             font-weight: 900;
         }
 
@@ -220,18 +411,129 @@
             padding-inline: 14px;
         }
 
-        @media (max-width: 767px) {
-            .fundraiser-brand img {
-                width: 132px;
+        @media (max-width: 991px) {
+            .fundraiser-topbar .container {
+                align-items: flex-start !important;
             }
 
             .fundraiser-nav {
                 width: 100%;
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .fundraiser-nav form {
+                display: contents;
             }
 
             .fundraiser-nav a,
             .logout-button {
-                flex: 1 1 auto;
+                width: 100%;
+                min-width: 0;
+                padding-inline: 10px;
+                font-size: 13px;
+            }
+
+            .fundraiser-shell {
+                padding: 24px 0 42px;
+            }
+
+            .dashboard-panel {
+                border-radius: 14px;
+            }
+
+            .dashboard-card {
+                border-radius: 14px;
+            }
+
+            h1,
+            .h1 {
+                font-size: clamp(28px, 5vw, 38px);
+            }
+
+            h2,
+            .h2 {
+                font-size: clamp(22px, 4vw, 30px);
+            }
+        }
+
+        @media (max-width: 767px) {
+            .fundraiser-topbar {
+                position: static;
+            }
+
+            .fundraiser-topbar .container,
+            .fundraiser-shell .container {
+                max-width: 100%;
+                padding-inline: 12px;
+            }
+
+            .fundraiser-brand img {
+                width: 140px;
+            }
+
+            .fundraiser-nav {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .fundraiser-nav a,
+            .logout-button {
+                min-height: 42px;
+                gap: 6px;
+                font-size: 12px;
+                white-space: normal;
+            }
+
+            .post-card-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .posts-panel-header {
+                align-items: stretch !important;
+                flex-direction: column;
+            }
+
+            .posts-panel-header .btn-gold {
+                width: 100%;
+            }
+
+            .btn-gold,
+            .btn-soft,
+            .dashboard-card .btn,
+            .dashboard-panel .btn,
+            .post-action-form .btn {
+                white-space: normal;
+            }
+
+            .file-input-row {
+                flex-direction: column;
+            }
+
+            .file-clear-button {
+                width: 100%;
+            }
+
+            .fundraiser-image {
+                height: 170px;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .fundraiser-nav {
+                grid-template-columns: 1fr;
+            }
+
+            .fundraiser-brand img {
+                width: 132px;
+            }
+
+            .dashboard-panel {
+                border-radius: 12px;
             }
         }
     </style>
@@ -280,6 +582,18 @@
             @yield('content')
         </div>
     </main>
+
+    <div class="delete-confirm-modal" data-delete-modal aria-hidden="true">
+        <section class="delete-confirm-card" role="dialog" aria-modal="true" aria-labelledby="delete-confirm-title" aria-describedby="delete-confirm-copy">
+            <span class="delete-confirm-icon" aria-hidden="true"><i class="fa-solid fa-trash-can"></i></span>
+            <h3 id="delete-confirm-title">Delete fundraiser post?</h3>
+            <p id="delete-confirm-copy">This action cannot be undone. The post and its uploaded files will be removed permanently.</p>
+            <div class="delete-confirm-actions">
+                <button class="btn btn-soft" type="button" data-delete-cancel>Cancel</button>
+                <button class="btn btn-danger" type="button" data-delete-confirm-button>Confirm Delete</button>
+            </div>
+        </section>
+    </div>
 
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script>
@@ -341,6 +655,58 @@
                     toggleClearButton(input);
                     input.dispatchEvent(new Event('change', { bubbles: true }));
                 });
+            });
+        })();
+    </script>
+    <script>
+        (() => {
+            const modal = document.querySelector('[data-delete-modal]');
+            const cancelButton = document.querySelector('[data-delete-cancel]');
+            const confirmButton = document.querySelector('[data-delete-confirm-button]');
+            let pendingForm = null;
+
+            if (!modal || !cancelButton || !confirmButton) {
+                return;
+            }
+
+            function openModal(form) {
+                pendingForm = form;
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                confirmButton.focus();
+            }
+
+            function closeModal() {
+                pendingForm = null;
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+
+            document.querySelectorAll('[data-delete-confirm]').forEach((form) => {
+                form.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    openModal(form);
+                });
+            });
+
+            cancelButton.addEventListener('click', closeModal);
+
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+                    closeModal();
+                }
+            });
+
+            confirmButton.addEventListener('click', () => {
+                if (pendingForm) {
+                    pendingForm.submit();
+                }
             });
         })();
     </script>

@@ -168,6 +168,45 @@
             transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
 
+        .admin-login__password-field {
+            position: relative;
+        }
+
+        .admin-login__password-field input {
+            padding-right: 56px;
+        }
+
+        .admin-login__password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            z-index: 2;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 10px;
+            color: #718096;
+            background: transparent;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .admin-login__password-toggle:hover,
+        .admin-login__password-toggle:focus,
+        .admin-login__password-toggle.is-visible {
+            color: #f5a400;
+            background: #fff3e4;
+        }
+
+        .admin-login__password-toggle i {
+            line-height: 1;
+            font-size: 14px;
+        }
+
         .admin-login__field input:focus {
             border-color: var(--admin-accent);
             background: #ffffff;
@@ -340,7 +379,12 @@
 
                 <div class="admin-login__field">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter password" required>
+                    <div class="admin-login__password-field">
+                        <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter password" required>
+                        <button class="admin-login__password-toggle" type="button" data-admin-password-toggle="password" aria-label="Show password">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="admin-login__meta">
@@ -365,5 +409,26 @@
             </div>
         </section>
     </main>
+    <script>
+        document.querySelectorAll('[data-admin-password-toggle]').forEach((button) => {
+            const input = document.getElementById(button.dataset.adminPasswordToggle);
+            const icon = button.querySelector('i');
+
+            if (!input || !icon) {
+                return;
+            }
+
+            button.addEventListener('click', () => {
+                const shouldShow = input.type === 'password';
+
+                input.type = shouldShow ? 'text' : 'password';
+                button.classList.toggle('is-visible', shouldShow);
+                button.setAttribute('aria-label', shouldShow ? 'Hide password' : 'Show password');
+                icon.classList.toggle('fa-eye', !shouldShow);
+                icon.classList.toggle('fa-eye-slash', shouldShow);
+                input.focus();
+            });
+        });
+    </script>
 </body>
 </html>

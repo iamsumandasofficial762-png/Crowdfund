@@ -12,6 +12,7 @@
     <style>
         :root {
             --gold: #ffb33f;
+            --gold-dark: #f5a400;
             --gold-soft: #fff3dd;
             --bg: #f7f8fb;
             --panel: #ffffff;
@@ -39,7 +40,7 @@
         .admin-layout {
             min-height: 100vh;
             display: grid;
-            grid-template-columns: 280px 1fr;
+            grid-template-columns: 300px minmax(0, 1fr);
         }
 
         .sidebar {
@@ -47,29 +48,50 @@
             top: 0;
             height: 100vh;
             border-right: 1px solid var(--line);
-            padding: 24px 18px;
+            padding: 30px 22px;
             background: #ffffff;
         }
 
+        .brand {
+            min-height: 44px;
+            align-items: center;
+        }
+
         .brand img {
-            width: 142px;
+            width: 154px;
+            height: auto;
+            display: block;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 8px;
-            border-radius: 10px;
-            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            padding: 13px 15px;
             color: #2f3a4c;
             font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .nav-link i {
+            width: 20px;
+            display: inline-flex;
+            justify-content: center;
+            line-height: 1;
         }
 
         .nav-link:hover,
         .nav-link.active {
             background: var(--gold-soft);
             color: #ff7a00;
+        }
+
+        .nav-link:focus,
+        .nav-link:active {
+            background: #ffe1a8;
+            color: #000000;
         }
 
         .main {
@@ -82,13 +104,20 @@
             top: 0;
             z-index: 10;
             border-bottom: 1px solid var(--line);
-            padding: 18px clamp(16px, 3vw, 32px);
+            padding: 22px clamp(18px, 3vw, 36px);
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(14px);
         }
 
+        .topbar-inner,
+        .content-inner {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+        }
+
         .content {
-            padding: clamp(16px, 3vw, 32px);
+            padding: 28px clamp(18px, 2vw, 30px) 48px;
         }
 
         .panel,
@@ -99,9 +128,15 @@
             box-shadow: 0 8px 22px rgba(18, 24, 39, 0.08);
         }
 
+        .filters-panel {
+            padding: 24px;
+        }
+
         .post-card {
             height: 100%;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .post-card img {
@@ -111,6 +146,40 @@
             background: #eef1f5;
         }
 
+        .post-card__body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .post-card__meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .post-card__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .post-card__actions form {
+            margin: 0;
+        }
+
+        .post-card__actions .btn {
+            min-height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 96px;
+        }
+
         .muted {
             color: var(--muted);
         }
@@ -118,12 +187,15 @@
         .filter-link {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             border: 1px solid var(--line);
             border-radius: 999px;
-            padding: 8px 14px;
+            min-height: 42px;
+            padding: 9px 16px;
             color: #2f3a4c;
             font-weight: 800;
+            line-height: 1;
             background: #ffffff;
         }
 
@@ -134,7 +206,20 @@
             background: var(--gold);
         }
 
+        .filter-link:focus,
+        .filter-link:active {
+            border-color: var(--gold-dark);
+            color: #000000;
+            background: var(--gold-dark);
+        }
+
         .badge-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 26px;
+            border-radius: 999px;
+            padding: 6px 10px;
             border: 0;
             background: var(--gold-soft);
             color: #a16207;
@@ -150,6 +235,13 @@
             font-weight: 800;
         }
 
+        .empty-panel {
+            min-height: 120px;
+            display: grid;
+            place-items: center;
+            padding: 28px;
+        }
+
         .btn-outline-light {
             border-color: #d6dce5;
             color: var(--ink);
@@ -161,8 +253,42 @@
             color: var(--red);
         }
 
+        .btn-warning:hover,
+        .btn-warning:focus,
+        .btn-warning:active,
+        .btn-warning:first-child:active,
+        .btn-outline-warning:hover,
+        .btn-outline-warning:focus,
+        .btn-outline-warning:active,
+        .btn-outline-warning:first-child:active {
+            border-color: var(--gold-dark);
+            color: #000000;
+            background: var(--gold-dark);
+            box-shadow: 0 12px 24px rgba(255, 179, 63, 0.22);
+        }
+
+        .btn-outline-light:focus,
+        .btn-outline-light:active,
+        .btn-outline-light:first-child:active {
+            border-color: var(--red);
+            background: var(--red);
+            color: #ffffff;
+        }
+
         .mobile-toggle {
             display: none;
+        }
+
+        .topbar-actions {
+            margin: 0;
+        }
+
+        .topbar-actions .btn {
+            min-height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         @media (max-width: 991px) {
@@ -186,6 +312,29 @@
                 display: inline-flex;
             }
         }
+
+        @media (max-width: 575px) {
+            .topbar {
+                padding: 16px;
+            }
+
+            .topbar-inner {
+                align-items: flex-start !important;
+                flex-direction: column;
+            }
+
+            .content {
+                padding: 18px 16px 32px;
+            }
+
+            .filters-panel {
+                padding: 18px;
+            }
+
+            .filter-link {
+                flex: 1 1 calc(50% - 8px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -197,33 +346,42 @@
             <nav>
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link active" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
+                <a class="nav-link" href="#"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
+                <a class="nav-link" href="#"><i class="fa-solid fa-users"></i> Supporters</a>
+                <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
 
         <main class="main">
-            <header class="topbar d-flex align-items-center justify-content-between gap-3">
-                <div class="d-flex align-items-center gap-3">
-                    <button class="btn btn-sm btn-outline-warning mobile-toggle" type="button" onclick="document.getElementById('sidebar').classList.toggle('show')" aria-label="Toggle sidebar">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                    <div>
-                        <p class="muted small mb-1">Admin review</p>
-                        <h1 class="h4 fw-black mb-0">Fundraiser Posts</h1>
+            <header class="topbar">
+                <div class="topbar-inner d-flex align-items-center justify-content-between gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-sm btn-outline-warning mobile-toggle" type="button" onclick="document.getElementById('sidebar').classList.toggle('show')" aria-label="Toggle sidebar">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <div>
+                            <p class="muted small mb-1">Admin review</p>
+                            <h1 class="h4 fw-black mb-0">Fundraiser Posts</h1>
+                        </div>
                     </div>
-                </div>
 
-                <form action="{{ route('logout') }}" method="post">
-                    @csrf
-                    <button class="btn btn-sm btn-warning fw-bold" type="submit">Logout</button>
-                </form>
+                    <form class="topbar-actions" action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button class="btn btn-sm btn-warning fw-bold" type="submit">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
+                        </button>
+                    </form>
+                </div>
             </header>
 
             <section class="content">
+                <div class="content-inner">
                 @if (session('status'))
                     <div class="alert alert-success border-0 mb-4">{{ session('status') }}</div>
                 @endif
 
-                <div class="panel p-3 p-md-4 mb-4">
+                <div class="panel filters-panel mb-4">
                     <div class="d-flex flex-wrap gap-2">
                         @foreach (['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'all' => 'All'] as $key => $label)
                             <a class="filter-link {{ $status === $key ? 'active' : '' }}" href="{{ route('admin.fundraiser-posts.index', ['status' => $key]) }}">
@@ -241,8 +399,8 @@
                                 @if ($post->main_image)
                                     <img src="{{ asset('storage/'.$post->main_image) }}" alt="{{ $post->title }}">
                                 @endif
-                                <div class="p-3">
-                                    <div class="d-flex justify-content-between gap-3 mb-2">
+                                <div class="post-card__body">
+                                    <div class="post-card__meta">
                                         <span class="badge badge-status">{{ ucfirst($post->status) }}</span>
                                         <span class="muted small">{{ $post->created_at->diffForHumans() }}</span>
                                     </div>
@@ -256,7 +414,7 @@
                                         <a class="document-link mb-3" href="{{ asset('storage/'.$post->supporting_file) }}" target="_blank" rel="noopener">View supporting file</a>
                                     @endif
 
-                                    <div class="d-flex flex-wrap gap-2">
+                                    <div class="post-card__actions">
                                         <form action="{{ route('admin.fundraiser-posts.approve', $post) }}" method="post">
                                             @csrf
                                             @method('PATCH')
@@ -273,11 +431,12 @@
                         </div>
                     @empty
                         <div class="col-12">
-                            <div class="panel p-4 text-center">
+                            <div class="panel empty-panel text-center">
                                 <p class="mb-0 muted">No fundraiser posts found for this status.</p>
                             </div>
                         </div>
                     @endforelse
+                </div>
                 </div>
             </section>
         </main>

@@ -16,6 +16,7 @@
     <style>
         :root {
             --gold: #ffb33f;
+            --gold-dark: #f5a400;
             --gold-soft: #fde3b3;
             --ink: #121827;
             --muted: #647083;
@@ -30,20 +31,21 @@
             background:
                 radial-gradient(circle at 80% 20%, rgba(255, 179, 63, 0.28), transparent 30%),
                 linear-gradient(135deg, #ffffff, #f7f8fb 58%, #fff3dd);
+            overflow-x: hidden;
         }
 
         .auth-page {
             min-height: 100vh;
             display: grid;
             place-items: center;
-            padding: 18px 14px;
+            padding: 34px 18px;
         }
 
         .auth-card {
-            width: min(100%, 980px);
+            width: min(100%, 1160px);
             display: grid;
-            grid-template-columns: 0.86fr 1.14fr;
-            min-height: 610px;
+            grid-template-columns: 0.92fr 1.08fr;
+            min-height: 720px;
             overflow: hidden;
             border: 1px solid var(--line);
             border-radius: 18px;
@@ -52,11 +54,11 @@
         }
 
         .auth-brand {
-            min-height: 610px;
+            min-height: 720px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: clamp(22px, 4vw, 40px);
+            padding: clamp(28px, 4vw, 48px);
             background:
                 linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.78)),
                 url("{{ asset('assets/images/banner/banner-two-bg.jpg') }}") center / cover no-repeat;
@@ -78,21 +80,26 @@
         }
 
         .auth-brand__logo img {
-            width: 150px;
+            width: 166px;
             max-width: 46vw;
             height: auto;
             display: block;
         }
 
         .auth-brand h1 {
-            max-width: 420px;
-            font-size: clamp(30px, 4vw, 48px);
+            max-width: 460px;
+            font-size: clamp(38px, 4.4vw, 58px);
             font-weight: 900;
             line-height: 1;
         }
 
+        .auth-brand p {
+            font-size: 16px;
+            line-height: 1.55;
+        }
+
         .auth-panel {
-            padding: clamp(16px, 3vw, 30px);
+            padding: clamp(28px, 3vw, 44px);
             overflow: hidden;
         }
 
@@ -100,7 +107,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 6px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             border: 1px solid var(--line);
             border-radius: 999px;
             padding: 5px;
@@ -108,12 +115,21 @@
         }
 
         .switch button {
-            min-height: 34px;
+            min-height: 42px;
             border: 0;
             border-radius: 999px;
             background: transparent;
             color: var(--muted);
+            font-size: 14px;
             font-weight: 900;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .switch button:hover,
+        .switch button:focus,
+        .switch button:active {
+            background: var(--gold-soft);
+            color: #080808;
         }
 
         .switch button.active {
@@ -124,12 +140,12 @@
 
         .form-wrap {
             position: relative;
-            min-height: 340px;
+            min-height: 390px;
             transition: min-height 0.25s ease;
         }
 
         .auth-card[data-mode="register"] .form-wrap {
-            min-height: 535px;
+            min-height: 650px;
         }
 
         .auth-form {
@@ -149,35 +165,35 @@
 
         .form-control,
         .form-select {
-            min-height: 36px;
-            border-radius: 8px;
+            min-height: 46px;
+            border-radius: 10px;
             border-color: var(--line);
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
         }
 
         .auth-form h2 {
-            margin-bottom: 4px !important;
-            font-size: clamp(21px, 2.4vw, 27px);
+            margin-bottom: 6px !important;
+            font-size: clamp(27px, 2.6vw, 34px);
         }
 
         .auth-form p.muted {
-            margin-bottom: 9px !important;
-            font-size: 14px;
-            line-height: 1.4;
+            margin-bottom: 18px !important;
+            font-size: 15px;
+            line-height: 1.45;
         }
 
         .auth-form .mb-4 {
-            margin-bottom: 0.75rem !important;
+            margin-bottom: 1.15rem !important;
         }
 
         .auth-form .row {
-            --bs-gutter-y: 0.35rem;
+            --bs-gutter-y: 0.8rem;
         }
 
         .auth-form .form-label {
-            margin-bottom: 4px;
-            font-size: 13px;
+            margin-bottom: 6px;
+            font-size: 14px;
         }
 
         .form-control:focus,
@@ -186,8 +202,47 @@
             box-shadow: 0 0 0 4px rgba(255, 179, 63, 0.18);
         }
 
+        .password-field {
+            position: relative;
+        }
+
+        .password-field .form-control {
+            padding-right: 54px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            z-index: 3;
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 10px;
+            color: #718096;
+            background: transparent;
+            transform: translateY(-50%);
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .password-toggle i {
+            display: block;
+            line-height: 1;
+            font-size: 15px;
+        }
+
+        .password-toggle:hover,
+        .password-toggle:focus,
+        .password-toggle.is-visible {
+            color: var(--gold-dark);
+            background: #fff3e4;
+        }
+
         .btn-gold {
-            min-height: 40px;
+            min-height: 48px;
             border: 0;
             border-radius: 10px;
             background: var(--gold);
@@ -225,15 +280,20 @@
             position: relative;
             display: grid;
             place-items: center;
-            min-height: 76px;
+            min-height: 106px;
             border: 2px dashed #ffb33f;
             border-radius: 12px;
-            padding: 7px;
+            padding: 12px;
             background: #fff8ec;
             color: var(--ink);
             text-align: center;
             cursor: pointer;
             transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+        }
+
+        .upload-box.has-selected-file {
+            min-height: 112px;
+            padding: 10px 90px 10px 14px;
         }
 
         .upload-box:hover,
@@ -252,6 +312,11 @@
             cursor: pointer;
         }
 
+        .upload-box.has-selected-file input {
+            right: 76px;
+            width: calc(100% - 76px);
+        }
+
         .upload-icon {
             width: 28px;
             height: 28px;
@@ -267,7 +332,7 @@
         .upload-title {
             display: block;
             margin-bottom: 2px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 900;
         }
 
@@ -275,7 +340,7 @@
         .upload-selected {
             display: block;
             color: var(--muted);
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
         }
 
@@ -285,9 +350,10 @@
         }
 
         .upload-clear {
-            position: relative;
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
             z-index: 2;
-            margin-top: 8px;
             border: 0;
             border-radius: 999px;
             padding: 4px 12px;
@@ -320,12 +386,23 @@
         }
 
         @media (max-width: 991px) {
+            .auth-page {
+                display: block;
+                padding: 18px;
+            }
+
             .auth-card {
                 grid-template-columns: 1fr;
+                width: 100%;
+                min-height: auto;
             }
 
             .auth-brand {
-                min-height: 280px;
+                min-height: 360px;
+            }
+
+            .auth-card[data-mode="register"] .form-wrap {
+                min-height: 720px;
             }
         }
 
@@ -339,13 +416,70 @@
                 border-radius: 0;
             }
 
+            .auth-brand {
+                min-height: 300px;
+                padding: 22px 18px;
+            }
+
+            .auth-brand__logo img {
+                width: 136px;
+                max-width: 64vw;
+            }
+
+            .auth-brand h1 {
+                font-size: clamp(30px, 12vw, 42px);
+            }
+
+            .auth-brand p {
+                font-size: 14px;
+            }
+
             .auth-panel {
                 padding: 24px 18px 34px;
                 overflow: visible;
             }
 
+            .switch {
+                border-radius: 18px;
+            }
+
+            .switch button {
+                min-height: 40px;
+                font-size: 13px;
+            }
+
+            .auth-form {
+                transform: translateX(18px);
+            }
+
+            .form-control,
+            .form-select {
+                min-height: 44px;
+                font-size: 14px;
+            }
+
+            .password-toggle {
+                width: 36px;
+                height: 36px;
+            }
+
             .auth-card[data-mode="register"] .form-wrap {
-                min-height: 650px;
+                min-height: 870px;
+            }
+
+            .upload-box.has-selected-file {
+                padding-right: 12px;
+                padding-bottom: 44px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .auth-panel {
+                padding-inline: 14px;
+            }
+
+            .auth-card[data-mode="register"] .form-wrap {
+                min-height: 910px;
             }
         }
     </style>
@@ -394,12 +528,17 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold" for="login_email">Email</label>
-                            <input class="form-control" id="login_email" type="email" name="email" value="{{ $mode !== 'register' ? old('email') : '' }}" required>
+                            <input class="form-control" id="login_email" type="email" name="email" value="{{ $mode !== 'register' ? old('email') : '' }}" placeholder="Enter your email address" autocomplete="email" required>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label fw-bold" for="login_password">Password</label>
-                            <input class="form-control" id="login_password" type="password" name="password" required>
+                            <div class="password-field">
+                                <input class="form-control" id="login_password" type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                                <button class="password-toggle" type="button" data-password-toggle="login_password" aria-label="Show password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <button class="btn btn-gold w-100" type="submit">Login</button>
@@ -415,19 +554,29 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold" for="name">Full Name</label>
-                                <input class="form-control" id="name" type="text" name="name" value="{{ old('name') }}" required>
+                                <input class="form-control" id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Enter your full name" autocomplete="name" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold" for="email">Email</label>
-                                <input class="form-control" id="email" type="email" name="email" value="{{ $mode === 'register' ? old('email') : '' }}" required>
+                                <input class="form-control" id="email" type="email" name="email" value="{{ $mode === 'register' ? old('email') : '' }}" placeholder="Enter your email address" autocomplete="email" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold" for="password">Password</label>
-                                <input class="form-control" id="password" type="password" name="password" required>
+                                <div class="password-field">
+                                    <input class="form-control" id="password" type="password" name="password" placeholder="Create a password" autocomplete="new-password" required>
+                                    <button class="password-toggle" type="button" data-password-toggle="password" aria-label="Show password">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold" for="password_confirmation">Confirm Password</label>
-                                <input class="form-control" id="password_confirmation" type="password" name="password_confirmation" required>
+                                <div class="password-field">
+                                    <input class="form-control" id="password_confirmation" type="password" name="password_confirmation" placeholder="Confirm your password" autocomplete="new-password" required>
+                                    <button class="password-toggle" type="button" data-password-toggle="password_confirmation" aria-label="Show password">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label fw-bold" for="country_code">Code</label>
@@ -440,7 +589,7 @@
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label fw-bold" for="phone">Phone</label>
-                                <input class="form-control" id="phone" type="tel" name="phone" value="{{ old('phone') }}" required>
+                                <input class="form-control" id="phone" type="tel" name="phone" value="{{ old('phone') }}" placeholder="Enter phone number" autocomplete="tel" required>
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-bold" for="cause">Cause</label>
@@ -485,6 +634,26 @@
 
         switches.forEach((button) => button.addEventListener('click', () => setMode(button.dataset.switch)));
 
+        document.querySelectorAll('[data-password-toggle]').forEach((button) => {
+            const input = document.getElementById(button.dataset.passwordToggle);
+            const icon = button.querySelector('i');
+
+            if (!input || !icon) {
+                return;
+            }
+
+            button.addEventListener('click', () => {
+                const shouldShow = input.type === 'password';
+
+                input.type = shouldShow ? 'text' : 'password';
+                button.classList.toggle('is-visible', shouldShow);
+                button.setAttribute('aria-label', shouldShow ? 'Hide password' : 'Show password');
+                icon.classList.toggle('fa-eye', !shouldShow);
+                icon.classList.toggle('fa-eye-slash', shouldShow);
+                input.focus();
+            });
+        });
+
         document.querySelectorAll('[data-file-input]').forEach((input) => {
             const retainedFiles = new WeakMap();
 
@@ -510,6 +679,8 @@
                     : files.length === 1
                         ? files[0].name
                         : `${files.length} files selected`;
+
+                box.classList.toggle('has-selected-file', files.length > 0);
 
                 if (clearButton) {
                     clearButton.classList.toggle('d-none', files.length === 0);

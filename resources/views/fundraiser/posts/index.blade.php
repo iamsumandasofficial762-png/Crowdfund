@@ -4,13 +4,13 @@
 
 @section('content')
     <section class="dashboard-panel p-3 p-md-4 mb-4">
-        <div class="d-flex align-items-start justify-content-between gap-3 flex-wrap mb-4">
+        <div class="posts-panel-header d-flex justify-content-between gap-3 flex-wrap mb-4">
             <div>
                 <p class="muted mb-1">My Posts</p>
                 <h1 class="fw-black mb-2">Your Fundraiser Campaigns</h1>
                 <p class="muted mb-0">Search, filter, and manage every campaign created by your account.</p>
             </div>
-            <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}"><i class="fa-solid fa-plus me-2"></i>Create Post</a>
+            <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}"><i class="fa-solid fa-plus"></i>Create Post</a>
         </div>
 
         <form action="{{ route('fundraiser.posts.index') }}" method="get" class="row g-3 align-items-end">
@@ -70,12 +70,12 @@
                             <div class="col-6"><strong>Cause:</strong><br>{{ $post->category }}</div>
                         </div>
 
-                        <div class="d-flex gap-2 flex-wrap">
+                        <div class="post-card-actions">
                             <a class="btn btn-sm btn-soft" href="{{ route('fundraiser.posts.show', $post) }}">View Details</a>
                             @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING)
                                 <a class="btn btn-sm btn-outline-dark" href="{{ route('fundraiser.posts.edit', $post) }}">Edit</a>
                             @endif
-                            <form action="{{ route('fundraiser.posts.destroy', $post) }}" method="post" onsubmit="return confirm('Delete this fundraiser post?')">
+                            <form class="post-action-form" action="{{ route('fundraiser.posts.destroy', $post) }}" method="post" data-delete-confirm>
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>

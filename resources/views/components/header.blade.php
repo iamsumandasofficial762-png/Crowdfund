@@ -41,6 +41,19 @@
             --site-header-height: 70px;
          }
 
+         html,
+         body {
+            max-width: 100%;
+            overflow-x: hidden;
+         }
+
+         img,
+         video,
+         canvas,
+         svg {
+            max-width: 100%;
+         }
+
          .header-secondary {
             padding-block: 0;
          }
@@ -59,6 +72,7 @@
          .header-secondary .navbar {
             width: 100%;
             align-items: stretch;
+            gap: 0;
          }
 
          .header .navbar-logo,
@@ -77,7 +91,7 @@
          .header .navbar-logo img {
             width: auto;
             height: auto;
-            max-height: 58px;
+            max-height: 66px;
          }
 
          .header .navbar__item > a {
@@ -101,7 +115,52 @@
             }
 
             .header .navbar-logo img {
-               max-height: 58px;
+               max-height: 66px;
+            }
+
+            .header .navbar__options {
+               margin-left: auto;
+            }
+         }
+
+         @media only screen and (max-width: 767.98px) {
+            :root {
+               --site-header-height: 64px;
+            }
+
+            .header-secondary .container,
+            .topbar__secondary .container {
+               max-width: 100%;
+               padding-inline: 14px;
+            }
+
+            .header .navbar-logo img {
+               max-height: 54px;
+            }
+
+            .header .navbar__options {
+               flex: 0 0 auto;
+            }
+
+            .header .navbar__mobile-options {
+               gap: 8px;
+               justify-content: flex-end;
+            }
+
+            .header .open-offcanvas-nav {
+               width: 42px;
+               height: 42px;
+               flex: 0 0 42px;
+            }
+         }
+
+         @media only screen and (max-width: 399.98px) {
+            .header .navbar-logo img {
+               max-height: 48px;
+            }
+
+            .header-secondary .container {
+               padding-inline: 10px;
             }
          }
       </style>
@@ -211,6 +270,9 @@
                                  <li class="navbar__item nav-fade">
                                     <a href="{{ route('coming-soon', ['menu' => 'resource']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'resource' ? 'is-active' : '' }}">Resource</a>
                                  </li>
+                                 <li class="navbar__item nav-fade">
+                                    <a href="{{ route('contact-us') }}" class="{{ request()->routeIs('contact-us') ? 'is-active' : '' }}">Contact Us</a>
+                                 </li>
                                  <!-- <li class="navbar__item nav-fade">
                                     <a href="{{ route('coming-soon', ['menu' => 'code-of-practice']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'code-of-practice' ? 'is-active' : '' }}">Code of practice</a>
                                  </li> -->
@@ -310,9 +372,6 @@
                                        </li>
                                     </ul>
                                  </li> -->
-                                 <li class="navbar__item nav-fade">
-                                    <a href="{{ route('contact-us') }}" class="{{ request()->routeIs('contact-us') ? 'is-active' : '' }}">Contact Us</a>
-                                 </li>
                               </ul>
                            </div>
                            <div class="navbar__options">

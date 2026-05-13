@@ -293,15 +293,17 @@
             height: 40px;
             border: 0;
             border-radius: 10px;
-            color: var(--auth-ink);
+            color: #718096;
             background: transparent;
             transform: translateY(-50%);
             transition: background 0.2s ease, color 0.2s ease;
         }
 
-        .password-toggle:hover {
+        .password-toggle:hover,
+        .password-toggle:focus,
+        .password-toggle.is-visible {
             color: var(--auth-gold);
-            background: rgba(255, 179, 63, 0.12);
+            background: #fff3e4;
         }
 
         .auth-check {
@@ -612,6 +614,7 @@
                     const visible = input.type === 'text';
 
                     input.type = visible ? 'password' : 'text';
+                    button.classList.toggle('is-visible', !visible);
                     icon.classList.toggle('fa-eye', visible);
                     icon.classList.toggle('fa-eye-slash', !visible);
                     button.setAttribute('aria-label', visible ? 'Show password' : 'Hide password');

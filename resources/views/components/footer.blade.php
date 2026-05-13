@@ -37,17 +37,20 @@
                         </div>
                         <div class="footer__widget-content">
                            <ul class="footer__widget-list">
-                              <li><a href="{{ route('coming-soon', ['menu' => 'about-us']) }}"><i class="fa-solid fa-angle-right"></i> About Us</a>
+                              <li>
+                                 <a href="{{ route('about-us', ['menu' => 'about-us']) }}"><i class="fa-solid fa-angle-right"></i> About Us</a>
                               </li>
-                              <li><a href="{{ route('coming-soon', ['menu' => 'donate-us']) }}"><i class="fa-solid fa-angle-right"></i>
-                                 Donate Us</a>
+                              <li>
+                                 <a href="{{ route('fundraiser-posts.index', ['menu' => 'donate-us']) }}"><i class="fa-solid fa-angle-right"></i>Donate</a>
                               </li>
-                              <li><a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}"><i class="fa-solid fa-angle-right"></i>Our Causes</a>
+                              <li>
+                                 <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}"><i class="fa-solid fa-angle-right"></i>Pricing</a>
                               </li>
-                              <li><a href="{{ route('coming-soon', ['menu' => 'shop']) }}"><i class="fa-solid fa-angle-right"></i> Our
-                                 Shop</a>
+                              <li>
+                                 <a href="{{ route('coming-soon', ['menu' => 'shop']) }}"><i class="fa-solid fa-angle-right"></i>Resource</a>
                               </li>
-                              <li><a href="{{ route('coming-soon', ['menu' => 'events']) }}"><i class="fa-solid fa-angle-right"></i>Events</a>
+                              <li>
+                                 <a href="{{ route('contact-us', ['menu' => 'shop']) }}"><i class="fa-solid fa-angle-right"></i>Resource</a>
                               </li>
                            </ul>
                         </div>
@@ -129,14 +132,12 @@ Newtown, Kolkata, West Bengal 700161
                               <div class="col-12 col-lg-7">
                                  <div class="footer__bottom-left">
                                     <ul class="footer__bottom-list justify-content-center justify-content-lg-start">
-                                       <li><a href="{{ route('coming-soon', ['menu' => 'contact-us']) }}">Contact us</a></li>
-                                       <li><span></span></li>
                                        <li><a href="{{ route('coming-soon', ['menu' => 'terms-conditions']) }}">Terms & Conditions</a></li>
                                        <li><span></span></li>
                                        <li><a href="{{ route('coming-soon', ['menu' => 'privacy-policy']) }}">Privacy Policy</a></li>
                                     </ul>
                                     <p class="text-center text-lg-start">Copyright &copy; <span id="copyrightYear"></span> <a
-                                       href="{{ route('home') }}">Ebluesoft </a>.
+                                       href="{{ route('home') }}">Karna Kabach </a>.
                                        All rights
                                        reserved.
                                     </p>
