@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
     <style>
         :root {
-            --gold: #ffb33f;
-            --gold-dark: #f5a400;
-            --gold-soft: #fff3dd;
+            --gold: #932a19;
+            --gold-dark: #b21f17;
+            --gold-soft: #f7e1df;
             --bg: #f7f8fb;
             --panel: #ffffff;
             --line: #dde2ea;
@@ -84,13 +84,13 @@
         .nav-link:hover,
         .nav-link.active {
             background: var(--gold-soft);
-            color: #ff7a00;
+            color: #932a19;
             transform: translateX(4px);
         }
 
         .nav-link:focus,
         .nav-link:active {
-            background: #ffe1a8;
+            background: #efd1cd;
             color: #000000;
         }
 
@@ -147,7 +147,7 @@
         }
 
         .stat-card:hover {
-            border-color: rgba(255, 179, 63, 0.74);
+            border-color: rgba(147, 42, 25, 0.74);
             transform: translateY(-4px);
         }
 
@@ -203,8 +203,8 @@
         .chart-bars span {
             min-height: 42px;
             border-radius: 10px 10px 4px 4px;
-            background: linear-gradient(180deg, #ffd27a, var(--gold));
-            box-shadow: 0 12px 28px rgba(255, 179, 63, 0.16);
+            background: linear-gradient(180deg, #c94a35, var(--gold));
+            box-shadow: 0 12px 28px rgba(147, 42, 25, 0.16);
         }
 
         .table {
@@ -250,10 +250,10 @@
         .profile-btn:active,
         .profile-btn.show,
         .profile-btn:first-child:active {
-            border-color: rgba(255, 179, 63, 0.75);
+            border-color: rgba(147, 42, 25, 0.75);
             color: #000000;
-            background: #ffe1a8;
-            box-shadow: 0 12px 24px rgba(255, 179, 63, 0.18);
+            background: #efd1cd;
+            box-shadow: 0 12px 24px rgba(147, 42, 25, 0.18);
         }
 
         .dropdown-menu {
@@ -268,12 +268,12 @@
 
         .dropdown-item:hover {
             background: var(--gold-soft);
-            color: #ff7a00;
+            color: #932a19;
         }
 
         .dropdown-item:focus,
         .dropdown-item:active {
-            background: #ffe1a8;
+            background: #efd1cd;
             color: #000000;
         }
 
@@ -298,7 +298,7 @@
 
         .profile-card {
             width: min(100%, 390px);
-            border: 1px solid rgba(255, 179, 63, 0.36);
+            border: 1px solid rgba(147, 42, 25, 0.36);
             border-radius: 18px;
             padding: 24px;
             background: #ffffff;
@@ -344,8 +344,8 @@
 
         .profile-card__close:hover,
         .profile-card__close:focus {
-            border-color: rgba(255, 179, 63, 0.75);
-            background: #ffe1a8;
+            border-color: rgba(147, 42, 25, 0.75);
+            background: #efd1cd;
         }
 
         .profile-card__row {
@@ -368,7 +368,7 @@
             border-color: var(--gold-dark);
             color: #000000;
             background: var(--gold-dark);
-            box-shadow: 0 12px 24px rgba(255, 179, 63, 0.22);
+            box-shadow: 0 12px 24px rgba(147, 42, 25, 0.22);
         }
 
         .btn-outline-warning:hover,
@@ -377,8 +377,8 @@
         .btn-outline-warning:first-child:active {
             border-color: var(--gold-dark);
             color: #000000;
-            background: #ffe1a8;
-            box-shadow: 0 12px 24px rgba(255, 179, 63, 0.18);
+            background: #efd1cd;
+            box-shadow: 0 12px 24px rgba(147, 42, 25, 0.18);
         }
 
         .mobile-toggle {
@@ -401,6 +401,26 @@
             justify-content: center;
             gap: 6px;
             white-space: nowrap;
+        }
+
+        .btn-warning,
+        .btn-warning:focus {
+            border-color: var(--gold);
+            color: #ffffff !important;
+            background: var(--gold);
+        }
+
+        .btn-warning:hover,
+        .btn-warning:active,
+        .btn-warning:first-child:active {
+            border-color: var(--gold-dark);
+            color: #ffffff !important;
+            background: var(--gold-dark);
+        }
+
+        .btn-outline-warning {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
         @media (max-width: 991px) {
@@ -455,6 +475,7 @@
             <nav>
                 <a class="nav-link active" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
+                <a class="nav-link" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
                 <a class="nav-link" href="#"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
                 <a class="nav-link" href="#"><i class="fa-solid fa-users"></i> Supporters</a>
                 <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i> Settings</a>

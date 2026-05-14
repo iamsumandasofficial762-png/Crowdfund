@@ -44,13 +44,10 @@
                                  <a href="{{ route('fundraiser-posts.index', ['menu' => 'donate-us']) }}"><i class="fa-solid fa-angle-right"></i>Donate</a>
                               </li>
                               <li>
-                                 <a href="{{ route('coming-soon', ['menu' => 'our-causes']) }}"><i class="fa-solid fa-angle-right"></i>Pricing</a>
+                                 <a href="{{ route('pricing') }}"><i class="fa-solid fa-angle-right"></i>Pricing</a>
                               </li>
                               <li>
-                                 <a href="{{ route('coming-soon', ['menu' => 'shop']) }}"><i class="fa-solid fa-angle-right"></i>Resource</a>
-                              </li>
-                              <li>
-                                 <a href="{{ route('contact-us', ['menu' => 'shop']) }}"><i class="fa-solid fa-angle-right"></i>Resource</a>
+                                 <a href="{{ route('resource') }}"><i class="fa-solid fa-angle-right"></i>Resource</a>
                               </li>
                            </ul>
                         </div>
@@ -67,31 +64,38 @@
                            </div>
                         </div>
                         <div class="footer__widget-content">
-                           <div class="footer__blog-single">
-                              <div class="thumb">
-                                 <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">
-                                 <img src="{{ asset('assets/images/blog/footer-one.png') }}" alt="Image">
-                                 </a>
+                           @forelse ($recentFundraiserPosts as $post)
+                              @php
+                                 $postImage = $post->main_image ? asset('storage/' . $post->main_image) : asset('assets/images/cause/one.png');
+                                 $postDate = $post->approved_at ?? $post->created_at;
+                                 $postLink = route('donate-us', $post);
+                              @endphp
+                              <div class="footer__blog-single">
+                                 <div class="thumb">
+                                    <a href="{{ $postLink }}">
+                                    <img src="{{ $postImage }}" alt="{{ $post->title }}">
+                                    </a>
+                                 </div>
+                                 <div class="content">
+                                    <h6><a href="{{ $postLink }}">{{ \Illuminate\Support\Str::limit($post->title, 46) }}</a>
+                                    </h6>
+                                    <p>{{ $postDate?->format('M d, Y') }}</p>
+                                 </div>
                               </div>
-                              <div class="content">
-                                 <h6><a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">Unity in Giving Community
-                                    Charity</a>
-                                 </h6>
-                                 <p>Aug 25, 2024</p>
+                           @empty
+                              <div class="footer__blog-single">
+                                 <div class="thumb">
+                                    <a href="{{ route('fundraiser-posts.index') }}">
+                                    <img src="{{ asset('assets/images/cause/one.png') }}" alt="Fundraiser posts">
+                                    </a>
+                                 </div>
+                                 <div class="content">
+                                    <h6><a href="{{ route('fundraiser-posts.index') }}">Explore Fundraiser Posts</a>
+                                    </h6>
+                                    <p>New campaigns soon</p>
+                                 </div>
                               </div>
-                           </div>
-                           <div class="footer__blog-single">
-                              <div class="thumb">
-                                 <a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">
-                                 <img src="{{ asset('assets/images/blog/footer-two.png') }}" alt="Image">
-                                 </a>
-                              </div>
-                              <div class="content">
-                                 <h6><a href="{{ route('coming-soon', ['menu' => 'blog-details']) }}">Poverty Not Only Money It Can</a>
-                                 </h6>
-                                 <p>Aug 25, 2024</p>
-                              </div>
-                           </div>
+                           @endforelse
                         </div>
                      </div>
                   </div>

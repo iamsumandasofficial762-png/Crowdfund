@@ -265,10 +265,10 @@
                                     <a href="{{ route('fundraiser-posts.index', ['menu' => 'donate']) }}" class="{{ request()->routeIs('fundraiser-posts.index') && request('menu') === 'donate' ? 'is-active' : '' }}">Donate</a>
                                  </li>
                                  <li class="navbar__item nav-fade">
-                                    <a href="{{ route('coming-soon', ['menu' => 'pricing']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'pricing' ? 'is-active' : '' }}">Pricing</a>
+                                    <a href="{{ route('pricing') }}" class="{{ request()->routeIs('pricing') ? 'is-active' : '' }}">Pricing</a>
                                  </li>
                                  <li class="navbar__item nav-fade">
-                                    <a href="{{ route('coming-soon', ['menu' => 'resource']) }}" class="{{ request()->routeIs('coming-soon') && request('menu') === 'resource' ? 'is-active' : '' }}">Resource</a>
+                                    <a href="{{ route('resource') }}" class="{{ request()->routeIs('resource') ? 'is-active' : '' }}">Resource</a>
                                  </li>
                                  <li class="navbar__item nav-fade">
                                     <a href="{{ route('contact-us') }}" class="{{ request()->routeIs('contact-us') ? 'is-active' : '' }}">Contact Us</a>

@@ -11,6 +11,7 @@
         </div>
         <div class="d-flex gap-2 flex-wrap">
             <a class="btn btn-soft" href="{{ route('fundraiser.posts.index') }}">Back to My Posts</a>
+            <a class="btn btn-gold" href="{{ route('fundraiser.posts.updates.index', $post) }}">Manage Updates</a>
             @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING)
                 <a class="btn btn-gold" href="{{ route('fundraiser.posts.edit', $post) }}">Edit Pending Post</a>
             @endif

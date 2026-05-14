@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
     <style>
         :root {
-            --gold: #ffb33f;
-            --gold-dark: #f5a400;
-            --gold-soft: #fff5e4;
-            --gold-hover: #ffe1a8;
+            --gold: #932a19;
+            --gold-dark: #b21f17;
+            --gold-soft: #f7e1df;
+            --gold-hover: #efd1cd;
             --ink: #071226;
             --muted: #647083;
             --line: #dde2ea;
@@ -27,7 +27,7 @@
             color: var(--ink);
             font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background:
-                radial-gradient(circle at 82% 10%, rgba(255, 179, 63, 0.18), transparent 28%),
+                radial-gradient(circle at 82% 10%, rgba(147, 42, 25, 0.18), transparent 28%),
                 var(--page);
             overflow-x: hidden;
         }
@@ -87,15 +87,15 @@
         .fundraiser-nav a:focus,
         .fundraiser-nav a:active,
         .logout-button:hover {
-            border-color: rgba(255, 179, 63, 0.75);
+            border-color: rgba(147, 42, 25, 0.75);
             color: #000000;
             background: var(--gold-hover);
-            box-shadow: 0 14px 28px rgba(255, 179, 63, 0.18);
+            box-shadow: 0 14px 28px rgba(147, 42, 25, 0.18);
             transform: translateY(-1px);
         }
 
         .logout-button {
-            border-color: rgba(255, 179, 63, 0.7);
+            border-color: rgba(147, 42, 25, 0.7);
             background: var(--gold);
         }
 
@@ -104,7 +104,7 @@
             border-color: var(--gold-dark);
             color: #000000;
             background: var(--gold-dark);
-            box-shadow: 0 14px 28px rgba(255, 179, 63, 0.22);
+            box-shadow: 0 14px 28px rgba(147, 42, 25, 0.22);
         }
 
         .dashboard-panel {
@@ -125,7 +125,7 @@
         }
 
         .dashboard-card:hover {
-            border-color: rgba(255, 179, 63, 0.65);
+            border-color: rgba(147, 42, 25, 0.65);
             transform: translateY(-4px);
             box-shadow: 0 20px 46px rgba(18, 24, 39, 0.12);
         }
@@ -137,7 +137,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 14px;
-            color: #000000;
+            color: #ffffff;
             background: var(--gold);
             font-size: 22px;
         }
@@ -146,7 +146,7 @@
             min-height: 46px;
             border: 0;
             border-radius: 12px;
-            color: #000000;
+            color: #ffffff;
             background: var(--gold);
             font-weight: 900;
         }
@@ -156,14 +156,14 @@
         .btn-gold:active,
         .btn-gold:first-child:active {
             border-color: var(--gold-dark);
-            color: #000000;
+            color: #ffffff;
             background: var(--gold-dark);
-            box-shadow: 0 14px 28px rgba(255, 179, 63, 0.24);
+            box-shadow: 0 14px 28px rgba(147, 42, 25, 0.24);
         }
 
         .btn-soft {
             min-height: 42px;
-            border: 1px solid rgba(255, 179, 63, 0.55);
+            border: 1px solid rgba(147, 42, 25, 0.55);
             border-radius: 12px;
             color: var(--ink);
             background: var(--gold-soft);
@@ -174,10 +174,10 @@
         .btn-soft:focus,
         .btn-soft:active,
         .btn-soft:first-child:active {
-            border-color: rgba(255, 179, 63, 0.8);
+            border-color: rgba(147, 42, 25, 0.8);
             color: #000000;
             background: var(--gold-hover);
-            box-shadow: 0 12px 24px rgba(255, 179, 63, 0.18);
+            box-shadow: 0 12px 24px rgba(147, 42, 25, 0.18);
         }
 
         .btn-outline-dark:hover,
@@ -242,9 +242,13 @@
 
         .post-card-actions {
             display: grid;
-            grid-template-columns: minmax(118px, 1fr) minmax(70px, 0.8fr) minmax(78px, 0.8fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 8px;
             align-items: stretch;
+        }
+
+        .post-card-actions .post-action-primary {
+            grid-column: 1 / -1;
         }
 
         .post-card-actions .btn,
@@ -278,7 +282,7 @@
 
         .delete-confirm-card {
             width: min(100%, 430px);
-            border: 1px solid rgba(255, 179, 63, 0.35);
+            border: 1px solid rgba(147, 42, 25, 0.35);
             border-radius: 18px;
             padding: 24px;
             background: #ffffff;
@@ -345,7 +349,7 @@
         .form-control:focus,
         .form-select:focus {
             border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(255, 179, 63, 0.18);
+            box-shadow: 0 0 0 4px rgba(147, 42, 25, 0.18);
         }
 
         .status-badge {
@@ -361,7 +365,7 @@
 
         .status-badge.pending {
             color: #8a5400;
-            background: #fff3d6;
+            background: #f7e1df;
         }
 
         .status-badge.approved {
@@ -411,6 +415,280 @@
             padding-inline: 14px;
         }
 
+        .alert-auto-dismiss {
+            transition: opacity 0.35s ease, transform 0.35s ease, margin 0.35s ease, padding 0.35s ease, border-width 0.35s ease;
+        }
+
+        .alert-auto-dismiss.is-hiding {
+            opacity: 0;
+            transform: translateY(-8px);
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border-width: 0 !important;
+            overflow: hidden;
+        }
+
+        .update-hero {
+            display: grid;
+            grid-template-columns: minmax(240px, 0.85fr) 1.15fr;
+            min-height: 260px;
+        }
+
+        .update-hero img {
+            width: 100%;
+            height: 100%;
+            min-height: 260px;
+            object-fit: cover;
+            background: #eef1f5;
+        }
+
+        .update-hero__body {
+            padding: clamp(22px, 4vw, 38px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .update-hero__stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .update-hero__stats span {
+            min-height: 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 12px;
+            background: #fbfcfe;
+            color: var(--muted);
+            font-weight: 800;
+        }
+
+        .update-hero__stats strong {
+            color: var(--ink);
+            font-size: 18px;
+        }
+
+        .update-image-preview {
+            min-height: 164px;
+            height: 100%;
+            border: 2px dashed rgba(147, 42, 25, 0.35);
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            gap: 8px;
+            padding: 12px;
+            color: var(--muted);
+            background: #fff9f8;
+            text-align: center;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .update-image-preview i {
+            color: var(--gold);
+            font-size: 30px;
+        }
+
+        .update-image-preview img {
+            width: 100%;
+            height: 100%;
+            max-height: 260px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .update-image-preview:not(.has-image) {
+            cursor: default;
+        }
+
+        .image-preview-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 220;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            background: rgba(7, 18, 38, 0.74);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .image-preview-modal.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-preview-modal__dialog {
+            width: min(100%, 1100px);
+            max-height: 92vh;
+            border-radius: 18px;
+            padding: 14px;
+            background: #ffffff;
+            box-shadow: 0 24px 80px rgba(7, 18, 38, 0.3);
+            position: relative;
+        }
+
+        .image-preview-modal__close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 42px;
+            height: 42px;
+            border: 0;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            background: rgba(7, 18, 38, 0.82);
+            font-size: 18px;
+            z-index: 2;
+        }
+
+        .image-preview-modal__image {
+            width: 100%;
+            max-height: calc(92vh - 28px);
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f7f8fb;
+        }
+
+        .update-timeline {
+            position: relative;
+            display: grid;
+            gap: 18px;
+        }
+
+        .update-timeline::before {
+            content: "";
+            position: absolute;
+            left: 132px;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background: #ead9d6;
+        }
+
+        .update-card {
+            position: relative;
+            display: grid;
+            grid-template-columns: 118px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .update-card::before {
+            content: "";
+            position: absolute;
+            top: 17px;
+            left: 126px;
+            width: 14px;
+            height: 14px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 0 3px #ead9d6;
+            z-index: 1;
+        }
+
+        .update-card__date {
+            padding-top: 8px;
+            text-align: right;
+        }
+
+        .update-card__date strong,
+        .update-card__date span {
+            display: block;
+        }
+
+        .update-card__date strong {
+            color: var(--ink);
+            font-weight: 900;
+        }
+
+        .update-card__date span {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .update-card__content {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 12px 28px rgba(18, 24, 39, 0.06);
+        }
+
+        .update-card__content p {
+            color: #344054;
+            line-height: 1.7;
+        }
+
+        .update-card__image {
+            width: 100%;
+            max-height: 360px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin: 4px 0 16px;
+        }
+
+        .update-card__actions {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(112px, 1fr));
+            gap: 8px;
+            align-items: stretch;
+            max-width: 430px;
+            margin-top: 18px;
+        }
+
+        .update-card__actions .btn,
+        .update-card__actions form,
+        .update-card__actions button {
+            width: 100%;
+            min-height: 42px;
+        }
+
+        .update-card__actions .btn {
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-weight: 900;
+        }
+
+        .edited-badge {
+            display: inline-flex;
+            margin-left: 8px;
+            border-radius: 999px;
+            padding: 3px 8px;
+            color: #8a5400;
+            background: #fff1cc;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .pinned-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 999px;
+            padding: 7px 10px;
+            color: #ffffff;
+            background: var(--ink);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
         @media (max-width: 991px) {
             .fundraiser-topbar .container {
                 align-items: flex-start !important;
@@ -419,7 +697,7 @@
             .fundraiser-nav {
                 width: 100%;
                 display: grid;
-                grid-template-columns: repeat(4, minmax(0, 1fr));
+                grid-template-columns: repeat(5, minmax(0, 1fr));
                 gap: 8px;
             }
 
@@ -518,6 +796,33 @@
                 height: 170px;
             }
 
+            .update-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .update-hero__stats {
+                grid-template-columns: 1fr;
+            }
+
+            .update-timeline::before,
+            .update-card::before {
+                display: none;
+            }
+
+            .update-card {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .update-card__date {
+                text-align: left;
+            }
+
+            .update-card__actions {
+                grid-template-columns: 1fr;
+                max-width: none;
+            }
+
             .table-responsive {
                 overflow-x: auto;
             }
@@ -555,6 +860,9 @@
                 <a class="{{ request()->routeIs('fundraiser.posts.index', 'fundraiser.posts.show', 'fundraiser.posts.edit') ? 'active' : '' }}" href="{{ route('fundraiser.posts.index') }}">
                     <i class="fa-solid fa-rectangle-list"></i> My Posts
                 </a>
+                <a class="{{ request()->routeIs('fundraiser.updates.*', 'fundraiser.posts.updates.*') ? 'active' : '' }}" href="{{ route('fundraiser.updates.campaigns') }}">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Story Updates
+                </a>
                 <form action="{{ route('fundraiser.logout') }}" method="post">
                     @csrf
                     <button class="logout-button" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
@@ -566,11 +874,11 @@
     <main class="fundraiser-shell">
         <div class="container">
             @if (session('status'))
-                <div class="alert alert-success">{{ session('status') }}</div>
+                <div class="alert alert-success alert-auto-dismiss" role="status" data-auto-dismiss="3500">{{ session('status') }}</div>
             @endif
 
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="alert alert-danger alert-auto-dismiss" role="alert" data-auto-dismiss="5500">
                     <ul class="mb-0 ps-3">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -707,6 +1015,18 @@
                 if (pendingForm) {
                     pendingForm.submit();
                 }
+            });
+        })();
+    </script>
+    <script>
+        (() => {
+            document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
+                const delay = Number(alert.dataset.autoDismiss) || 3500;
+
+                window.setTimeout(() => {
+                    alert.classList.add('is-hiding');
+                    window.setTimeout(() => alert.remove(), 400);
+                }, delay);
             });
         })();
     </script>

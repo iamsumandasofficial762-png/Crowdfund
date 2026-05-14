@@ -87,7 +87,7 @@
   --quinary-color: #000000;
   --septenary-color: #0c141f;
   --senary-color: #d9d9d9;
-  --hover-color: #ffb33f;
+  --hover-color: #932a19;
   --transition: all 0.5s ease;
   --shadow: 0px 10px 25px 0px rgba(37, 42, 52, 0.08);
   --shadow-secondary: 0px 10px 30px 0px rgba(0, 0, 0, 0.05);
@@ -14419,8 +14419,8 @@ div {
   overflow: hidden;
   padding: 70px 0 58px;
   background:
-    radial-gradient(ellipse at top left, rgba(255, 179, 63, 0.14) 0%, rgba(255, 179, 63, 0.08) 22%, rgba(255, 255, 255, 0) 42%),
-    radial-gradient(ellipse at bottom right, rgba(255, 179, 63, 0.18) 0%, rgba(255, 179, 63, 0.08) 24%, rgba(255, 255, 255, 0) 45%),
+    radial-gradient(ellipse at top left, rgba(147, 42, 25, 0.14) 0%, rgba(147, 42, 25, 0.08) 22%, rgba(255, 255, 255, 0) 42%),
+    radial-gradient(ellipse at bottom right, rgba(147, 42, 25, 0.18) 0%, rgba(147, 42, 25, 0.08) 24%, rgba(255, 255, 255, 0) 45%),
     #ffffff;
 }
 
@@ -14949,4 +14949,53 @@ div {
     width: 280px;
     height: 280px;
   }
+}
+
+/* Karna Kabach red theme alignment */
+:root {
+  --kk-red: #932a19;
+  --kk-red-dark: #6f1f13;
+  --kk-red-bright: #c6281e;
+  --kk-red-soft: #f7e1df;
+  --kk-navy: #06142f;
+  --hover-color: var(--kk-red);
+  --base-bg: var(--kk-red);
+  --base-color: #ffffff;
+}
+
+.btn--primary,
+.btn--secondary,
+.header-secondary .navbar__mobile-options .navbar__cta-row .btn--secondary,
+.progress-wrap {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--kk-red-bright), var(--kk-red));
+  border-color: var(--kk-red);
+}
+
+.btn--primary::before,
+.btn--primary::after,
+.btn--secondary::before,
+.btn--secondary::after {
+  background: linear-gradient(135deg, var(--kk-red-bright), var(--kk-red));
+  color: #ffffff;
+}
+
+.btn--primary:hover,
+.btn--primary:focus,
+.btn--secondary:hover,
+.btn--secondary:focus {
+  color: #ffffff;
+  border-color: var(--kk-red-dark);
+}
+
+.btn--primary:hover::before,
+.btn--primary:hover::after,
+.btn--secondary:hover::before,
+.btn--secondary:hover::after {
+  background: linear-gradient(135deg, var(--kk-red), var(--kk-red-dark));
+  color: #ffffff;
+}
+
+.progress-wrap .progress-circle path {
+  stroke: var(--kk-red);
 }

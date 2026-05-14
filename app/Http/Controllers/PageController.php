@@ -38,6 +38,16 @@ class PageController extends Controller
         return view('pages.about-us');
     }
 
+    public function pricing()
+    {
+        return view('pages.pricing');
+    }
+
+    public function resource()
+    {
+        return view('pages.resource');
+    }
+
     public function donate(?FundraiserPost $post = null)
     {
         if ($post && $post->status !== FundraiserPost::STATUS_APPROVED) {
@@ -57,6 +67,7 @@ class PageController extends Controller
         }
 
         $topSupporters = collect();
+        $supporters = collect();
         $supporterCount = 0;
 
         if ($post && Schema::hasTable('donations')) {
@@ -75,10 +86,20 @@ class PageController extends Controller
                 ->latest()
                 ->take(10)
                 ->get();
+
+            $supporters = $post->paidDonations()
+                ->latest('paid_at')
+                ->latest()
+                ->take(20)
+                ->get();
         } else {
             $post?->loadMissing('fundraiser');
         }
 
-        return view('pages.donate-us', compact('post', 'recentFundraiserPosts', 'topSupporters', 'supporterCount'));
+        if ($post && Schema::hasTable('fundraiser_post_updates')) {
+            $post->load(['publishedUpdates' => fn ($query) => $query->orderByDesc('is_pinned')->latest()]);
+        }
+
+        return view('pages.donate-us', compact('post', 'recentFundraiserPosts', 'topSupporters', 'supporters', 'supporterCount'));
     }
 }

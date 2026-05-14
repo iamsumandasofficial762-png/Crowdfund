@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
     <style>
         :root {
-            --gold: #ffb33f;
-            --gold-dark: #f5a400;
-            --gold-soft: #fff3dd;
+            --gold: #932a19;
+            --gold-dark: #b21f17;
+            --gold-soft: #f7e1df;
             --bg: #f7f8fb;
             --panel: #ffffff;
             --line: #dde2ea;
@@ -85,12 +85,12 @@
         .nav-link:hover,
         .nav-link.active {
             background: var(--gold-soft);
-            color: #ff7a00;
+            color: #932a19;
         }
 
         .nav-link:focus,
         .nav-link:active {
-            background: #ffe1a8;
+            background: #efd1cd;
             color: #000000;
         }
 
@@ -201,16 +201,24 @@
 
         .filter-link.active,
         .filter-link:hover {
-            border-color: rgba(255, 179, 63, 0.5);
-            color: #080808;
+            border-color: rgba(147, 42, 25, 0.5);
+            color: #ffffff;
             background: var(--gold);
         }
 
         .filter-link:focus,
         .filter-link:active {
             border-color: var(--gold-dark);
-            color: #000000;
+            color: #ffffff;
             background: var(--gold-dark);
+        }
+
+        .filter-link.active span,
+        .filter-link:hover span,
+        .filter-link:focus span,
+        .filter-link:active span {
+            color: var(--gold);
+            background: #ffffff;
         }
 
         .badge-status {
@@ -222,7 +230,7 @@
             padding: 6px 10px;
             border: 0;
             background: var(--gold-soft);
-            color: #a16207;
+            color: #932a19;
         }
 
         .document-link {
@@ -262,9 +270,36 @@
         .btn-outline-warning:active,
         .btn-outline-warning:first-child:active {
             border-color: var(--gold-dark);
-            color: #000000;
+            color: #ffffff !important;
             background: var(--gold-dark);
-            box-shadow: 0 12px 24px rgba(255, 179, 63, 0.22);
+            box-shadow: 0 12px 24px rgba(147, 42, 25, 0.22);
+        }
+
+        .btn-warning,
+        .btn-warning:focus {
+            border-color: var(--gold);
+            color: #ffffff !important;
+            background: var(--gold);
+        }
+
+        .btn-outline-warning {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .alert-auto-dismiss {
+            transition: opacity 0.35s ease, transform 0.35s ease, margin 0.35s ease, padding 0.35s ease, border-width 0.35s ease;
+        }
+
+        .alert-auto-dismiss.is-hiding {
+            opacity: 0;
+            transform: translateY(-8px);
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border-width: 0 !important;
+            overflow: hidden;
         }
 
         .btn-outline-light:focus,
@@ -346,6 +381,7 @@
             <nav>
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link active" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
+                <a class="nav-link" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
                 <a class="nav-link" href="#"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
                 <a class="nav-link" href="#"><i class="fa-solid fa-users"></i> Supporters</a>
                 <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i> Settings</a>
@@ -378,7 +414,7 @@
             <section class="content">
                 <div class="content-inner">
                 @if (session('status'))
-                    <div class="alert alert-success border-0 mb-4">{{ session('status') }}</div>
+                    <div class="alert alert-success alert-auto-dismiss border-0 mb-4" role="status" data-auto-dismiss="3500">{{ session('status') }}</div>
                 @endif
 
                 <div class="panel filters-panel mb-4">
@@ -441,5 +477,15 @@
             </section>
         </main>
     </div>
+    <script>
+        document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
+            const delay = Number(alert.dataset.autoDismiss) || 3500;
+
+            window.setTimeout(() => {
+                alert.classList.add('is-hiding');
+                window.setTimeout(() => alert.remove(), 400);
+            }, delay);
+        });
+    </script>
 </body>
 </html>

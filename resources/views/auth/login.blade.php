@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
     <style>
         :root {
-            --auth-gold: #ffb33f;
-            --auth-gold-dark: #f5a400;
+            --auth-gold: #932a19;
+            --auth-gold-dark: #b21f17;
             --auth-black: #000000;
             --auth-panel: rgba(255, 255, 255, 0.96);
             --auth-panel-solid: #ffffff;
@@ -36,8 +36,8 @@
             color: var(--auth-ink);
             font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background:
-                radial-gradient(circle at 88% 22%, rgba(255, 179, 63, 0.24), transparent 32%),
-                linear-gradient(135deg, #ffffff 0%, #f7f8fb 58%, #fff3dd 100%);
+                radial-gradient(circle at 88% 22%, rgba(147, 42, 25, 0.24), transparent 32%),
+                linear-gradient(135deg, #ffffff 0%, #f7f8fb 58%, #f7e1df 100%);
             overflow-x: hidden;
         }
 
@@ -81,7 +81,7 @@
             position: absolute;
             inset: 18px;
             content: "";
-            border: 1px solid rgba(255, 179, 63, 0.24);
+            border: 1px solid rgba(147, 42, 25, 0.24);
             border-radius: 18px;
             pointer-events: none;
         }
@@ -92,7 +92,7 @@
             display: inline-flex;
             width: max-content;
             align-items: center;
-            border: 1px solid rgba(255, 179, 63, 0.34);
+            border: 1px solid rgba(147, 42, 25, 0.34);
             border-radius: 999px;
             padding: 10px 17px;
             background: rgba(255, 255, 255, 0.9);
@@ -187,8 +187,8 @@
 
         .auth-switch button.active {
             color: #070707;
-            background: linear-gradient(180deg, #ffd28a, var(--auth-gold));
-            box-shadow: 0 12px 26px rgba(255, 179, 63, 0.22);
+            background: linear-gradient(180deg, #c94a35, var(--auth-gold));
+            box-shadow: 0 12px 26px rgba(147, 42, 25, 0.22);
         }
 
         .auth-stage {
@@ -278,7 +278,7 @@
             border-color: var(--auth-gold);
             color: var(--auth-ink);
             background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(255, 179, 63, 0.16);
+            box-shadow: 0 0 0 4px rgba(147, 42, 25, 0.16);
         }
 
         .auth-input .form-control::placeholder {
@@ -303,7 +303,7 @@
         .password-toggle:focus,
         .password-toggle.is-visible {
             color: var(--auth-gold);
-            background: #fff3e4;
+            background: #f7e1df;
         }
 
         .auth-check {
@@ -331,7 +331,7 @@
             border: 0;
             border-radius: 12px;
             color: #070707;
-            background: linear-gradient(180deg, #ffd28a, var(--auth-gold));
+            background: linear-gradient(180deg, #c94a35, var(--auth-gold));
             font: inherit;
             font-size: 16px;
             font-weight: 900;
@@ -343,7 +343,7 @@
             color: #070707;
             transform: translateY(-2px);
             filter: saturate(1.05);
-            box-shadow: 0 18px 36px rgba(255, 179, 63, 0.24);
+            box-shadow: 0 18px 36px rgba(147, 42, 25, 0.24);
         }
 
         .btn-auth.is-loading {
@@ -389,6 +389,21 @@
         .alert-success {
             color: #176b2c;
             background: #effaf1;
+        }
+
+        .alert-auto-dismiss {
+            transition: opacity 0.35s ease, transform 0.35s ease, margin 0.35s ease, padding 0.35s ease, border-width 0.35s ease;
+        }
+
+        .alert-auto-dismiss.is-hiding {
+            opacity: 0;
+            transform: translateY(-8px);
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border-width: 0 !important;
+            overflow: hidden;
         }
 
         @media (max-width: 991px) {
@@ -468,11 +483,11 @@
                     </div>
 
                     @if (session('status'))
-                        <div class="alert alert-success mb-4" role="status">{{ session('status') }}</div>
+                        <div class="alert alert-success alert-auto-dismiss mb-4" role="status" data-auto-dismiss="3500">{{ session('status') }}</div>
                     @endif
 
                     @if ($errors->any())
-                        <div class="alert alert-danger mb-4" role="alert">
+                        <div class="alert alert-danger alert-auto-dismiss mb-4" role="alert" data-auto-dismiss="5500">
                             <ul class="mb-0 ps-3">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -627,6 +642,15 @@
                     button.classList.add('is-loading');
                     button.setAttribute('disabled', 'disabled');
                 });
+            });
+
+            document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
+                const delay = Number(alert.dataset.autoDismiss) || 3500;
+
+                window.setTimeout(() => {
+                    alert.classList.add('is-hiding');
+                    window.setTimeout(() => alert.remove(), 400);
+                }, delay);
             });
 
             setMode(card.dataset.initialMode === 'register' ? 'register' : 'login');

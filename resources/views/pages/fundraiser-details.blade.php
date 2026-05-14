@@ -13,13 +13,13 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
     <style>
         :root {
-            --fundraiser-accent: #ffb33f;
+            --fundraiser-accent: #932a19;
             --fundraiser-accent-dark: #e89c22;
             --fundraiser-ink: #000000;
             --fundraiser-muted: #5d5d5d;
             --fundraiser-line: #e3ddd2;
             --fundraiser-soft: #fff8ec;
-            --fundraiser-yellow: #ffb33f;
+            --fundraiser-yellow: #932a19;
         }
 
         * {
@@ -32,9 +32,9 @@
             font-family: "Nunito", sans-serif;
             color: var(--fundraiser-ink);
             background:
-                radial-gradient(circle at 100% 49%, rgba(255, 179, 63, 0.32) 0 18%, transparent 19%),
-                radial-gradient(circle at 4% 82%, rgba(255, 179, 63, 0.22) 0 20%, transparent 21%),
-                linear-gradient(135deg, #000000 0%, #181818 58%, #ffb33f 100%);
+                radial-gradient(circle at 100% 49%, rgba(147, 42, 25, 0.32) 0 18%, transparent 19%),
+                radial-gradient(circle at 4% 82%, rgba(147, 42, 25, 0.22) 0 20%, transparent 21%),
+                linear-gradient(135deg, #000000 0%, #181818 58%, #932a19 100%);
         }
 
         .fundraiser-page {
@@ -54,7 +54,7 @@
             height: 170px;
             content: "";
             opacity: 0.2;
-            background-image: radial-gradient(circle, #ffb33f 0 4px, transparent 5px);
+            background-image: radial-gradient(circle, #932a19 0 4px, transparent 5px);
             background-size: 28px 28px;
         }
 
@@ -74,7 +74,7 @@
             width: min(100%, 560px);
             border-radius: 18px;
             padding: clamp(18px, 3vw, 26px) clamp(16px, 4vw, 36px);
-            border: 1px solid rgba(255, 179, 63, 0.35);
+            border: 1px solid rgba(147, 42, 25, 0.35);
             background: rgba(255, 255, 255, 0.98);
             box-shadow: 0 26px 70px rgba(0, 0, 0, 0.32);
         }
@@ -125,7 +125,7 @@
             margin-bottom: 18px;
             border-radius: 10px;
             padding: 14px 20px;
-            border: 1px solid rgba(255, 179, 63, 0.28);
+            border: 1px solid rgba(147, 42, 25, 0.28);
             background: linear-gradient(90deg, #fff9ef, #fff3de);
             color: var(--fundraiser-ink);
             font-size: 13px;
@@ -137,7 +137,7 @@
             margin-bottom: 16px;
             border-radius: 10px;
             padding: 12px 14px;
-            border: 1px solid rgba(255, 179, 63, 0.28);
+            border: 1px solid rgba(147, 42, 25, 0.28);
             background: #fff8ec;
             color: var(--fundraiser-ink);
             font-size: 13px;
@@ -154,6 +154,21 @@
         .fundraiser-alert ul {
             margin: 0;
             padding-left: 18px;
+        }
+
+        .fundraiser-alert[data-auto-dismiss] {
+            transition: opacity 0.35s ease, transform 0.35s ease, margin 0.35s ease, padding 0.35s ease, border-width 0.35s ease;
+        }
+
+        .fundraiser-alert.is-hiding {
+            opacity: 0;
+            transform: translateY(-8px);
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border-width: 0 !important;
+            overflow: hidden;
         }
 
         .fundraiser-card__pill {
@@ -213,7 +228,7 @@
         .fundraiser-form__field input:focus,
         .fundraiser-form__field select:focus {
             border-color: var(--fundraiser-accent);
-            box-shadow: 0 0 0 4px rgba(255, 179, 63, 0.22);
+            box-shadow: 0 0 0 4px rgba(147, 42, 25, 0.22);
         }
 
         .fundraiser-form__icon,
@@ -269,7 +284,7 @@
         .fundraiser-upload {
             display: block;
             position: relative;
-            border: 2px dashed rgba(255, 179, 63, 0.78);
+            border: 2px dashed rgba(147, 42, 25, 0.78);
             border-radius: 10px;
             padding: 18px 16px;
             margin-bottom: 18px;
@@ -316,7 +331,7 @@
             border-radius: 10px;
             padding: 10px 20px;
             color: var(--fundraiser-ink);
-            background: linear-gradient(180deg, #ffc966, #ffb33f);
+            background: linear-gradient(180deg, #c94a35, #932a19);
             box-shadow: 0 14px 24px rgba(255, 170, 12, 0.22);
             font: inherit;
             font-size: 16px;
@@ -431,13 +446,13 @@
             </div>
 
             @if (session('status'))
-                <div class="fundraiser-alert" role="status">
+                <div class="fundraiser-alert" role="status" data-auto-dismiss="3500">
                     {{ session('status') }}
                 </div>
             @endif
 
             @if ($errors->any())
-                <div class="fundraiser-alert fundraiser-alert--error" role="alert">
+                <div class="fundraiser-alert fundraiser-alert--error" role="alert" data-auto-dismiss="5500">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -516,5 +531,17 @@
             </form>
         </section>
     </main>
+    <script>
+        (() => {
+            document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
+                const delay = Number(alert.dataset.autoDismiss) || 3500;
+
+                window.setTimeout(() => {
+                    alert.classList.add('is-hiding');
+                    window.setTimeout(() => alert.remove(), 400);
+                }, delay);
+            });
+        })();
+    </script>
 </body>
 </html>

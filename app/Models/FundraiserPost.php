@@ -57,6 +57,16 @@ class FundraiserPost extends Model
         return $this->hasMany(Donation::class)->where('status', Donation::STATUS_PAID);
     }
 
+    public function updates(): HasMany
+    {
+        return $this->hasMany(FundraiserPostUpdate::class);
+    }
+
+    public function publishedUpdates(): HasMany
+    {
+        return $this->hasMany(FundraiserPostUpdate::class)->where('is_published', true);
+    }
+
     public function scopeApproved(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_APPROVED);

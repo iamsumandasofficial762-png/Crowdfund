@@ -175,6 +175,7 @@ class FundraiserPostController extends Controller
         $this->authorizeFundraiserPost($request, $post);
         $this->deletePublicFile($post->main_image);
         $this->deletePublicFile($post->supporting_file);
+        $post->updates()->pluck('update_image')->filter()->each(fn ($path) => $this->deletePublicFile($path));
         $post->delete();
 
         return redirect()

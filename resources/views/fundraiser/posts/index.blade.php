@@ -71,7 +71,8 @@
                         </div>
 
                         <div class="post-card-actions">
-                            <a class="btn btn-sm btn-soft" href="{{ route('fundraiser.posts.show', $post) }}">View Details</a>
+                            <a class="btn btn-sm btn-soft post-action-primary" href="{{ route('fundraiser.posts.show', $post) }}">View Details</a>
+                            <a class="btn btn-sm btn-gold" href="{{ route('fundraiser.posts.updates.index', $post) }}">Manage Updates</a>
                             @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING)
                                 <a class="btn btn-sm btn-outline-dark" href="{{ route('fundraiser.posts.edit', $post) }}">Edit</a>
                             @endif

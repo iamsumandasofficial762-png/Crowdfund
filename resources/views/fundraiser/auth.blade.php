@@ -15,9 +15,9 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
     <style>
         :root {
-            --gold: #ffb33f;
-            --gold-dark: #f5a400;
-            --gold-soft: #fde3b3;
+            --gold: #932a19;
+            --gold-dark: #b21f17;
+            --gold-soft: #f7e1df;
             --ink: #121827;
             --muted: #647083;
             --line: #dde2ea;
@@ -29,8 +29,8 @@
             color: var(--ink);
             font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background:
-                radial-gradient(circle at 80% 20%, rgba(255, 179, 63, 0.28), transparent 30%),
-                linear-gradient(135deg, #ffffff, #f7f8fb 58%, #fff3dd);
+                radial-gradient(circle at 80% 20%, rgba(147, 42, 25, 0.28), transparent 30%),
+                linear-gradient(135deg, #ffffff, #f7f8fb 58%, #f7e1df);
             overflow-x: hidden;
         }
 
@@ -71,7 +71,7 @@
             display: inline-flex;
             width: max-content;
             align-items: center;
-            border: 1px solid rgba(255, 179, 63, 0.32);
+            border: 1px solid rgba(147, 42, 25, 0.32);
             border-radius: 999px;
             padding: 9px 15px;
             background: rgba(255, 255, 255, 0.88);
@@ -129,13 +129,13 @@
         .switch button:focus,
         .switch button:active {
             background: var(--gold-soft);
-            color: #080808;
+            color: #06142f;
         }
 
         .switch button.active {
             background: var(--gold);
-            color: #080808;
-            box-shadow: 0 10px 22px rgba(255, 179, 63, 0.28);
+            color: #ffffff;
+            box-shadow: 0 10px 22px rgba(147, 42, 25, 0.28);
         }
 
         .form-wrap {
@@ -199,7 +199,7 @@
         .form-control:focus,
         .form-select:focus {
             border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(255, 179, 63, 0.18);
+            box-shadow: 0 0 0 4px rgba(147, 42, 25, 0.18);
         }
 
         .password-field {
@@ -238,7 +238,7 @@
         .password-toggle:focus,
         .password-toggle.is-visible {
             color: var(--gold-dark);
-            background: #fff3e4;
+            background: #f7e1df;
         }
 
         .btn-gold {
@@ -246,7 +246,7 @@
             border: 0;
             border-radius: 10px;
             background: var(--gold);
-            color: #080808;
+            color: #ffffff;
             font-weight: 900;
             transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
         }
@@ -256,10 +256,10 @@
         .btn-gold:active,
         .btn-gold:focus-visible,
         .btn-gold:first-child:active {
-            background-color: var(--gold-soft);
+            background-color: var(--gold-dark);
             border-color: var(--gold-dark);
-            color: #080808;
-            box-shadow: 0 10px 22px rgba(255, 179, 63, 0.34);
+            color: #ffffff;
+            box-shadow: 0 10px 22px rgba(147, 42, 25, 0.34);
         }
 
         .btn-gold:hover,
@@ -281,7 +281,7 @@
             display: grid;
             place-items: center;
             min-height: 106px;
-            border: 2px dashed #ffb33f;
+            border: 2px dashed #932a19;
             border-radius: 12px;
             padding: 12px;
             background: #fff8ec;
@@ -298,8 +298,8 @@
 
         .upload-box:hover,
         .upload-box:focus-within {
-            border-color: #f5a400;
-            background: #fff3dd;
+            border-color: #b21f17;
+            background: #f7e1df;
             transform: translateY(-1px);
         }
 
@@ -324,7 +324,7 @@
             place-items: center;
             margin-bottom: 4px;
             border-radius: 50%;
-            background: #f5a400;
+            background: #b21f17;
             color: #ffffff;
             font-size: 15px;
         }
@@ -361,7 +361,7 @@
             color: #8a5400;
             font-size: 11px;
             font-weight: 900;
-            box-shadow: 0 6px 14px rgba(255, 179, 63, 0.2);
+            box-shadow: 0 6px 14px rgba(147, 42, 25, 0.2);
         }
 
         .upload-clear:hover,
@@ -509,7 +509,7 @@
                 @endif
 
                 @if ($errors->any())
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger alert-auto-dismiss" role="alert" data-auto-dismiss="5500">
                         <ul class="mb-0 ps-3">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>

@@ -21,8 +21,8 @@
             --admin-line: #dde7df;
             --admin-panel: #ffffff;
             --admin-field: #f7faf8;
-            --admin-accent: #2f8f46;
-            --admin-accent-dark: #226c35;
+            --admin-accent: #932a19;
+            --admin-accent-dark: #6f1f13;
         }
 
         * {
@@ -66,7 +66,7 @@
             gap: 12px;
             margin-bottom: 46px;
             width: max-content;
-            border: 1px solid rgba(255, 179, 63, 0.28);
+            border: 1px solid rgba(147, 42, 25, 0.28);
             border-radius: 999px;
             padding: 9px 15px;
             background: rgba(255, 255, 255, 0.92);
@@ -143,6 +143,21 @@
             margin: 0;
         }
 
+        [data-auto-dismiss] {
+            transition: opacity 0.35s ease, transform 0.35s ease, margin 0.35s ease, padding 0.35s ease, border-width 0.35s ease;
+        }
+
+        [data-auto-dismiss].is-hiding {
+            opacity: 0;
+            transform: translateY(-8px);
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border-width: 0 !important;
+            overflow: hidden;
+        }
+
         .admin-login__field {
             margin-bottom: 18px;
         }
@@ -198,8 +213,8 @@
         .admin-login__password-toggle:hover,
         .admin-login__password-toggle:focus,
         .admin-login__password-toggle.is-visible {
-            color: #f5a400;
-            background: #fff3e4;
+            color: #b21f17;
+            background: #f7e1df;
         }
 
         .admin-login__password-toggle i {
@@ -210,7 +225,7 @@
         .admin-login__field input:focus {
             border-color: var(--admin-accent);
             background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(47, 143, 70, 0.14);
+            box-shadow: 0 0 0 4px rgba(147, 42, 25, 0.14);
         }
 
         .admin-login__meta {
@@ -354,13 +369,13 @@
             <p class="admin-login__intro">Sign in to manage campaigns, donations, updates, and supporter activity from the admin area.</p>
 
             @if (session('status'))
-                <div class="admin-login__status" role="status">
+                <div class="admin-login__status" role="status" data-auto-dismiss="3500">
                     {{ session('status') }}
                 </div>
             @endif
 
             @if ($errors->any())
-                <div class="admin-login__errors" role="alert">
+                <div class="admin-login__errors" role="alert" data-auto-dismiss="5500">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -428,6 +443,15 @@
                 icon.classList.toggle('fa-eye-slash', shouldShow);
                 input.focus();
             });
+        });
+
+        document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
+            const delay = Number(alert.dataset.autoDismiss) || 3500;
+
+            window.setTimeout(() => {
+                alert.classList.add('is-hiding');
+                window.setTimeout(() => alert.remove(), 400);
+            }, delay);
         });
     </script>
 </body>
