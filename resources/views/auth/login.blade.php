@@ -186,7 +186,7 @@
         }
 
         .auth-switch button.active {
-            color: #070707;
+            color: #ffffff;
             background: linear-gradient(180deg, #c94a35, var(--auth-gold));
             box-shadow: 0 12px 26px rgba(147, 42, 25, 0.22);
         }
@@ -330,7 +330,7 @@
             gap: 10px;
             border: 0;
             border-radius: 12px;
-            color: #070707;
+            color: #ffffff;
             background: linear-gradient(180deg, #c94a35, var(--auth-gold));
             font: inherit;
             font-size: 16px;
@@ -340,7 +340,7 @@
 
         .btn-auth:hover,
         .btn-auth:focus {
-            color: #070707;
+            color: #ffffff;
             transform: translateY(-2px);
             filter: saturate(1.05);
             box-shadow: 0 18px 36px rgba(147, 42, 25, 0.24);

@@ -2,6 +2,74 @@
 
 @section('title', 'Story Updates')
 
+@push('styles')
+    <style>
+        .campaign-progress {
+            margin: 18px 0 18px;
+            padding: 18px 22px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fff7f5 0%, #f8f9fc 100%);
+        }
+
+        .campaign-progress__header,
+        .campaign-progress__meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .campaign-progress__title {
+            margin: 0;
+            color: #183153;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .campaign-progress__percent {
+            color: #263c5d;
+            font-weight: 900;
+        }
+
+        .campaign-progress__track {
+            height: 7px;
+            margin: 9px 0 13px;
+            border-radius: 999px;
+            background: #eadcda;
+            overflow: hidden;
+        }
+
+        .campaign-progress__bar {
+            height: 100%;
+            border-radius: inherit;
+            background: #b53a2d;
+        }
+
+        .campaign-progress__meta {
+            color: #65728a;
+            font-size: 14px;
+            line-height: 1.35;
+        }
+
+        .campaign-progress__meta strong {
+            color: #c44737;
+            font-weight: 500;
+        }
+
+        @media (max-width: 420px) {
+            .campaign-progress {
+                padding: 16px;
+            }
+
+            .campaign-progress__meta {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 6px;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <section class="dashboard-panel p-3 p-md-4 mb-4">
         <div class="posts-panel-header d-flex justify-content-between gap-3 flex-wrap">
@@ -32,12 +100,18 @@
                         </div>
                         <h4 class="fw-black">{{ $post->title }}</h4>
                         <p class="muted">{{ \Illuminate\Support\Str::limit($post->short_description, 105) }}</p>
-                        <div class="progress mb-2">
-                            <div class="progress-bar" style="width: {{ $progress }}%"></div>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between small fw-bold mb-3">
-                            <span>Rs. {{ number_format($raised, 0) }} raised</span>
-                            <span>{{ number_format($post->paid_donations_count) }} supporters</span>
+                        <div class="campaign-progress">
+                            <div class="campaign-progress__header">
+                                <h5 class="campaign-progress__title">Donation Progress</h5>
+                                <span class="campaign-progress__percent">{{ $progress }}%</span>
+                            </div>
+                            <div class="campaign-progress__track" aria-hidden="true">
+                                <div class="campaign-progress__bar" style="width: {{ $progress }}%"></div>
+                            </div>
+                            <div class="campaign-progress__meta">
+                                <span>Raised: <strong>Rs. {{ number_format($raised, 0) }}</strong></span>
+                                <span>Goal: <strong>Rs. {{ number_format($goal, 0) }}</strong></span>
+                            </div>
                         </div>
                         <a class="btn btn-gold w-100" href="{{ route('fundraiser.posts.updates.index', $post) }}">
                             <i class="fa-solid fa-pen-to-square"></i>Manage Updates

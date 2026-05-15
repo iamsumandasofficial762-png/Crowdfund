@@ -2,24 +2,37 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminFundraiserPostController;
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DonationController as AdminDonationController;
 use App\Http\Controllers\Admin\FundraiserReferralController as AdminFundraiserReferralController;
+use App\Http\Controllers\Admin\FundraiserReportController as AdminFundraiserReportController;
+use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
+use App\Http\Controllers\Admin\SupporterController as AdminSupporterController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\FundraiserAuthController;
 use App\Http\Controllers\FundraiserDashboardController;
 use App\Http\Controllers\FundraiserController;
 use App\Http\Controllers\FundraiserPostController;
 use App\Http\Controllers\FundraiserPostUpdateController;
 use App\Http\Controllers\FundraiserReferralController;
+use App\Http\Controllers\FundraiserReportController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SiteReportController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/coming-soon', [PageController::class, 'comingSoon'])->name('coming-soon');
 Route::get('/contact-us', [PageController::class, 'contact'])->name('contact-us');
+Route::post('/contact-us', [ContactMessageController::class, 'store'])->name('contact-messages.store');
 Route::get('/about-us', [PageController::class, 'about'])->name('about-us');
 Route::get('/pricing', [PageController::class, 'pricing'])->name('pricing');
 Route::get('/resource', [PageController::class, 'resource'])->name('resource');
 Route::get('/donate-us/{post?}', [PageController::class, 'donate'])->name('donate-us');
+Route::post('/donate-us/{post}/donations', [DonationController::class, 'store'])->name('donations.store');
+Route::post('/donate-us/{post}/reports', [FundraiserReportController::class, 'store'])->name('fundraiser-reports.store');
+Route::post('/site-reports', [SiteReportController::class, 'store'])->name('site-reports.store');
 Route::post('/fundraiser-referrals/{post?}', [FundraiserReferralController::class, 'store'])->name('fundraiser-referrals.store');
 
 Route::get('/fundraisers', [FundraiserController::class, 'index'])->name('fundraisers.index');
@@ -65,6 +78,26 @@ Route::get('/admin/fundraiser-posts', [AdminFundraiserPostController::class, 'in
 Route::get('/admin/fundraiser-referrals', [AdminFundraiserReferralController::class, 'index'])
     ->middleware('jwt.session')
     ->name('admin.fundraiser-referrals.index');
+
+Route::get('/admin/contact-messages', [AdminContactMessageController::class, 'index'])
+    ->middleware('jwt.session')
+    ->name('admin.contact-messages.index');
+
+Route::get('/admin/fundraiser-reports', [AdminFundraiserReportController::class, 'index'])
+    ->middleware('jwt.session')
+    ->name('admin.fundraiser-reports.index');
+
+Route::get('/admin/donations', [AdminDonationController::class, 'index'])
+    ->middleware('jwt.session')
+    ->name('admin.donations.index');
+
+Route::get('/admin/supporters', [AdminSupporterController::class, 'index'])
+    ->middleware('jwt.session')
+    ->name('admin.supporters.index');
+
+Route::get('/admin/settings', [AdminSettingsController::class, 'index'])
+    ->middleware('jwt.session')
+    ->name('admin.settings.index');
 
 Route::patch('/admin/fundraiser-referrals/{referral}/status', [AdminFundraiserReferralController::class, 'updateStatus'])
     ->middleware('jwt.session')

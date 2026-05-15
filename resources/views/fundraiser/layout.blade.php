@@ -94,15 +94,25 @@
             transform: translateY(-1px);
         }
 
+        .logout-button:hover {
+            color: #ffffff;
+            background: var(--gold-dark);
+        }
+
         .logout-button {
             border-color: rgba(147, 42, 25, 0.7);
+            color: #ffffff;
             background: var(--gold);
+        }
+
+        .logout-button i {
+            color: #ffffff;
         }
 
         .logout-button:focus,
         .logout-button:active {
             border-color: var(--gold-dark);
-            color: #000000;
+            color: #ffffff;
             background: var(--gold-dark);
             box-shadow: 0 14px 28px rgba(147, 42, 25, 0.22);
         }
@@ -393,6 +403,39 @@
 
         .progress-bar {
             background: #000000;
+        }
+
+        .approved-progress {
+            height: 8px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: #eadbd8;
+        }
+
+        .approved-progress__fill {
+            display: block;
+            width: var(--progress-width, 0%);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #a83220 0%, #8f2619 100%);
+            box-shadow: 0 0 14px rgba(255, 31, 31, 0.75);
+        }
+
+        .approved-progress__fill::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 38, 38, 0.95) 48%, transparent 100%);
+            transform: translateX(-100%);
+            animation: approvedProgressGlow 1.8s ease-in-out infinite;
+        }
+
+        @keyframes approvedProgressGlow {
+            to {
+                transform: translateX(100%);
+            }
         }
 
         .muted {

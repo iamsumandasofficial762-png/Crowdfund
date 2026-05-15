@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donation;
 use App\Models\FundraiserPost;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,12 @@ class FundraiserPostController extends Controller
     {
         $posts = FundraiserPost::approved()
             ->with('fundraiser')
+            ->addSelect([
+                'actual_raised_amount' => Donation::query()
+                    ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount ELSE amount END), 0)')
+                    ->whereColumn('donations.fundraiser_post_id', 'fundraiser_posts.id')
+                    ->where('status', Donation::STATUS_PAID),
+            ])
             ->latest('approved_at')
             ->paginate(9);
 
@@ -37,7 +44,12 @@ class FundraiserPostController extends Controller
         }
 
         $posts = $fundraiser->posts()
-            ->withSum('paidDonations', 'amount')
+            ->addSelect([
+                'paid_donations_main_sum_amount' => Donation::query()
+                    ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')
+                    ->whereColumn('donations.fundraiser_post_id', 'fundraiser_posts.id')
+                    ->where('status', Donation::STATUS_PAID),
+            ])
             ->withCount('paidDonations')
             ->when($status !== 'all', fn ($query) => $query->where('status', $status))
             ->when($search !== '', function ($query) use ($search) {
@@ -110,7 +122,9 @@ class FundraiserPostController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        $raisedFromDonations = (float) $post->paidDonations()->sum('amount');
+        $raisedFromDonations = (float) $post->paidDonations()
+            ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0) as total')
+            ->value('total');
         $raisedAmount = max((float) $post->raised_amount, $raisedFromDonations);
         $goalAmount = max((float) $post->goal_amount, 1);
         $stats = [

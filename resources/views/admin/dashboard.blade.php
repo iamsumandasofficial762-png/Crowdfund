@@ -7,6 +7,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>Admin Dashboard | Karna Kabach</title>
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
     <style>
@@ -162,6 +163,44 @@
             color: var(--gold-dark);
         }
 
+        .icon-box i {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .stat-switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-switch__button {
+            width: 46px;
+            height: 46px;
+            display: inline-grid;
+            place-items: center;
+            flex: 0 0 auto;
+            border: 0;
+            border-radius: 12px;
+            color: var(--gold-dark);
+            background: var(--gold-soft);
+            opacity: 0.5;
+            transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-switch__button i {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .stat-switch__button.is-active,
+        .stat-switch__button:hover,
+        .stat-switch__button:focus {
+            opacity: 1;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(147, 42, 25, 0.12);
+        }
+
         .badge {
             display: inline-flex;
             align-items: center;
@@ -200,11 +239,190 @@
             background-image: repeating-linear-gradient(to top, transparent 0 63px, #e7ebf1 64px);
         }
 
-        .chart-bars span {
+        .chart-bar__columns {
+            min-height: 0;
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .chart-bar__fill {
+            width: min(100%, 96px);
             min-height: 42px;
             border-radius: 10px 10px 4px 4px;
             background: linear-gradient(180deg, #c94a35, var(--gold));
             box-shadow: 0 12px 28px rgba(147, 42, 25, 0.16);
+            transition: height 0.25s ease, background 0.25s ease, width 0.25s ease, opacity 0.25s ease;
+        }
+
+        .chart-bar__fill--tip {
+            display: none;
+            background: linear-gradient(180deg, #f0b44d, #d9841f);
+            box-shadow: 0 12px 28px rgba(217, 132, 31, 0.18);
+        }
+
+        .chart-bars.is-tip .chart-bar__fill--donation {
+            background: linear-gradient(180deg, #f0b44d, #d9841f);
+            box-shadow: 0 12px 28px rgba(217, 132, 31, 0.18);
+        }
+
+        .chart-bars.is-both .chart-bar__fill {
+            width: min(45%, 46px);
+        }
+
+        .chart-bars.is-both .chart-bar__fill--tip {
+            display: block;
+        }
+
+        .chart-bar {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 8px;
+            height: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        .chart-bar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 8px);
+            z-index: 2;
+            min-width: 150px;
+            max-width: 220px;
+            border-radius: 10px;
+            padding: 9px 11px;
+            color: #ffffff;
+            background: #071226;
+            box-shadow: 0 14px 30px rgba(18, 24, 39, 0.22);
+            font-size: 12px;
+            font-weight: 900;
+            line-height: 1.4;
+            white-space: pre-line;
+            opacity: 0;
+            visibility: hidden;
+            transform: translate(-50%, 6px);
+            transition: opacity 0.18s ease, visibility 0.18s ease, transform 0.18s ease;
+        }
+
+        .chart-bar:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, 0);
+        }
+
+        .chart-bar small {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .chart-controls {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .chart-toggle {
+            min-height: 34px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 7px 12px;
+            color: var(--ink);
+            background: #ffffff;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .chart-toggle.is-active,
+        .chart-toggle:hover,
+        .chart-toggle:focus {
+            border-color: var(--gold);
+            color: #ffffff;
+            background: var(--gold);
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .mini-stat {
+            height: 100%;
+            min-height: 170px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 24px;
+            background: #ffffff;
+            box-shadow: 0 8px 22px rgba(18, 24, 39, 0.08);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .mini-stat:hover {
+            border-color: rgba(147, 42, 25, 0.74);
+            transform: translateY(-4px);
+        }
+
+        .mini-stat__top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .mini-stat__top > span {
+            display: inline-flex;
+        }
+
+        .mini-stat__body span {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.3;
+            text-transform: none;
+        }
+
+        .mini-stat__body strong {
+            display: block;
+            color: var(--ink);
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .mini-stat__body {
+            transform: translateY(2px);
+        }
+
+        .dashboard-section {
+            margin-top: 24px;
+        }
+
+        .table-link {
+            color: var(--gold);
+            font-weight: 900;
+            text-decoration: underline;
+        }
+
+        .text-clip {
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .table {
@@ -428,6 +646,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .report-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
             .sidebar {
                 position: fixed;
                 z-index: 20;
@@ -463,6 +685,10 @@
                 height: 220px;
                 gap: 8px;
             }
+
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -476,9 +702,11 @@
                 <a class="nav-link active" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
-                <a class="nav-link" href="#"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
-                <a class="nav-link" href="#"><i class="fa-solid fa-users"></i> Supporters</a>
-                <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+                <a class="nav-link" href="{{ route('admin.contact-messages.index') }}"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
+                <a class="nav-link" href="{{ route('admin.fundraiser-reports.index') }}"><i class="fa-solid fa-flag"></i> Reports</a>
+                <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
+                <a class="nav-link" href="{{ route('admin.supporters.index') }}"><i class="fa-solid fa-users"></i> Supporters</a>
+                <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
 
@@ -518,56 +746,94 @@
 
             <section class="content">
                 <div class="content-inner">
-                <div class="row g-4 mb-4">
-                    <div class="col-md-6 col-xl-3">
+                <section class="mb-4">
+                    <div class="report-grid">
                         <article class="stat-card">
                             <div class="stat-card__top">
                                 <span class="icon-box"><i class="fa-solid fa-wallet"></i></span>
-                                <span class="badge badge-gold">+18%</span>
+                                <span class="badge badge-gold">{{ $supporterCount }} paid</span>
                             </div>
                             <div>
                                 <p class="muted mb-1">Total donations</p>
-                                <h2 class="h3 fw-black mb-0">Rs. 12.8L</h2>
+                                <h2 class="h3 fw-black mb-0">Rs. {{ number_format($totalDonations, 0) }}</h2>
                             </div>
                         </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
                         <article class="stat-card">
                             <div class="stat-card__top">
-                                <span class="icon-box"><i class="fa-solid fa-bullhorn"></i></span>
-                                <span class="badge badge-gold">42 live</span>
+                                <span class="icon-box"><i class="fa-solid fa-coins"></i></span>
+                                <span class="badge badge-gold">Tips</span>
                             </div>
                             <div>
-                                <p class="muted mb-1">Campaigns</p>
-                                <h2 class="h3 fw-black mb-0">128</h2>
+                                <p class="muted mb-1">Tip amount</p>
+                                <h2 class="h3 fw-black mb-0">Rs. {{ number_format($totalTips, 0) }}</h2>
                             </div>
                         </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
                         <article class="stat-card">
                             <div class="stat-card__top">
-                                <span class="icon-box"><i class="fa-solid fa-user-plus"></i></span>
-                                <span class="badge badge-gold">+9%</span>
+                                <div class="stat-switch" aria-label="Campaign card type">
+                                    <button class="stat-switch__button is-active" type="button" data-stat-switch="campaign" data-label="Live campaigns" data-value="{{ number_format($liveCampaignCount) }}" data-badge="Live" aria-label="Show live campaigns">
+                                        <i class="fa-solid fa-bullhorn"></i>
+                                    </button>
+                                    <button class="stat-switch__button" type="button" data-stat-switch="campaign" data-label="Pending campaigns" data-value="{{ number_format($pendingCampaignCount) }}" data-badge="Review" aria-label="Show pending campaigns">
+                                        <i class="fa-solid fa-hourglass-half"></i>
+                                    </button>
+                                </div>
+                                <span class="badge badge-gold" data-stat-badge="campaign">Live</span>
                             </div>
                             <div>
-                                <p class="muted mb-1">New supporters</p>
-                                <h2 class="h3 fw-black mb-0">3,482</h2>
+                                <p class="muted mb-1" data-stat-label="campaign">Live campaigns</p>
+                                <h2 class="h3 fw-black mb-0" data-stat-value="campaign">{{ number_format($liveCampaignCount) }}</h2>
                             </div>
                         </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
                         <article class="stat-card">
                             <div class="stat-card__top">
-                                <span class="icon-box"><i class="fa-solid fa-chart-line"></i></span>
-                                <span class="badge badge-gold">94%</span>
+                                <div class="stat-switch" aria-label="Report card type">
+                                    <button class="stat-switch__button is-active" type="button" data-stat-switch="report" data-label="Site reports" data-value="{{ number_format($siteReportCount) }}" data-badge="Site" aria-label="Show site reports">
+                                        <i class="fa-solid fa-globe"></i>
+                                    </button>
+                                    <button class="stat-switch__button" type="button" data-stat-switch="report" data-label="Supporter reports" data-value="{{ number_format($supporterReportCount) }}" data-badge="Supporter" aria-label="Show supporter reports">
+                                        <i class="fa-solid fa-user-shield"></i>
+                                    </button>
+                                </div>
+                                <span class="badge badge-gold" data-stat-badge="report">Site</span>
                             </div>
                             <div>
-                                <p class="muted mb-1">Success rate</p>
-                                <h2 class="h3 fw-black mb-0">High</h2>
+                                <p class="muted mb-1" data-stat-label="report">Site reports</p>
+                                <h2 class="h3 fw-black mb-0" data-stat-value="report">{{ number_format($siteReportCount) }}</h2>
+                            </div>
+                        </article>
+                        <article class="stat-card">
+                            <div class="stat-card__top">
+                                <span class="icon-box"><i class="fa-solid fa-envelope"></i></span>
+                                <span class="badge badge-gold">Messages</span>
+                            </div>
+                            <div>
+                                <p class="muted mb-1">Contact messages</p>
+                                <h2 class="h3 fw-black mb-0">{{ number_format($contactCount) }}</h2>
+                            </div>
+                        </article>
+                        <article class="stat-card">
+                            <div class="stat-card__top">
+                                <span class="icon-box"><i class="fa-solid fa-hand-holding-heart"></i></span>
+                                <span class="badge badge-gold">Requests</span>
+                            </div>
+                            <div>
+                                <p class="muted mb-1">Referral requests</p>
+                                <h2 class="h3 fw-black mb-0">{{ number_format($referralCount) }}</h2>
+                            </div>
+                        </article>
+                        <article class="stat-card">
+                            <div class="stat-card__top">
+                                <span class="icon-box"><i class="fa-solid fa-users-gear"></i></span>
+                                <span class="badge badge-gold">Accounts</span>
+                            </div>
+                            <div>
+                                <p class="muted mb-1">Fundraisers</p>
+                                <h2 class="h3 fw-black mb-0">{{ number_format($fundraiserCount) }}</h2>
                             </div>
                         </article>
                     </div>
-                </div>
+                </section>
 
                 <div class="row g-4">
                     <div class="col-xl-7">
@@ -577,17 +843,35 @@
                                     <p class="muted small mb-1">Donations</p>
                                     <h2 class="h5 fw-black mb-0">Monthly growth</h2>
                                 </div>
-                                <span class="badge badge-gold">2026</span>
+                                <div class="chart-controls" aria-label="Monthly growth chart type">
+                                    <button class="chart-toggle is-active" type="button" data-chart-mode="donation">Total donation</button>
+                                    <button class="chart-toggle" type="button" data-chart-mode="tip">Tip amount</button>
+                                    <button class="chart-toggle" type="button" data-chart-mode="both">Both</button>
+                                    <span class="badge badge-gold">{{ now()->year }}</span>
+                                </div>
                             </div>
                             <div class="chart-bars" aria-hidden="true">
-                                <span style="height: 46%"></span>
-                                <span style="height: 66%"></span>
-                                <span style="height: 52%"></span>
-                                <span style="height: 78%"></span>
-                                <span style="height: 62%"></span>
-                                <span style="height: 88%"></span>
-                                <span style="height: 73%"></span>
-                                <span style="height: 96%"></span>
+                                @foreach ($monthlyChart as $month)
+                                    @php
+                                        $initialHeight = max(12, (int) round(($month['donation'] / $monthlyChartMax) * 100));
+                                    @endphp
+                                    <div
+                                        class="chart-bar"
+                                        title="{{ $month['label'] }}: Rs. {{ number_format($month['donation'], 0) }}"
+                                        data-chart-bar
+                                        data-label="{{ $month['label'] }}"
+                                        data-donation="{{ $month['donation'] }}"
+                                        data-tip="{{ $month['tip'] }}"
+                                        data-both="{{ $month['both'] }}"
+                                        data-tooltip="{{ $month['label'] }}: Total donation Rs. {{ number_format($month['donation'], 0) }}"
+                                    >
+                                        <div class="chart-bar__columns">
+                                            <span class="chart-bar__fill chart-bar__fill--donation" style="height: {{ $initialHeight }}%"></span>
+                                            <span class="chart-bar__fill chart-bar__fill--tip" style="height: 12%"></span>
+                                        </div>
+                                        <small>{{ $month['label'] }}</small>
+                                    </div>
+                                @endforeach
                             </div>
                         </section>
                     </div>
@@ -606,26 +890,220 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @forelse ($recentActivity as $activity)
+                                            <tr>
+                                                <td class="text-clip">{{ $activity['activity'] }}</td>
+                                                <td><span class="badge badge-gold">{{ $activity['status'] }}</span></td>
+                                                <td class="muted">{{ $activity['time']->diffForHumans(null, true) }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center muted py-4">No activity yet.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="row g-4 dashboard-section">
+                    <div class="col-xl-6">
+                        <section class="panel h-100">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="muted small mb-1">Donation data</p>
+                                    <h2 class="h5 fw-black mb-0">Recent donations</h2>
+                                </div>
+                                <a class="table-link" href="{{ route('admin.donations.index') }}">View all</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
                                         <tr>
-                                            <td>Medical campaign approved</td>
-                                            <td><span class="badge badge-gold">Live</span></td>
-                                            <td class="muted">10 min</td>
+                                            <th>Donor</th>
+                                            <th>Campaign</th>
+                                            <th>Main</th>
+                                            <th>Tip</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($recentDonations as $donation)
+                                            <tr>
+                                                <td>{{ $donation->publicDonorName() }}</td>
+                                                <td class="text-clip">{{ $donation->fundraiserPost?->title ?? '-' }}</td>
+                                                <td>Rs. {{ number_format((float) ($donation->main_amount ?: $donation->amount), 0) }}</td>
+                                                <td>Rs. {{ number_format((float) $donation->tip_amount, 0) }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr><td colspan="4" class="text-center muted py-4">No donations yet.</td></tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <section class="panel h-100">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="muted small mb-1">Report data</p>
+                                    <h2 class="h5 fw-black mb-0">Recent site reports</h2>
+                                </div>
+                                <a class="table-link" href="{{ route('admin.fundraiser-reports.index') }}">View all</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
                                         <tr>
-                                            <td>Donation received</td>
-                                            <td><span class="badge badge-gold">Paid</span></td>
-                                            <td class="muted">28 min</td>
+                                            <th>Name</th>
+                                            <th>Subject</th>
+                                            <th>Phone</th>
+                                            <th>Document</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($recentSiteReports as $report)
+                                            <tr>
+                                                <td>{{ $report->name ?: '-' }}</td>
+                                                <td class="text-clip">{{ $report->subject ?: ($report->message ?: '-') }}</td>
+                                                <td>{{ $report->phone ?: '-' }}</td>
+                                                <td>
+                                                    @if ($report->supporting_document)
+                                                        <a class="table-link" href="{{ asset('storage/' . $report->supporting_document) }}" target="_blank">View</a>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr><td colspan="4" class="text-center muted py-4">No site reports yet.</td></tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <section class="panel h-100">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="muted small mb-1">Supporter report data</p>
+                                    <h2 class="h5 fw-black mb-0">Recent supporter side reports</h2>
+                                </div>
+                                <a class="table-link" href="{{ route('admin.fundraiser-reports.index') }}">View all</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
                                         <tr>
-                                            <td>Beneficiary document uploaded</td>
-                                            <td><span class="badge badge-gold">Review</span></td>
-                                            <td class="muted">1 hr</td>
+                                            <th>Name</th>
+                                            <th>Campaign</th>
+                                            <th>Phone</th>
+                                            <th>Document</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($recentReports as $report)
+                                            <tr>
+                                                <td>{{ $report->name ?: '-' }}</td>
+                                                <td class="text-clip">{{ $report->fundraiserPost?->title ?? '-' }}</td>
+                                                <td>{{ trim(($report->country_code ?? '') . ' ' . ($report->phone ?? '')) ?: '-' }}</td>
+                                                <td>
+                                                    @if ($report->supporting_document)
+                                                        <a class="table-link" href="{{ asset('storage/' . $report->supporting_document) }}" target="_blank">View</a>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr><td colspan="4" class="text-center muted py-4">No supporter reports yet.</td></tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <section class="panel h-100">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="muted small mb-1">Contact data</p>
+                                    <h2 class="h5 fw-black mb-0">Contact messages</h2>
+                                </div>
+                                <a class="table-link" href="{{ route('admin.contact-messages.index') }}">View all</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
                                         <tr>
-                                            <td>Campaign story updated</td>
-                                            <td><span class="badge badge-gold">Done</span></td>
-                                            <td class="muted">2 hrs</td>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Message</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($recentContacts as $message)
+                                            <tr>
+                                                <td>{{ $message->name }}</td>
+                                                <td>{{ $message->email }}</td>
+                                                <td>{{ $message->phone ?: '-' }}</td>
+                                                <td class="text-clip">{{ $message->message ?: '-' }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr><td colspan="4" class="text-center muted py-4">No contact messages yet.</td></tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <section class="panel h-100">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="muted small mb-1">Campaign data</p>
+                                    <h2 class="h5 fw-black mb-0">Campaigns and referrals</h2>
+                                </div>
+                                <a class="table-link" href="{{ route('admin.fundraiser-posts.index') }}">View posts</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Status</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($recentCampaigns as $campaign)
+                                            <tr>
+                                                <td class="text-clip">{{ $campaign->title }}</td>
+                                                <td><span class="badge badge-gold">{{ ucfirst($campaign->status) }}</span></td>
+                                                <td>Campaign</td>
+                                                <td class="muted">{{ $campaign->created_at->format('d M') }}</td>
+                                            </tr>
+                                        @endforeach
+                                        @foreach ($recentReferrals as $referral)
+                                            <tr>
+                                                <td class="text-clip">{{ $referral->name }} - {{ $referral->reason ?: 'Referral' }}</td>
+                                                <td><span class="badge badge-gold">{{ ucfirst($referral->status) }}</span></td>
+                                                <td>Referral</td>
+                                                <td class="muted">{{ $referral->created_at->format('d M') }}</td>
+                                            </tr>
+                                        @endforeach
+                                        @if ($recentCampaigns->isEmpty() && $recentReferrals->isEmpty())
+                                            <tr><td colspan="4" class="text-center muted py-4">No campaign data yet.</td></tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -704,6 +1182,87 @@
                     closeProfile();
                 }
             });
+
+            document.querySelectorAll('[data-stat-switch]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const stat = button.dataset.statSwitch;
+                    const label = document.querySelector(`[data-stat-label="${stat}"]`);
+                    const value = document.querySelector(`[data-stat-value="${stat}"]`);
+                    const badge = document.querySelector(`[data-stat-badge="${stat}"]`);
+
+                    document.querySelectorAll(`[data-stat-switch="${stat}"]`).forEach((item) => {
+                        item.classList.toggle('is-active', item === button);
+                    });
+
+                    if (label) {
+                        label.textContent = button.dataset.label || '';
+                    }
+
+                    if (value) {
+                        value.textContent = button.dataset.value || '0';
+                    }
+
+                    if (badge) {
+                        badge.textContent = button.dataset.badge || '';
+                    }
+                });
+            });
+
+            const chartButtons = document.querySelectorAll('[data-chart-mode]');
+            const chartBars = document.querySelectorAll('[data-chart-bar]');
+            const chartContainer = document.querySelector('.chart-bars');
+
+            function updateChart(mode) {
+                chartButtons.forEach((button) => {
+                    button.classList.toggle('is-active', button.dataset.chartMode === mode);
+                });
+
+                chartContainer?.classList.toggle('is-both', mode === 'both');
+                chartContainer?.classList.toggle('is-tip', mode === 'tip');
+                const modeMax = Math.max(...Array.from(chartBars).flatMap((bar) => {
+                    if (mode === 'both') {
+                        return [Number(bar.dataset.donation) || 0, Number(bar.dataset.tip) || 0];
+                    }
+
+                    return [Number(bar.dataset[mode]) || 0];
+                }), 1);
+
+                chartBars.forEach((bar) => {
+                    const donationValue = Number(bar.dataset.donation) || 0;
+                    const tipValue = Number(bar.dataset.tip) || 0;
+                    const singleValue = mode === 'tip' ? tipValue : donationValue;
+                    const donationHeight = donationValue > 0 ? Math.max(12, Math.round((donationValue / modeMax) * 100)) : 12;
+                    const tipHeight = tipValue > 0 ? Math.max(12, Math.round((tipValue / modeMax) * 100)) : 12;
+                    const singleHeight = singleValue > 0 ? Math.max(12, Math.round((singleValue / modeMax) * 100)) : 12;
+                    const donationFill = bar.querySelector('.chart-bar__fill--donation');
+                    const tipFill = bar.querySelector('.chart-bar__fill--tip');
+                    const formatter = new Intl.NumberFormat('en-IN');
+
+                    if (donationFill) {
+                        donationFill.style.height = `${mode === 'both' ? donationHeight : singleHeight}%`;
+                    }
+
+                    if (tipFill) {
+                        tipFill.style.height = `${tipHeight}%`;
+                    }
+
+                    if (mode === 'both') {
+                        bar.dataset.tooltip = `${bar.dataset.label}\nDonation: Rs. ${formatter.format(donationValue)}\nTip: Rs. ${formatter.format(tipValue)}`;
+                        bar.title = `${bar.dataset.label}: Donation Rs. ${formatter.format(donationValue)}, Tip Rs. ${formatter.format(tipValue)}`;
+                        return;
+                    }
+
+                    const label = mode === 'tip' ? 'Tip amount' : 'Total donation';
+                    bar.dataset.tooltip = `${bar.dataset.label}\n${label}: Rs. ${formatter.format(singleValue)}`;
+                    bar.title = `${bar.dataset.label}: ${label} Rs. ${formatter.format(singleValue)}`;
+                });
+            }
+
+            chartButtons.forEach((button) => {
+                button.addEventListener('click', () => updateChart(button.dataset.chartMode || 'donation'));
+            });
+
+            updateChart('donation');
         })();
     </script>
 </body>

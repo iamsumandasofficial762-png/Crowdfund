@@ -72,7 +72,7 @@
         <div class="row g-3">
             @forelse ($recentPosts as $post)
                 @php
-                    $raised = max((float) $post->raised_amount, (float) ($post->paid_donations_sum_amount ?? 0));
+                    $raised = max((float) $post->raised_amount, (float) ($post->paid_donations_main_sum_amount ?? 0));
                     $goal = max((float) $post->goal_amount, 1);
                     $progress = min(100, (int) round(($raised / $goal) * 100));
                 @endphp
@@ -82,9 +82,15 @@
                         <div class="p-3">
                             <span class="status-badge {{ $post->status }}">{{ $post->status }}</span>
                             <h6 class="fw-black mt-3">{{ $post->title }}</h6>
-                            <div class="progress my-2">
-                                <div class="progress-bar" style="width: {{ $progress }}%"></div>
-                            </div>
+                            @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
+                                <div class="approved-progress my-2" aria-hidden="true">
+                                    <span class="approved-progress__fill" style="--progress-width: {{ $progress }}%"></span>
+                                </div>
+                            @else
+                                <div class="progress my-2">
+                                    <div class="progress-bar" style="width: {{ $progress }}%"></div>
+                                </div>
+                            @endif
                             <p class="small muted mb-3">Rs. {{ number_format($raised, 0) }} raised of Rs. {{ number_format($goal, 0) }}</p>
                             <a href="{{ route('fundraiser.posts.show', $post) }}" class="btn btn-sm btn-soft w-100">View Details</a>
                         </div>

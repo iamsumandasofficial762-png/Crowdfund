@@ -11,7 +11,7 @@
    $topSupporters = $topSupporters ?? collect();
    $supporters = $supporters ?? collect();
    $supporterCount = $supporterCount ?? 0;
-   $topSupporterNames = $topSupporters->pluck('donor_name')->filter()->take(10)->join(', ');
+   $topSupporterNames = $topSupporters->map(fn ($supporter) => $supporter->publicDonorName())->filter()->take(10)->join(', ');
    $storyUpdates = $selectedPost?->publishedUpdates ?? collect();
 @endphp
 
@@ -125,10 +125,36 @@
    .public-update-card__share {
       border: 1px solid rgba(255, 179, 63, 0.65);
       border-radius: 999px;
+      min-height: 40px;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       padding: 8px 14px;
       color: #111111;
       background: #fff8ec;
+      font: inherit;
+      line-height: 1;
       font-weight: 900;
+      transform: none !important;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      will-change: auto;
+   }
+
+   .public-update-card__share::before,
+   .public-update-card__share::after {
+      display: none !important;
+      content: none !important;
+   }
+
+   .public-update-card__share:hover,
+   .public-update-card__share:focus {
+      transform: none !important;
+      border-color: var(--donate-brick);
+      color: #ffffff;
+      background: var(--donate-brick);
+      box-shadow: 0 8px 18px rgba(168, 50, 32, 0.16);
    }
 
    .public-empty-state,
@@ -137,6 +163,139 @@
       border-radius: 16px;
       padding: 24px;
       background: #fffaf2;
+   }
+
+   .campaign-documents {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+   }
+
+   .campaign-document {
+      min-height: 104px;
+      border: 1px solid rgba(168, 50, 32, 0.22);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      color: var(--donate-navy);
+      background: linear-gradient(135deg, #fffaf9 0%, #fff4f1 100%);
+      box-shadow: 0 10px 22px rgba(168, 50, 32, 0.08);
+      text-align: left;
+      font: inherit;
+      font-weight: 800;
+   }
+
+   .campaign-document:hover,
+   .campaign-document:focus {
+      border-color: var(--donate-brick);
+      color: var(--donate-brick);
+      transform: none;
+   }
+
+   .campaign-document__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      background: var(--donate-brick);
+      flex: 0 0 auto;
+   }
+
+   .campaign-document__meta {
+      min-width: 0;
+   }
+
+   .campaign-document__name {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+   }
+
+   .campaign-document__type {
+      display: block;
+      margin-top: 4px;
+      color: var(--donate-muted);
+      font-size: 13px;
+      font-weight: 700;
+   }
+
+   .document-preview-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 360;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(8px);
+   }
+
+   .document-preview-modal.is-open {
+      display: flex;
+   }
+
+   .document-preview-modal__dialog {
+      width: min(94vw, 980px);
+      height: min(86vh, 760px);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 34px 95px rgba(0, 0, 0, 0.46);
+   }
+
+   .document-preview-modal__head {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(168, 50, 32, 0.18);
+   }
+
+   .document-preview-modal__head h3 {
+      margin: 0;
+      color: var(--donate-navy);
+      font-size: 18px;
+      font-weight: 900;
+   }
+
+   .document-preview-modal__close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--donate-brick);
+      background: #fff4f1;
+      font-size: 18px;
+   }
+
+   .document-preview-modal__body {
+      height: calc(100% - 62px);
+      background: #f8fafc;
+   }
+
+   .document-preview-modal__frame,
+   .document-preview-modal__image {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+   }
+
+   .document-preview-modal__image {
+      object-fit: contain;
+      padding: 18px;
    }
 
    .campaign-people {
@@ -169,7 +328,7 @@
       color: #a32a58;
       background: #ead6de;
       font-weight: 900;
-      text-transform: lowercase;
+      text-transform: uppercase;
    }
 
    .campaign-person-card__body {
@@ -257,8 +416,8 @@
    }
 
    .cost-row--available {
-      border-color: #2ab9a7;
-      background: #eaf9f7;
+      border-color: rgba(168, 50, 32, 0.28);
+      background: linear-gradient(135deg, #fff7f5 0%, #f4dfd2 100%);
    }
 
    .practice-list {
@@ -302,10 +461,420 @@
       cursor: pointer;
    }
 
+   .supporters-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 340;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(4px);
+   }
+
+   .supporters-modal.is-open {
+      display: flex;
+   }
+
+   .supporters-modal__dialog {
+      width: min(94vw, 730px);
+      max-height: min(86vh, 720px);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 34px 95px rgba(0, 0, 0, 0.38);
+   }
+
+   .supporters-modal__head {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 24px;
+      border-bottom: 1px solid #e5e7eb;
+   }
+
+   .supporters-modal__title {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+      color: #222831;
+      font-size: 21px;
+      font-weight: 800;
+   }
+
+   .supporters-modal__title i {
+      color: var(--donate-brick);
+   }
+
+   .supporters-modal__close {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--donate-brick);
+      background: transparent;
+      font-size: 22px;
+      cursor: pointer;
+   }
+
+   .supporters-modal__body {
+      overflow-y: auto;
+      padding: 20px 32px 0;
+   }
+
+   .supporters-modal__body .supporters-help {
+      margin-bottom: 10px;
+   }
+
+   .supporters-modal__footer {
+      padding: 20px 24px 18px;
+      border-top: 1px solid #e5e7eb;
+      background: #ffffff;
+      text-align: center;
+   }
+
+   .supporters-modal__donate {
+      width: min(100%, 300px);
+      min-height: 52px;
+      border: 0;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      background: var(--donate-brick);
+      box-shadow: 0 16px 32px rgba(168, 50, 32, 0.2);
+      font: inherit;
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer;
+   }
+
+   .supporters-modal__donate:hover {
+      color: #ffffff;
+      background: var(--donate-brick-dark);
+   }
+
+   .payment-details-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 350;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.62);
+      backdrop-filter: blur(4px);
+   }
+
+   .payment-details-modal.is-open {
+      display: flex;
+   }
+
+   .payment-details-modal__dialog {
+      width: min(94vw, 500px);
+      max-height: min(88vh, 640px);
+      overflow-y: auto;
+      border: 1px solid rgba(168, 50, 32, 0.18);
+      border-radius: 10px;
+      background: linear-gradient(135deg, #fffaf9 0%, #fff4f1 100%);
+      box-shadow: 0 34px 95px rgba(0, 27, 63, 0.28);
+      position: relative;
+   }
+
+   .payment-details-modal__close {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      color: var(--donate-brick);
+      background: #ffffff;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(168, 50, 32, 0.12);
+   }
+
+   .payment-details-form {
+      padding: 34px;
+   }
+
+   .payment-details-form h3 {
+      display: block;
+      margin: 0 46px 12px 0;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--donate-brick);
+      color: var(--donate-navy);
+      font-size: 22px;
+      font-weight: 900;
+   }
+
+   .payment-details-form__note {
+      margin: 0 0 26px;
+      padding: 14px 16px;
+      border: 1px solid rgba(168, 50, 32, 0.14);
+      border-radius: 6px;
+      color: var(--donate-muted);
+      background: rgba(255, 255, 255, 0.72);
+      line-height: 1.6;
+      font-weight: 700;
+   }
+
+   .payment-details-form__field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 22px;
+   }
+
+   .payment-details-form__field label {
+      color: var(--donate-navy);
+      font-size: 14px;
+      font-weight: 800;
+   }
+
+   .payment-details-form__field input,
+   .payment-details-form__field select {
+      width: 100%;
+      height: 42px;
+      border: 1px solid rgba(168, 50, 32, 0.22);
+      border-radius: 6px;
+      outline: 0;
+      padding: 0 12px;
+      color: var(--donate-ink);
+      background: #ffffff;
+      font: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+   }
+
+   .payment-details-form__field input:focus,
+   .payment-details-form__field select:focus {
+      border-color: var(--donate-brick);
+      box-shadow: 0 0 0 4px rgba(168, 50, 32, 0.12);
+   }
+
+   .payment-details-form__amount {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+   }
+
+   .payment-details-form__amount span {
+      min-height: 42px;
+      border: 1px solid rgba(168, 50, 32, 0.22);
+      border-right: 0;
+      border-radius: 6px 0 0 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--donate-cream);
+      color: var(--donate-brick);
+      font-weight: 900;
+   }
+
+   .payment-details-form__amount input {
+      border-left: 0;
+      border-radius: 0 6px 6px 0;
+   }
+
+   .payment-details-form__submit {
+      width: 100%;
+      min-height: 44px;
+      border: 0;
+      border-radius: 999px;
+      justify-content: center;
+      color: #ffffff;
+      background: var(--donate-brick);
+      box-shadow: 0 14px 28px rgba(168, 50, 32, 0.22);
+      font: inherit;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+   }
+
+   .payment-details-form__submit:hover {
+      color: #ffffff;
+      background: var(--donate-brick-dark);
+   }
+
+   .report-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 350;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.64);
+      backdrop-filter: blur(5px);
+   }
+
+   .report-modal.is-open {
+      display: flex;
+   }
+
+   .report-modal__dialog {
+      width: min(94vw, 640px);
+      max-height: min(90vh, 720px);
+      overflow-y: auto;
+      border: 1px solid rgba(168, 50, 32, 0.18);
+      border-radius: 10px;
+      background: linear-gradient(135deg, #fffaf9 0%, #fff4f1 100%);
+      box-shadow: 0 34px 95px rgba(0, 27, 63, 0.3);
+   }
+
+   .report-modal__head {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(168, 50, 32, 0.18);
+      background: #ffffff;
+   }
+
+   .report-modal__head h3 {
+      margin: 0;
+      color: var(--donate-navy);
+      font-size: 22px;
+      font-weight: 900;
+   }
+
+   .report-modal__close {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--donate-brick);
+      background: #fff4f1;
+      font-size: 18px;
+      cursor: pointer;
+   }
+
+   .report-form {
+      display: grid;
+      gap: 18px;
+      padding: 26px 24px 28px;
+   }
+
+   .report-form__field {
+      display: grid;
+      gap: 6px;
+   }
+
+   .report-form__control {
+      width: 100%;
+      min-height: 42px;
+      border: 0;
+      border-bottom: 1px solid rgba(168, 50, 32, 0.28);
+      outline: 0;
+      padding: 8px 0;
+      color: var(--donate-navy);
+      background: transparent;
+      font: inherit;
+      font-weight: 700;
+   }
+
+   .report-form__control:focus {
+      border-bottom-color: var(--donate-brick);
+   }
+
+   .report-form__phone {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      gap: 12px;
+      align-items: end;
+   }
+
+   .report-form__hint {
+      margin: 0;
+      color: var(--donate-muted);
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 700;
+   }
+
+   .report-form__upload {
+      min-height: 44px;
+      border: 1px solid var(--donate-brick);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      justify-self: center;
+      min-width: 170px;
+      padding: 0 22px;
+      color: var(--donate-brick);
+      background: #ffffff;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(168, 50, 32, 0.12);
+   }
+
+   .report-form__upload input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+   }
+
+   .report-form__file-name {
+      display: block;
+      margin-top: 10px;
+      color: var(--donate-brick);
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 800;
+      text-align: center;
+      word-break: break-word;
+   }
+
+   .report-form__submit {
+      width: min(100%, 300px);
+      min-height: 50px;
+      border: 0;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      justify-self: center;
+      margin-top: 4px;
+      color: #ffffff;
+      background: var(--donate-brick);
+      box-shadow: 0 16px 32px rgba(168, 50, 32, 0.22);
+      font: inherit;
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer;
+   }
+
+   .report-form__submit:hover {
+      color: #ffffff;
+      background: var(--donate-brick-dark);
+   }
+
    .supporters-panel {
+      border: 1px solid rgba(168, 50, 32, 0.18);
       border-radius: 8px;
       padding: clamp(18px, 3vw, 28px);
-      background: #fff5f9;
+      background: linear-gradient(135deg, #fffaf9 0%, #fff4f1 100%);
    }
 
    .supporters-heading {
@@ -346,7 +915,8 @@
    .supporters-help {
       margin: 0 0 18px;
       padding: 12px 18px;
-      background: #fff0e9;
+      border: 1px solid rgba(168, 50, 32, 0.12);
+      background: linear-gradient(135deg, #fff7f5 0%, #f4dfd2 100%);
       color: #1c1720;
       font-weight: 700;
    }
@@ -362,7 +932,7 @@
       align-items: center;
       gap: 16px;
       padding: 14px 0;
-      border-bottom: 1px solid #e9cbd6;
+      border-bottom: 1px solid rgba(168, 50, 32, 0.18);
    }
 
    .supporter-avatar {
@@ -618,6 +1188,515 @@
       background: #fff7f5;
    }
 
+   .donation-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 320;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.66);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+   }
+
+   .donation-modal.is-open {
+      opacity: 1;
+      visibility: visible;
+   }
+
+   .donation-modal__dialog {
+      width: min(94vw, 620px);
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 28px 86px rgba(14, 17, 23, 0.35);
+      position: relative;
+   }
+
+   .donation-modal__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 20px 24px;
+      border-bottom: 1px solid #e5e7eb;
+   }
+
+   .donation-modal__head h3 {
+      margin: 0;
+      color: var(--donate-navy);
+      font-size: 21px;
+      font-weight: 800;
+   }
+
+   .donation-modal__close {
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--donate-brick);
+      background: transparent;
+      font-size: 23px;
+      line-height: 1;
+      cursor: pointer;
+   }
+
+   .donation-modal__form {
+      padding: 16px 24px 24px;
+   }
+
+   .donation-modal__amount {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: end;
+      padding: 16px 18px;
+      border-radius: 4px;
+      color: #ffffff;
+      background: var(--donate-brick);
+   }
+
+   .donation-modal__label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.86);
+   }
+
+   .donation-modal__amount strong {
+      display: block;
+      color: #ffffff;
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 900;
+   }
+
+   .donation-modal__amount input {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.72);
+      outline: 0;
+      color: #ffffff;
+      background: transparent;
+      font: inherit;
+      font-size: 16px;
+      font-weight: 800;
+   }
+
+   .donation-modal__amount input::placeholder {
+      color: rgba(255, 255, 255, 0.82);
+   }
+
+   .donation-modal__note {
+      margin: 14px 0 0;
+      color: var(--donate-muted);
+      font-size: 14px;
+      line-height: 1.55;
+   }
+
+   .donation-modal__tip {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+      align-items: center;
+      gap: 14px;
+      margin-top: 12px;
+      padding: 10px 16px;
+      border: 1px solid rgba(245, 158, 11, 0.24);
+      background: var(--donate-cream);
+      color: var(--donate-ink);
+      font-weight: 700;
+   }
+
+   .donation-modal__tip-select {
+      width: 100%;
+      height: 38px;
+      border: 0;
+      outline: 0;
+      color: var(--donate-brick);
+      background:
+         linear-gradient(45deg, transparent 50%, var(--donate-brick) 50%),
+         linear-gradient(135deg, var(--donate-brick) 50%, transparent 50%);
+      background-position: calc(100% - 13px) 52%, calc(100% - 8px) 52%;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+      font: inherit;
+      font-weight: 900;
+      appearance: none;
+      cursor: pointer;
+   }
+
+   .donation-modal__tip .nice-select.donation-modal__tip-select {
+      display: flex;
+      align-items: center;
+      padding-left: 28px;
+      padding-top: 3px;
+      line-height: 1.2;
+   }
+
+   .donation-modal__tip .nice-select.donation-modal__tip-select .current {
+      display: inline-block;
+      transform: translateY(1px);
+   }
+
+   .donation-modal__section-title {
+      margin: 18px 0 12px;
+      color: var(--donate-navy);
+      font-size: 16px;
+      font-weight: 800;
+   }
+
+   .donation-modal__methods {
+      display: grid;
+      gap: 12px;
+   }
+
+   .donation-modal__method {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid #f0dce4;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      color: var(--donate-muted);
+      background: #ffffff;
+      box-shadow: 0 8px 18px rgba(168, 50, 32, 0.08);
+      text-align: left;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+   }
+
+   .donation-modal__method i {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--donate-orange);
+      background: transparent;
+      font-size: 14px;
+   }
+
+   .donation-modal__method.is-active {
+      border-color: var(--donate-brick);
+      color: #ffffff;
+      background: var(--donate-brick);
+      box-shadow: 0 12px 24px rgba(168, 50, 32, 0.18);
+   }
+
+   .donation-modal__method.is-active i {
+      color: var(--donate-brick);
+      background: #ffffff;
+   }
+
+   .donation-modal__fields {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+   }
+
+   .donation-modal__field {
+      width: 100%;
+      height: 42px;
+      border: 0;
+      border-bottom: 1px solid #d9d9d9;
+      outline: 0;
+      color: var(--donate-ink);
+      background: transparent;
+      font: inherit;
+      font-size: 15px;
+   }
+
+   .donation-modal__field:focus {
+      border-bottom-color: var(--donate-brick);
+   }
+
+   .donation-modal__error {
+      margin-top: 4px;
+      color: #b42318;
+      font-size: 13px;
+      font-weight: 700;
+   }
+
+   .donation-modal__privacy {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 18px;
+      color: var(--donate-ink);
+      font-weight: 700;
+   }
+
+   .donation-modal__privacy input {
+      position: absolute;
+      opacity: 0;
+   }
+
+   .donation-modal__switch {
+      width: 38px;
+      height: 20px;
+      border-radius: 999px;
+      background: #9ca3af;
+      position: relative;
+      flex: 0 0 auto;
+      cursor: pointer;
+      transition: background 0.2s ease;
+   }
+
+   .donation-modal__switch::before {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.24);
+      transition: transform 0.2s ease;
+   }
+
+   .donation-modal__privacy input:checked + .donation-modal__switch {
+      background: var(--donate-brick);
+   }
+
+   .donation-modal__privacy input:checked + .donation-modal__switch::before {
+      transform: translateX(18px);
+   }
+
+   .donation-modal__summary {
+      display: grid;
+      gap: 0;
+      margin-top: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(245, 158, 11, 0.34);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 12px 26px rgba(0, 27, 63, 0.06);
+   }
+
+   .donation-modal__summary-row {
+      min-height: 44px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 14px;
+      color: #637083;
+      font-size: 14px;
+      line-height: 1.25;
+      font-weight: 700;
+   }
+
+   .donation-modal__summary-row + .donation-modal__summary-row {
+      border-top: 1px solid #edf0f4;
+   }
+
+   .donation-modal__summary-row strong {
+      color: var(--donate-navy);
+      font-size: 15px;
+      font-weight: 900;
+      text-align: right;
+      white-space: nowrap;
+   }
+
+   .donation-modal__summary-row--total {
+      min-height: 50px;
+      color: var(--donate-navy);
+      background: var(--donate-cream);
+      font-size: 16px;
+      font-weight: 900;
+   }
+
+   .donation-modal__summary-row--total strong {
+      color: var(--donate-brick);
+      font-size: 18px;
+   }
+
+   .donation-modal__submit {
+      width: min(100%, 330px);
+      min-height: 52px;
+      border: 0;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 26px auto 0;
+      color: #ffffff;
+      background: var(--donate-brick);
+      font: inherit;
+      font-size: 17px;
+      font-weight: 900;
+      box-shadow: 0 14px 28px rgba(168, 50, 32, 0.22);
+      cursor: pointer;
+   }
+
+   .donation-modal__submit:hover {
+      color: #ffffff;
+      background: var(--donate-brick-dark);
+   }
+
+   .donation-modal__method:hover {
+      border: 1px solid var(--donate-brick);
+   }
+
+   .donation-modal__method.is-active:hover {
+      border: 1px solid var(--donate-brick);
+      color: #ffffff;
+      background: var(--donate-brick-dark);
+   }
+
+   button.btn--secondary[data-donation-open] {
+      border: 0;
+   }
+
+   .donation-exit {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: rgba(12, 15, 20, 0.38);
+      backdrop-filter: blur(2px);
+   }
+
+   .donation-exit.is-open {
+      display: flex;
+   }
+
+   .donation-exit__card {
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 34px 95px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(168, 50, 32, 0.12);
+   }
+
+   .donation-exit__head {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e5e7eb;
+   }
+
+   .donation-exit__head h3 {
+      margin: 0;
+      color: var(--donate-navy);
+      font-size: 21px;
+      font-weight: 800;
+   }
+
+   .donation-exit__body {
+      padding: 44px 24px;
+      text-align: center;
+   }
+
+   .donation-exit__icon {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 26px;
+      color: var(--donate-brick);
+      background: #f4e8ed;
+      font-size: 42px;
+   }
+
+   .donation-exit__body h4 {
+      margin: 0 0 18px;
+      color: #222831;
+      font-size: 20px;
+      font-weight: 800;
+   }
+
+   .donation-exit__body p {
+      margin: 0;
+      color: var(--donate-muted);
+      font-size: 16px;
+      font-weight: 700;
+   }
+
+   .donation-exit__actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 32px;
+   }
+
+   .donation-exit__button {
+      min-height: 52px;
+      border: 1px solid var(--donate-brick);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 18px;
+      background: #ffffff;
+      color: var(--donate-brick);
+      font: inherit;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: none;
+      transform: none;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+   }
+
+   .donation-exit__button--primary {
+      color: #ffffff;
+      background: var(--donate-brick);
+      box-shadow: 0 14px 28px rgba(168, 50, 32, 0.18);
+   }
+
+   .donation-exit__button:hover,
+   .donation-exit__button:focus {
+      border-color: var(--donate-brick-dark);
+      color: #ffffff;
+      background: var(--donate-brick-dark);
+      box-shadow: 0 12px 24px rgba(168, 50, 32, 0.18);
+      transform: none;
+   }
+
+   .donation-exit__button--primary:hover,
+   .donation-exit__button--primary:focus {
+      border-color: var(--donate-brick-dark);
+      color: #ffffff;
+      background: var(--donate-brick-dark);
+      box-shadow: 0 16px 30px rgba(168, 50, 32, 0.24);
+   }
+
+   .donation-exit__secure {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 24px;
+      color: var(--donate-muted);
+      background: #f6f6f6;
+      font-weight: 700;
+   }
+
+   .donation-exit__secure i {
+      color: var(--donate-brick);
+   }
+
    [data-auto-dismiss] {
       transition: opacity 0.35s ease, transform 0.35s ease, margin 0.35s ease, padding 0.35s ease, border-width 0.35s ease;
    }
@@ -646,15 +1725,15 @@
       gap: 8px;
       padding: 10px 14px;
       border-radius: 999px;
-      color: #111111;
-      background: #fff4df;
+      color: var(--donate-navy);
+      background: linear-gradient(135deg, #fff7f5 0%, #f4dfd2 100%);
       font-weight: 800;
    }
 
    .donate-campaign__progress {
       padding: 24px;
       border-radius: 16px;
-      background: #f5f5f5;
+      background: linear-gradient(135deg, #fff7f5 0%, #f6f8fb 100%);
       margin: 30px 0;
    }
 
@@ -667,21 +1746,51 @@
    }
 
    .donate-campaign__numbers span {
-      color: #ff9f0a;
+      color: var(--donate-brick);
    }
 
    .donate-campaign__bar {
       height: 8px;
       border-radius: 999px;
       overflow: hidden;
-      background: #ffffff;
+      background: #eadbd8;
    }
 
    .donate-campaign__bar span {
       display: block;
+      width: 0;
       height: 100%;
       border-radius: inherit;
-      background: #000000;
+      background: linear-gradient(90deg, var(--donate-brick) 0%, var(--donate-brick-dark) 100%);
+      box-shadow: 0 0 14px rgba(255, 31, 31, 0.75);
+      overflow: hidden;
+      position: relative;
+      animation: donationProgressFill 1.35s 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+   }
+
+   .donate-campaign__bar span::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 38, 38, 0.95) 48%, transparent 100%);
+      transform: translateX(-100%);
+      animation: donationProgressGlow 1.8s ease-in-out infinite;
+   }
+
+   @keyframes donationProgressGlow {
+      to {
+         transform: translateX(100%);
+      }
+   }
+
+   @keyframes donationProgressFill {
+      from {
+         width: 0;
+      }
+
+      to {
+         width: var(--progress-width, 0%);
+      }
    }
 
    .donate-campaign__empty {
@@ -701,20 +1810,49 @@
 
    .donate-layout-row {
       align-items: flex-start;
+      overflow: visible;
+   }
+
+   .donate-us,
+   .donate-us .container {
+      overflow: visible;
    }
 
    .donation-sidebar-col {
-      align-self: flex-start;
-      position: sticky;
-      top: 92px;
+      align-self: stretch;
+      display: flex;
+      align-items: flex-start;
+      position: relative;
       z-index: 20;
    }
 
    .donation-sticky {
       align-self: flex-start;
+      width: 100%;
+      height: max-content;
       margin-top: 0;
-      position: static;
-      z-index: auto;
+      position: sticky !important;
+      top: 92px;
+      z-index: 30;
+      transform: none !important;
+      will-change: auto !important;
+   }
+
+   .donation-sticky.is-fixed {
+      position: fixed !important;
+      top: var(--donation-sticky-top, 92px);
+      left: var(--donation-sticky-left, auto);
+      width: var(--donation-sticky-width, auto);
+      z-index: 90;
+   }
+
+   .donation-sticky.is-bottom {
+      position: absolute !important;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 30;
    }
 
    .donation-sticky-card {
@@ -722,8 +1860,8 @@
       border-radius: 0;
       color: #1c1712;
       background: #ffffff;
-      box-shadow: 0 22px 55px rgba(255, 179, 63, 0.16);
-      border: 1px solid rgba(255, 179, 63, 0.55);
+      box-shadow: 0 22px 55px rgba(168, 50, 32, 0.16);
+      border: 1px solid rgba(168, 50, 32, 0.36);
       transform: none !important;
    }
 
@@ -750,11 +1888,11 @@
    }
 
    .donation-sticky-card__title i {
-      color: #ffb33f;
+      color: var(--donate-brick);
    }
 
    .donation-sticky-card__supporters {
-      color: #ffb33f;
+      color: var(--donate-brick);
       font-weight: 800;
       text-decoration: underline;
    }
@@ -769,7 +1907,7 @@
       right: 0;
       width: min(260px, 72vw);
       padding: 14px;
-      border: 1px solid rgba(255, 179, 63, 0.45);
+      border: 1px solid rgba(168, 50, 32, 0.28);
       border-radius: 12px;
       background: #ffffff;
       box-shadow: 0 18px 40px rgba(24, 17, 8, 0.14);
@@ -799,7 +1937,7 @@
       justify-content: space-between;
       gap: 12px;
       padding: 8px 0;
-      border-top: 1px solid #f2e5d0;
+      border-top: 1px solid #f4ded9;
       font-size: 13px;
       font-weight: 800;
    }
@@ -813,7 +1951,7 @@
 
    .donation-supporter-row strong {
       flex: 0 0 auto;
-      color: #ff9f0a;
+      color: var(--donate-brick);
    }
 
    .donation-sticky-card__stats {
@@ -830,7 +1968,7 @@
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: conic-gradient(#ffb33f calc(var(--progress) * 1%), #f0e7d9 0);
+      background: conic-gradient(var(--donate-brick) calc(var(--progress) * 1%), #f1e4e1 0);
       position: relative;
       font-weight: 800;
       color: #4a4238;
@@ -863,7 +2001,7 @@
    }
 
    .donation-sticky-card__raised strong {
-      color: #ffb33f;
+      color: var(--donate-brick);
       font-size: 22px;
    }
 
@@ -875,19 +2013,19 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: #000000;
-      background: #ffb33f;
+      color: #ffffff;
+      background: var(--donate-brick);
       font-size: 20px;
       font-weight: 900;
-      box-shadow: 0 14px 28px rgba(255, 179, 63, 0.24);
+      box-shadow: 0 14px 28px rgba(168, 50, 32, 0.24);
       transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
    }
 
    .donation-sticky-card__button:hover {
-      color: #000000;
-      background: #ffc463;
+      color: #ffffff;
+      background: var(--donate-brick-dark);
       transform: translateY(-2px);
-      box-shadow: 0 18px 34px rgba(255, 179, 63, 0.32);
+      box-shadow: 0 18px 34px rgba(168, 50, 32, 0.32);
    }
 
    .donation-sticky-card__method {
@@ -911,19 +2049,19 @@
       content: "";
       height: 1px;
       flex: 1;
-      background: rgba(255, 179, 63, 0.28);
+      background: rgba(168, 50, 32, 0.24);
    }
 
    .donation-sticky-card__divider span {
-      color: #ffb33f;
+      color: var(--donate-brick);
    }
 
    .donation-qr {
       width: 170px;
       height: 170px;
       margin: 0 auto 14px;
-      border: 1px solid rgba(255, 179, 63, 0.62);
-      background: #fff8ec;
+      border: 1px solid rgba(168, 50, 32, 0.42);
+      background: #fff7f5;
       position: relative;
       display: grid;
       place-items: center;
@@ -945,9 +2083,13 @@
       height: 36px;
       box-sizing: border-box;
       padding: 0 12px;
-      border: 1px solid #ffb33f;
+      border: 1px solid var(--donate-brick);
       border-radius: 999px;
-      color: #000000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--donate-brick);
       background: #ffffff;
       font-weight: 800;
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
@@ -955,8 +2097,8 @@
    }
 
    .donation-qr__button:hover {
-      color: #000000;
-      background: #ffb33f;
+      color: #ffffff;
+      background: var(--donate-brick);
       transform: translateX(-50%) translateY(-1px);
    }
 
@@ -966,9 +2108,9 @@
 
    .donation-sticky-card__apps {
       padding: 18px 20px 24px;
-      border-top: 1px solid rgba(255, 179, 63, 0.28);
+      border-top: 1px solid rgba(168, 50, 32, 0.22);
       text-align: center;
-      background: #fffcf7;
+      background: linear-gradient(180deg, #fffaf9 0%, #fff4f1 100%);
    }
 
    .donation-sticky-card__apps p {
@@ -1001,6 +2143,7 @@
 
    @media (max-width: 1199px) {
       .donation-sidebar-col {
+         display: block;
          margin-top: 0;
          position: static;
       }
@@ -1029,9 +2172,30 @@
       }
 
       .refer-modal__head,
-      .refer-form {
+      .refer-form,
+      .donation-modal__head,
+      .donation-modal__form {
          padding-left: 20px;
          padding-right: 20px;
+      }
+
+      .donation-modal__amount,
+      .donation-modal__tip {
+         grid-template-columns: 1fr;
+         gap: 10px;
+      }
+
+      .donation-modal__tip i {
+         display: none;
+      }
+
+      .donation-exit__body {
+         padding: 34px 20px;
+      }
+
+      .donation-exit__actions {
+         grid-template-columns: 1fr;
+         gap: 12px;
       }
 
       .cost-row,
@@ -1059,7 +2223,8 @@
          overflow-y: auto;
       }
 
-      .refer-modal__dialog {
+      .refer-modal__dialog,
+      .donation-modal__dialog {
          margin-block: 18px;
       }
    }
@@ -1138,20 +2303,20 @@
    }
 
    .supporters-panel {
-      background: var(--donate-cream);
+      background: linear-gradient(135deg, #fffaf9 0%, #fff4f1 100%);
    }
 
    .supporters-help,
    .donate-campaign__meta span,
    .cost-row--available {
-      background: var(--donate-orange-soft);
+      background: linear-gradient(135deg, #fff7f5 0%, #f4dfd2 100%);
       color: var(--donate-navy);
    }
 
    .supporter-row,
    .practice-item,
    .cost-row {
-      border-color: #efd2c5;
+      border-color: rgba(168, 50, 32, 0.22);
    }
 
    .campaign-person-card__avatar,
@@ -1161,23 +2326,23 @@
    }
 
    .donate-campaign__progress {
-      background: var(--donate-soft);
+      background: linear-gradient(135deg, #fff7f5 0%, var(--donate-soft) 100%);
    }
 
    .donate-campaign__numbers span {
-      color: var(--donate-orange);
+      color: var(--donate-brick);
    }
 
    .donate-campaign__bar {
-      background: #e2e8f0;
+      background: #eadbd8;
    }
 
    .donate-campaign__bar span {
-      background: var(--donate-navy);
+      background: linear-gradient(90deg, var(--donate-brick) 0%, var(--donate-brick-dark) 100%);
    }
 
    .donation-sticky-card {
-      border-color: rgba(245, 158, 11, 0.45);
+      border-color: rgba(168, 50, 32, 0.34);
       box-shadow: 0 22px 55px rgba(168, 50, 32, 0.13);
    }
 
@@ -1189,7 +2354,7 @@
 
    .donation-ring {
       color: var(--donate-navy);
-      background: conic-gradient(var(--donate-orange) calc(var(--progress) * 1%), #e2e8f0 0);
+      background: conic-gradient(var(--donate-brick) calc(var(--progress) * 1%), #e2e8f0 0);
    }
 
    .donation-sticky-card__button,
@@ -1205,12 +2370,12 @@
 
    .donation-sticky-card__divider::before,
    .donation-sticky-card__divider::after {
-      background: rgba(245, 158, 11, 0.35);
+      background: rgba(168, 50, 32, 0.28);
    }
 
    .donation-qr {
-      border-color: rgba(245, 158, 11, 0.62);
-      background: var(--donate-cream);
+      border-color: rgba(168, 50, 32, 0.42);
+      background: #fff7f5;
    }
 
    .donation-qr__button {
@@ -1224,14 +2389,23 @@
    }
 
    .donation-sticky-card__apps {
-      border-color: rgba(245, 158, 11, 0.28);
-      background: #fffaf2;
+      border-color: rgba(168, 50, 32, 0.22);
+      background: linear-gradient(180deg, #fffaf9 0%, #fff4f1 100%);
    }
 
    .public-update-card__share {
-      border-color: rgba(245, 158, 11, 0.65);
+      border-color: rgba(168, 50, 32, 0.32);
       color: var(--donate-navy);
-      background: var(--donate-orange-soft);
+      background: linear-gradient(135deg, #fff7f5 0%, #f4dfd2 100%);
+      transform: none !important;
+   }
+
+   .public-update-card__share:hover,
+   .public-update-card__share:focus {
+      border-color: var(--donate-brick);
+      color: #ffffff;
+      background: var(--donate-brick);
+      transform: none !important;
    }
 
    .public-update-card__pin,
@@ -1250,43 +2424,96 @@
    .donate-us .btn--secondary::after {
       background: var(--donate-brick-dark);
    }
-</style>
 
-<!-- ==== banner section start ==== -->
-<section class="common-banner">
-   <div class="container">
-      <div class="row">
-         <div class="col-12">
-            <div class="common-banner__content text-center">
-               <h2 class="title-animation">{{ $pageTitle }}</h2>
-            </div>
-         </div>
-      </div>
-   </div>
-   <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-         <li class="breadcrumb-item">
-            <a href="{{ route('home') }}">Home</a>
-         </li>
-         <li class="breadcrumb-item">
-            <a href="{{ route('fundraiser-posts.index') }}">Fundraiser Posts</a>
-         </li>
-         <li class="breadcrumb-item active" aria-current="page">
-            Donate
-         </li>
-      </ol>
-   </nav>
-   <div class="banner-bg">
-      <img src="{{ asset('assets/images/banner/banner-bg.jpg') }}" alt="Image">
-   </div>
-   <div class="sprade" data-aos="zoom-in" data-aos-duration="1000">
-      <img src="{{ asset('assets/images/sprade-base.png') }}" alt="Image" class="base-img">
-   </div>
-   <div class="line">
-      <img src="{{ asset('assets/images/line.png') }}" alt="Image">
-   </div>
-</section>
-<!-- ==== / banner section end ==== -->
+   .donation-success-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: #ffffff;
+      background: #2e7d32;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.02);
+      transition: opacity 0.28s ease, visibility 0.28s ease, transform 0.28s ease;
+   }
+
+   .donation-success-overlay.is-active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+   }
+
+   .donation-success-card {
+      width: min(100%, 420px);
+      text-align: center;
+      transform: translateY(18px) scale(0.96);
+      animation: donationSuccessCard 0.45s ease forwards;
+   }
+
+   .donation-success-icon {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: #2e7d32;
+      background: #ffffff;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.18);
+      transform: scale(0.75);
+      animation: donationSuccessIcon 0.5s 0.12s cubic-bezier(0.2, 1.3, 0.4, 1) forwards;
+   }
+
+   .donation-success-icon i {
+      font-size: 54px;
+      opacity: 0;
+      transform: scale(0.55);
+      animation: donationSuccessCheck 0.38s 0.36s ease forwards;
+   }
+
+   .donation-success-card h2 {
+      margin: 0 0 10px;
+      color: #ffffff;
+      font-size: clamp(28px, 7vw, 42px);
+      line-height: 1.1;
+      font-weight: 900;
+   }
+
+   .donation-success-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 16px;
+      font-weight: 700;
+   }
+
+   body.donation-success-active {
+      overflow: hidden;
+   }
+
+   @keyframes donationSuccessCard {
+      to {
+         transform: translateY(0) scale(1);
+      }
+   }
+
+   @keyframes donationSuccessIcon {
+      to {
+         transform: scale(1);
+      }
+   }
+
+   @keyframes donationSuccessCheck {
+      to {
+         opacity: 1;
+         transform: scale(1);
+      }
+   }
+</style>
 
 <!-- ==== donate us section start ==== -->
 <div class="cm-details donate-us community checkout faq pt-120 pb-120">
@@ -1321,7 +2548,7 @@
                            <strong>{{ $progress }}%</strong>
                         </div>
                         <div class="donate-campaign__bar">
-                           <span style="width: {{ $progress }}%"></span>
+                           <span data-progress-bar style="--progress-width: {{ $progress }}%"></span>
                         </div>
                         <div class="donate-campaign__numbers">
                            <p>Raised: <span>Rs. {{ number_format($raisedAmount, 0) }}</span></p>
@@ -1332,9 +2559,9 @@
                      <div class="campaign-people" aria-label="Campaign people">
                         @php
                            $creatorName = $selectedPost->fundraiser?->name ?: 'Fundraiser';
-                           $creatorInitial = \Illuminate\Support\Str::lower(\Illuminate\Support\Str::substr($creatorName, 0, 1));
+                           $creatorInitial = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($creatorName, 0, 1));
                            $beneficiaryName = $selectedPost->beneficiary_name ?: 'Beneficiary';
-                           $beneficiaryInitial = \Illuminate\Support\Str::lower(\Illuminate\Support\Str::substr($beneficiaryName, 0, 2));
+                           $beneficiaryInitial = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($beneficiaryName, 0, 2));
                         @endphp
 
                         <article class="campaign-person-card">
@@ -1404,14 +2631,15 @@
                               </div>
 
                               <p class="supporters-help">
-                                 <a class="supporters-link" href="{{ route('contact-us') }}">Click here</a>
+                                 <button class="supporters-link supporter-toggle" type="button" data-payment-details-open>Click here</button>
                                  if you are not able to find your donation listed below.
                               </p>
 
                               <div class="supporter-list">
                                  @forelse ($supporterPreview as $supporter)
                                     @php
-                                       $supporterName = $supporter->donor_name ?: 'Anonymous';
+                                       $supporterName = $supporter->publicDonorName();
+                                       $supporterAmount = (float) ($supporter->main_amount ?: $supporter->amount);
                                        $supporterInitial = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($supporterName, 0, 1));
                                        $supporterDate = optional($supporter->paid_at ?? $supporter->created_at)->format('d M Y');
                                     @endphp
@@ -1419,7 +2647,7 @@
                                        <span class="supporter-avatar">{{ $supporterInitial }}</span>
                                        <div>
                                           <p class="supporter-name">{{ $supporterName }}</p>
-                                          <p class="supporter-amount">Rs. {{ number_format((float) $supporter->amount, 0) }}</p>
+                                          <p class="supporter-amount">Rs. {{ number_format($supporterAmount, 0) }}</p>
                                        </div>
                                        @if ($supporterDate)
                                           <span class="supporter-date">{{ $supporterDate }}</span>
@@ -1432,28 +2660,11 @@
                                     </div>
                                  @endforelse
 
-                                 @foreach ($hiddenSupporters as $supporter)
-                                    @php
-                                       $supporterName = $supporter->donor_name ?: 'Anonymous';
-                                       $supporterInitial = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($supporterName, 0, 1));
-                                       $supporterDate = optional($supporter->paid_at ?? $supporter->created_at)->format('d M Y');
-                                    @endphp
-                                    <article class="supporter-row d-none" data-supporter-extra>
-                                       <span class="supporter-avatar">{{ $supporterInitial }}</span>
-                                       <div>
-                                          <p class="supporter-name">{{ $supporterName }}</p>
-                                          <p class="supporter-amount">Rs. {{ number_format((float) $supporter->amount, 0) }}</p>
-                                       </div>
-                                       @if ($supporterDate)
-                                          <span class="supporter-date">{{ $supporterDate }}</span>
-                                       @endif
-                                    </article>
-                                 @endforeach
                               </div>
 
                               @if ($hiddenSupporters->isNotEmpty())
                                  <div class="text-center mt-4">
-                                    <button class="supporters-link supporter-toggle" type="button" data-supporter-toggle>View all supporters</button>
+                                    <button class="supporters-link supporter-toggle" type="button" data-supporters-open>View all supporters</button>
                                  </div>
                               @endif
                            </section>
@@ -1470,7 +2681,7 @@
 
                            <section class="story-simple-card">
                               <p class="mb-2">If something is not right, we will work with you to ensure no misuse occurs.</p>
-                              <a class="story-help-link" href="{{ route('contact-us') }}">Report this cause</a>
+                              <button class="story-help-link supporter-toggle" type="button" data-report-open>Report this cause</button>
                            </section>
 
                            <section class="story-simple-card">
@@ -1513,8 +2724,43 @@
                         <div class="public-document-card">
                            <h4>Campaign Documents</h4>
                            @if ($selectedPost->supporting_file)
-                              <p>Review the supporting document uploaded for this fundraiser.</p>
-                              <a href="{{ asset('storage/' . $selectedPost->supporting_file) }}" target="_blank" rel="noopener" class="btn--secondary" data-text="View Document"><span>View Document</span></a>
+                              @php
+                                 $rawDocuments = $selectedPost->supporting_file;
+                                 $decodedDocuments = json_decode($rawDocuments, true);
+                                 $documentPaths = is_array($decodedDocuments)
+                                    ? $decodedDocuments
+                                    : preg_split('/\s*[,|]\s*/', $rawDocuments, -1, PREG_SPLIT_NO_EMPTY);
+                              @endphp
+                              <p>Click a supporting document to preview it.</p>
+                              <div class="campaign-documents">
+                                 @foreach ($documentPaths as $index => $documentPath)
+                                    @php
+                                       $documentPath = is_array($documentPath) ? ($documentPath['path'] ?? '') : $documentPath;
+                                       $documentUrl = asset('storage/' . ltrim($documentPath, '/'));
+                                       $documentName = basename($documentPath);
+                                       $documentExtension = \Illuminate\Support\Str::lower(pathinfo($documentName, PATHINFO_EXTENSION));
+                                       $isImageDocument = in_array($documentExtension, ['jpg', 'jpeg', 'png', 'webp', 'gif'], true);
+                                    @endphp
+
+                                    @if ($documentPath)
+                                       <button
+                                          class="campaign-document"
+                                          type="button"
+                                          data-document-open
+                                          data-document-url="{{ $documentUrl }}"
+                                          data-document-title="{{ $documentName ?: 'Document ' . ($index + 1) }}"
+                                          data-document-type="{{ $isImageDocument ? 'image' : 'frame' }}">
+                                          <span class="campaign-document__icon">
+                                             <i class="fa-solid {{ $isImageDocument ? 'fa-image' : 'fa-file-lines' }}" aria-hidden="true"></i>
+                                          </span>
+                                          <span class="campaign-document__meta">
+                                             <span class="campaign-document__name">{{ $documentName ?: 'Document ' . ($index + 1) }}</span>
+                                             <span class="campaign-document__type">{{ $documentExtension ? strtoupper($documentExtension) : 'Document' }}</span>
+                                          </span>
+                                       </button>
+                                    @endif
+                                 @endforeach
+                              </div>
                            @else
                               <p class="mb-0">No public supporting document has been uploaded for this fundraiser.</p>
                            @endif
@@ -1568,8 +2814,8 @@
                                  </div>
                               </div>
                               <div class="cta">
-                                 <a href="{{ route('coming-soon', ['menu' => 'donation-submit']) }}" aria-label="donate us" title="donate us"
-                                    class="btn--secondary" data-text="Donate Now"><span>Donate Now</span></a>
+                                 <button type="button" aria-label="donate us" title="donate us"
+                                    class="btn--secondary" data-text="Donate Now" data-donation-open><span>Donate Now</span></button>
                               </div>
                            </div>
                         </div>
@@ -1643,9 +2889,12 @@
                               <div class="donation-supporters-popover">
                                  <h6>Top 10 supporters</h6>
                                  @foreach ($topSupporters as $supporter)
+                                    @php
+                                       $supporterAmount = (float) ($supporter->main_amount ?: $supporter->amount);
+                                    @endphp
                                     <div class="donation-supporter-row">
-                                       <span>{{ $supporter->donor_name }}</span>
-                                       <strong>Rs. {{ number_format((float) $supporter->amount, 0) }}</strong>
+                                       <span>{{ $supporter->publicDonorName() }}</span>
+                                       <strong>Rs. {{ number_format($supporterAmount, 0) }}</strong>
                                     </div>
                                  @endforeach
                               </div>
@@ -1661,7 +2910,7 @@
                            <h5><strong>Rs. {{ number_format($raisedAmount, 0) }}</strong> of Rs. {{ number_format($goalAmount, 0) }}</h5>
                         </div>
                      </div>
-                     <a href="{{ route('coming-soon', ['menu' => 'donation-submit']) }}" class="donation-sticky-card__button">Donate now</a>
+                     <button type="button" class="donation-sticky-card__button" data-donation-open>Donate now</button>
                      <p class="donation-sticky-card__method">Card, Netbanking, Cheque pickups</p>
                      <div class="donation-sticky-card__divider">Or <span>Donate using</span></div>
                      <div class="donation-qr" aria-label="QR code donation placeholder">
@@ -1688,6 +2937,283 @@
 <!-- ==== / donate us section end ==== -->
 
 @if ($selectedPost)
+   <div class="donation-modal {{ $errors->donation->any() ? 'is-open' : '' }}" data-donation-modal aria-hidden="{{ $errors->donation->any() ? 'false' : 'true' }}">
+      <section class="donation-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="donationModalTitle">
+         <div class="donation-modal__head">
+            <h3 id="donationModalTitle">Make a secure donation</h3>
+            <button class="donation-modal__close" type="button" data-donation-close aria-label="Close donation form">
+               <i class="fa-solid fa-xmark"></i>
+            </button>
+         </div>
+
+         <form class="donation-modal__form" action="{{ route('donations.store', $selectedPost) }}" method="post" data-donation-form>
+            @csrf
+            <input type="hidden" name="tip_amount" value="400" data-donation-tip-amount>
+            <input type="hidden" name="total_amount" value="2900" data-donation-total-amount>
+            <input type="hidden" name="payment_method" value="card" data-donation-payment-method>
+
+            <div class="donation-modal__amount">
+               <div>
+                  <span class="donation-modal__label">Currency</span>
+                  <strong>Rs INR</strong>
+               </div>
+               <label>
+                  <span class="donation-modal__label">Amount</span>
+                  <input type="text" name="amount" value="2,500" inputmode="numeric" aria-label="Donation amount" data-donation-amount>
+               </label>
+            </div>
+
+            <p class="donation-modal__note">
+               Karna Kabach charges NO fees. We rely on donors like you to cover for our expenses. Kindly consider a tip. Thank you.
+            </p>
+
+            <div class="donation-modal__tip">
+               <label for="donationTipPercent">Include a tip of</label>
+               <select class="donation-modal__tip-select" id="donationTipPercent" name="tip_percent" data-donation-tip>
+                  <option value="10">10% (Rs 250.00)</option>
+                  <option value="12">12% (Rs 300.00)</option>
+                  <option value="14">14% (Rs 350.00)</option>
+                  <option value="16" selected>16% (Rs 400.00)</option>
+                  <option value="0">No tip</option>
+                  <option value="other">Other</option>
+               </select>
+            </div>
+
+            <h4 class="donation-modal__section-title">Donate using</h4>
+            <div class="donation-modal__methods" role="tablist" aria-label="Donation payment method">
+               <button class="donation-modal__method is-active" type="button" role="tab" aria-selected="true" data-donation-method="card">
+                  <i class="fa-solid fa-check" aria-hidden="true"></i>
+                  <span>Netbanking, Credit/Debit Cards & more</span>
+               </button>
+
+               <button class="donation-modal__method" type="button" role="tab" aria-selected="false" data-donation-method="qr">
+                  <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
+                  <span>Scan and pay via QR code</span>
+               </button>
+            </div>
+
+            <div class="donation-modal__fields">
+               <div>
+                  <input class="donation-modal__field" type="text" name="name" value="{{ old('name') }}" placeholder="Name" aria-label="Name" required data-donation-name>
+                  @error('name', 'donation')
+                     <p class="donation-modal__error">{{ $message }}</p>
+                  @enderror
+               </div>
+               <div>
+                  <input class="donation-modal__field" type="text" name="contact" value="{{ old('contact') }}" placeholder="Mobile number/Email ID" aria-label="Mobile number or email ID" required data-donation-contact>
+                  @error('contact', 'donation')
+                     <p class="donation-modal__error">{{ $message }}</p>
+                  @enderror
+                  @error('amount', 'donation')
+                     <p class="donation-modal__error">{{ $message }}</p>
+                  @enderror
+               </div>
+            </div>
+
+            <label class="donation-modal__privacy">
+               <span>Keep my details private</span>
+               <input type="checkbox" name="private" value="1" @checked(old('private'))>
+               <span class="donation-modal__switch" aria-hidden="true"></span>
+            </label>
+
+            <div class="donation-modal__summary" aria-label="Donation total summary">
+               <div class="donation-modal__summary-row">
+                  <span>Main amount</span>
+                  <strong data-donation-summary-amount>Rs 2,500</strong>
+               </div>
+               <div class="donation-modal__summary-row">
+                  <span>Tip amount</span>
+                  <strong data-donation-summary-tip>16% (Rs 400)</strong>
+               </div>
+               <div class="donation-modal__summary-row donation-modal__summary-row--total">
+                  <span>Total amount</span>
+                  <strong data-donation-summary-total>Rs 2,900</strong>
+               </div>
+            </div>
+
+            <button class="donation-modal__submit" type="submit" data-donation-total>Continue to pay Rs 2,900</button>
+         </form>
+
+         <div class="donation-exit" data-donation-exit aria-hidden="true">
+            <section class="donation-exit__card" role="dialog" aria-modal="true" aria-labelledby="donationExitTitle">
+               <div class="donation-exit__head">
+                  <h3>Make a secure donation</h3>
+               </div>
+               <div class="donation-exit__body">
+                  <div class="donation-exit__icon" aria-hidden="true">
+                     <i class="fa-solid fa-hand-holding-heart"></i>
+                  </div>
+                  <h4 id="donationExitTitle">Are you sure you want to leave?</h4>
+                  <p>Your contribution can make a real difference.</p>
+                  <div class="donation-exit__actions">
+                     <button class="donation-exit__button donation-exit__button--primary" type="button" data-donation-continue>
+                        Continue Donation
+                     </button>
+                     <button class="donation-exit__button" type="button" data-donation-confirm-close>
+                        Maybe Later
+                     </button>
+                  </div>
+               </div>
+               <div class="donation-exit__secure">
+                  <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+                  <span>Your donation is secure with Karna Kabach</span>
+               </div>
+            </section>
+         </div>
+      </section>
+   </div>
+
+   @if ($supporterRows->isNotEmpty())
+      <div class="supporters-modal" data-supporters-modal aria-hidden="true">
+         <section class="supporters-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="supportersModalTitle">
+            <div class="supporters-modal__head">
+               <h3 class="supporters-modal__title" id="supportersModalTitle">
+                  <i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>
+                  {{ number_format($supporterCount) }} {{ $supporterCount === 1 ? 'supporter' : 'supporters' }}
+               </h3>
+               <button class="supporters-modal__close" type="button" data-supporters-close aria-label="Close supporters list">
+                  <i class="fa-solid fa-xmark"></i>
+               </button>
+            </div>
+
+            <div class="supporters-modal__body">
+               <p class="supporters-help">
+                  <button class="supporters-link supporter-toggle" type="button" data-payment-details-open>Click here</button>
+                  if you are not able to find your donation listed below.
+               </p>
+
+               <div class="supporter-list">
+                  @foreach ($supporterRows as $supporter)
+                     @php
+                        $supporterName = $supporter->publicDonorName();
+                        $supporterAmount = (float) ($supporter->main_amount ?: $supporter->amount);
+                        $supporterInitial = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($supporterName, 0, 1));
+                        $supporterDate = optional($supporter->paid_at ?? $supporter->created_at)->format('d M Y');
+                     @endphp
+                     <article class="supporter-row">
+                        <span class="supporter-avatar">{{ $supporterInitial }}</span>
+                        <div>
+                           <p class="supporter-name">{{ $supporterName }}</p>
+                           <p class="supporter-amount">Rs. {{ number_format($supporterAmount, 0) }}</p>
+                        </div>
+                        @if ($supporterDate)
+                           <span class="supporter-date">{{ $supporterDate }}</span>
+                        @endif
+                     </article>
+                  @endforeach
+               </div>
+            </div>
+
+            <div class="supporters-modal__footer">
+               <button class="supporters-modal__donate" type="button" data-supporters-donate>Donate now</button>
+            </div>
+         </section>
+      </div>
+   @endif
+
+   <div class="payment-details-modal" data-payment-details-modal aria-hidden="true">
+      <section class="payment-details-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="paymentDetailsTitle">
+         <button class="payment-details-modal__close" type="button" data-payment-details-close aria-label="Close payment details">
+            <i class="fa-solid fa-xmark"></i>
+         </button>
+
+         <form class="payment-details-form" action="{{ route('coming-soon', ['menu' => 'payment-details']) }}" method="get">
+            <h3 id="paymentDetailsTitle">Payment details</h3>
+            <p class="payment-details-form__note">
+               If you have paid via UPI, PayTM QR code/button or bank transfer, please provide the details to receive payment acknowledgement, and updates on the campaign
+            </p>
+
+            <div class="payment-details-form__field">
+               <label for="paymentMode">Payment mode</label>
+               <select id="paymentMode" name="payment_mode">
+                  <option value="qr_code">QR code</option>
+                  <option value="upi">UPI</option>
+                  <option value="paytm">PayTM</option>
+                  <option value="bank_transfer">Bank transfer</option>
+               </select>
+            </div>
+
+            <div class="payment-details-form__field">
+               <label for="walletTransactionId">Wallet transaction ID</label>
+               <input id="walletTransactionId" type="text" name="transaction_id">
+            </div>
+
+            <div class="payment-details-form__field">
+               <label for="paymentDonationAmount">Donation amount</label>
+               <div class="payment-details-form__amount">
+                  <span>Rs.</span>
+                  <input id="paymentDonationAmount" type="text" name="donation_amount" inputmode="numeric" placeholder="Enter amount">
+               </div>
+            </div>
+
+            <button class="payment-details-form__submit" type="submit">Confirm</button>
+         </form>
+      </section>
+   </div>
+
+   <div class="report-modal" data-report-modal aria-hidden="true">
+      <section class="report-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+         <div class="report-modal__head">
+            <h3 id="reportModalTitle">Report fundraiser</h3>
+            <button class="report-modal__close" type="button" data-report-close aria-label="Close report form">
+               <i class="fa-solid fa-xmark"></i>
+            </button>
+         </div>
+
+         <form class="report-form" action="{{ route('fundraiser-reports.store', $selectedPost) }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="report-form__field">
+               <input class="report-form__control" type="text" name="name" placeholder="Name" aria-label="Name">
+            </div>
+
+            <div class="report-form__field">
+               <input class="report-form__control" type="email" name="email" placeholder="Email id" aria-label="Email id">
+            </div>
+
+            <div class="report-form__field">
+               <div class="report-form__phone">
+                  <select class="report-form__control" name="country_code" aria-label="Country code">
+                     <option value="+91">+91</option>
+                     <option value="+1">+1</option>
+                     <option value="+44">+44</option>
+                     <option value="+971">+971</option>
+                  </select>
+                  <input class="report-form__control" type="tel" name="phone" placeholder="Phone number" aria-label="Phone number">
+               </div>
+               <p class="report-form__hint">Our team will verify your claim via this number; please ensure it is correct.</p>
+            </div>
+
+            <div class="report-form__field">
+               <textarea class="report-form__control" name="message" rows="2" placeholder="Message" aria-label="Message"></textarea>
+            </div>
+
+            <div class="report-form__field">
+               <span class="report-form__hint">Supporting Documents</span>
+               <label class="report-form__upload">
+                  <i class="fa-solid fa-upload" aria-hidden="true"></i>
+                  <span>Upload</span>
+                  <input type="file" name="supporting_document" data-report-file>
+               </label>
+               <span class="report-form__file-name" data-report-file-name>No file selected</span>
+            </div>
+
+            <button class="report-form__submit" type="submit">Send</button>
+         </form>
+      </section>
+   </div>
+
+   @if (session('donation_success'))
+      <div class="donation-success-overlay is-active" data-donation-success data-redirect-url="{{ route('donate-us', $selectedPost) }}" role="status" aria-live="polite">
+         <div class="donation-success-card">
+            <div class="donation-success-icon" aria-hidden="true">
+               <i class="fa-solid fa-check"></i>
+            </div>
+            <h2>{{ session('donation_success.message', 'Payment successful') }}</h2>
+            <p data-donation-success-time>{{ session('donation_success.paid_at') }}</p>
+         </div>
+      </div>
+   @endif
+
    <div class="refer-modal {{ $errors->any() ? 'is-open' : '' }}" data-refer-modal aria-hidden="{{ $errors->any() ? 'false' : 'true' }}">
       <section class="refer-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="referModalTitle">
          <div class="refer-modal__head">
@@ -1775,11 +3301,244 @@
    </div>
 @endif
 
+<div class="document-preview-modal" data-document-modal aria-hidden="true">
+   <section class="document-preview-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="documentPreviewTitle">
+      <div class="document-preview-modal__head">
+         <h3 id="documentPreviewTitle" data-document-title>Campaign Document</h3>
+         <button class="document-preview-modal__close" type="button" data-document-close aria-label="Close document preview">
+            <i class="fa-solid fa-xmark"></i>
+         </button>
+      </div>
+      <div class="document-preview-modal__body" data-document-body></div>
+   </section>
+</div>
+
 <script>
    document.addEventListener('DOMContentLoaded', () => {
       const referModal = document.querySelector('[data-refer-modal]');
       const referOpenButtons = document.querySelectorAll('[data-refer-open]');
       const referCloseButton = document.querySelector('[data-refer-close]');
+      const supportersModal = document.querySelector('[data-supporters-modal]');
+      const supportersOpenButton = document.querySelector('[data-supporters-open]');
+      const supportersCloseButton = document.querySelector('[data-supporters-close]');
+      const supportersDonateButton = document.querySelector('[data-supporters-donate]');
+      const paymentDetailsModal = document.querySelector('[data-payment-details-modal]');
+      const paymentDetailsOpenButtons = document.querySelectorAll('[data-payment-details-open]');
+      const paymentDetailsCloseButton = document.querySelector('[data-payment-details-close]');
+      const reportModal = document.querySelector('[data-report-modal]');
+      const reportOpenButton = document.querySelector('[data-report-open]');
+      const reportCloseButton = document.querySelector('[data-report-close]');
+      const reportFileInput = document.querySelector('[data-report-file]');
+      const reportFileName = document.querySelector('[data-report-file-name]');
+      const donationModal = document.querySelector('[data-donation-modal]');
+      const donationOpenButtons = document.querySelectorAll('[data-donation-open]');
+      const donationCloseButton = document.querySelector('[data-donation-close]');
+      const donationExit = document.querySelector('[data-donation-exit]');
+      const donationContinueButton = document.querySelector('[data-donation-continue]');
+      const donationConfirmCloseButton = document.querySelector('[data-donation-confirm-close]');
+      const donationForm = document.querySelector('[data-donation-form]');
+      const donationNameInput = document.querySelector('[data-donation-name]');
+      const donationContactInput = document.querySelector('[data-donation-contact]');
+      const donationSuccessOverlay = document.querySelector('[data-donation-success]');
+      const donationSuccessTime = document.querySelector('[data-donation-success-time]');
+      const donationAmountInput = document.querySelector('[data-donation-amount]');
+      const donationTipSelect = document.querySelector('[data-donation-tip]');
+      const donationTotalButton = document.querySelector('[data-donation-total]');
+      const donationTipAmountInput = document.querySelector('[data-donation-tip-amount]');
+      const donationTotalAmountInput = document.querySelector('[data-donation-total-amount]');
+      const donationSummaryAmount = document.querySelector('[data-donation-summary-amount]');
+      const donationSummaryTip = document.querySelector('[data-donation-summary-tip]');
+      const donationSummaryTotal = document.querySelector('[data-donation-summary-total]');
+      const donationPaymentMethodInput = document.querySelector('[data-donation-payment-method]');
+      const donationMethodButtons = document.querySelectorAll('[data-donation-method]');
+      const donationSticky = document.querySelector('.donation-sticky');
+      const donationSidebarColumn = document.querySelector('.donation-sidebar-col');
+      const donationLayoutRow = document.querySelector('.donate-layout-row');
+      const documentModal = document.querySelector('[data-document-modal]');
+      const documentTitle = document.querySelector('[data-document-title]');
+      const documentBody = document.querySelector('[data-document-body]');
+      const documentCloseButton = document.querySelector('[data-document-close]');
+      let selectedDonationTipPercent = null;
+
+      const formatDonationAmount = (amount, decimals = 0) => {
+         return new Intl.NumberFormat('en-IN', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals,
+         }).format(amount);
+      };
+
+      const formatDonationTipLabelAmount = (amount) => {
+         const hasDecimals = Math.abs(amount % 1) > 0.001;
+
+         return new Intl.NumberFormat('en-IN', {
+            minimumFractionDigits: hasDecimals ? 2 : 0,
+            maximumFractionDigits: hasDecimals ? 2 : 0,
+         }).format(amount);
+      };
+
+      const getDonationTipPercents = (amount) => {
+         return [10, 12, 14, 16];
+      };
+
+      const getDefaultDonationTipPercent = (amount) => {
+         return 16;
+      };
+
+      if (donationModal?.classList.contains('is-open') || donationSuccessOverlay) {
+         document.body.style.overflow = 'hidden';
+      }
+
+      if (donationSuccessOverlay) {
+         document.body.classList.add('donation-success-active');
+         donationSuccessTime && (donationSuccessTime.textContent = new Intl.DateTimeFormat('en-IN', {
+            dateStyle: 'medium',
+            timeStyle: 'short',
+         }).format(new Date()));
+
+         window.setTimeout(() => {
+            const redirectUrl = donationSuccessOverlay.dataset.redirectUrl || window.location.href;
+            window.location.href = redirectUrl;
+         }, 2800);
+      }
+
+      const isValidDonationEmail = (value) => {
+         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      };
+
+      const isValidDonationPhone = (value) => {
+         const phone = value.replace(/[\s()+-]/g, '');
+         return /^\d{7,15}$/.test(phone);
+      };
+
+      const validateDonationIdentity = () => {
+         if (!donationNameInput || !donationContactInput) {
+            return true;
+         }
+
+         const name = donationNameInput.value.trim();
+         const contact = donationContactInput.value.trim();
+
+         donationNameInput.setCustomValidity(name ? '' : 'Please enter your name.');
+
+         if (!contact) {
+            donationContactInput.setCustomValidity('Please enter your mobile number or email ID.');
+         } else if (!isValidDonationEmail(contact) && !isValidDonationPhone(contact)) {
+            donationContactInput.setCustomValidity('Please enter a valid email ID or mobile number.');
+         } else {
+            donationContactInput.setCustomValidity('');
+         }
+
+         return donationNameInput.checkValidity() && donationContactInput.checkValidity();
+      };
+
+      const syncDonationSticky = () => {
+         if (!donationSticky || !donationSidebarColumn || !donationLayoutRow) {
+            return;
+         }
+
+         if (window.innerWidth < 1200) {
+            donationSticky.classList.remove('is-fixed', 'is-bottom');
+            donationSticky.style.removeProperty('--donation-sticky-top');
+            donationSticky.style.removeProperty('--donation-sticky-left');
+            donationSticky.style.removeProperty('--donation-sticky-width');
+            return;
+         }
+
+         donationSticky.classList.remove('is-fixed', 'is-bottom');
+
+         const topOffset = 82;
+         const scrollY = window.scrollY || window.pageYOffset;
+         const columnRect = donationSidebarColumn.getBoundingClientRect();
+         const stickyRect = donationSticky.getBoundingClientRect();
+         const rowRect = donationLayoutRow.getBoundingClientRect();
+         const columnTop = scrollY + columnRect.top;
+         const rowBottom = scrollY + rowRect.bottom;
+         const stickyHeight = donationSticky.offsetHeight;
+         const stickyWidth = stickyRect.width;
+         const fixedLeft = stickyRect.left;
+
+         donationSticky.style.setProperty('--donation-sticky-top', `${topOffset}px`);
+         donationSticky.style.setProperty('--donation-sticky-left', `${fixedLeft}px`);
+         donationSticky.style.setProperty('--donation-sticky-width', `${stickyWidth}px`);
+
+         if (scrollY + topOffset <= columnTop) {
+            return;
+         }
+
+         if (scrollY + topOffset + stickyHeight >= rowBottom) {
+            donationSticky.classList.add('is-bottom');
+            return;
+         }
+
+         donationSticky.classList.add('is-fixed');
+      };
+
+      const parseDonationAmount = (value) => {
+         const amount = Number(String(value).replace(/[^0-9.]/g, ''));
+         return Number.isFinite(amount) ? amount : 0;
+      };
+
+      const refreshDonationTipDropdown = () => {
+         if (window.jQuery && window.jQuery.fn?.niceSelect && donationTipSelect) {
+            window.jQuery(donationTipSelect).niceSelect('update');
+         }
+      };
+
+      const formatDonationAmountField = () => {
+         if (!donationAmountInput) {
+            return;
+         }
+
+         const amount = parseDonationAmount(donationAmountInput.value);
+         donationAmountInput.value = amount > 0 ? formatDonationAmount(amount) : '';
+      };
+
+      const updateDonationTotal = () => {
+         if (!donationAmountInput || !donationTipSelect || !donationTotalButton) {
+            return;
+         }
+
+         const amount = parseDonationAmount(donationAmountInput.value);
+         const tipPercents = getDonationTipPercents(amount);
+         const currentTipPercent = selectedDonationTipPercent ?? getDefaultDonationTipPercent(amount);
+         const selectedTipPercent = currentTipPercent === 0 || tipPercents.includes(currentTipPercent)
+            ? currentTipPercent
+            : getDefaultDonationTipPercent(amount);
+
+         donationTipSelect.innerHTML = '';
+
+         tipPercents.forEach((percent) => {
+            const option = document.createElement('option');
+            option.value = String(percent);
+            option.textContent = `${percent}% (\u20B9${formatDonationTipLabelAmount(amount * (percent / 100))})`;
+            option.selected = percent === selectedTipPercent;
+            donationTipSelect.appendChild(option);
+         });
+
+         const noTipOption = document.createElement('option');
+         noTipOption.value = '0';
+         noTipOption.textContent = 'No tip';
+         noTipOption.selected = selectedTipPercent === 0;
+         donationTipSelect.appendChild(noTipOption);
+
+         const otherTipOption = document.createElement('option');
+         otherTipOption.value = 'other';
+         otherTipOption.textContent = 'Other';
+         donationTipSelect.appendChild(otherTipOption);
+
+         selectedDonationTipPercent = selectedTipPercent;
+         const tipPercent = Number(donationTipSelect.value) || 0;
+         const tipAmount = amount * (tipPercent / 100);
+         const totalAmount = amount + tipAmount;
+
+         donationTipAmountInput && (donationTipAmountInput.value = tipAmount.toFixed(2));
+         donationTotalAmountInput && (donationTotalAmountInput.value = totalAmount.toFixed(2));
+         donationSummaryAmount && (donationSummaryAmount.textContent = `Rs ${formatDonationAmount(amount)}`);
+         donationSummaryTip && (donationSummaryTip.textContent = `${tipPercent}% (Rs ${formatDonationAmount(tipAmount)})`);
+         donationSummaryTotal && (donationSummaryTotal.textContent = `Rs ${formatDonationAmount(totalAmount)}`);
+         donationTotalButton.textContent = `Continue to pay Rs ${formatDonationAmount(totalAmount)}`;
+         refreshDonationTipDropdown();
+      };
 
       const openReferModal = () => {
          if (!referModal) {
@@ -1800,9 +3559,250 @@
          referModal.setAttribute('aria-hidden', 'true');
       };
 
+      const openSupportersModal = () => {
+         if (!supportersModal) {
+            return;
+         }
+
+         supportersModal.classList.add('is-open');
+         supportersModal.setAttribute('aria-hidden', 'false');
+         document.body.style.overflow = 'hidden';
+         supportersCloseButton?.focus();
+      };
+
+      const closeSupportersModal = () => {
+         if (!supportersModal) {
+            return;
+         }
+
+         supportersModal.classList.remove('is-open');
+         supportersModal.setAttribute('aria-hidden', 'true');
+         document.body.style.overflow = donationModal?.classList.contains('is-open') ? 'hidden' : '';
+      };
+
+      const openPaymentDetailsModal = () => {
+         if (!paymentDetailsModal) {
+            return;
+         }
+
+         paymentDetailsModal.classList.add('is-open');
+         paymentDetailsModal.setAttribute('aria-hidden', 'false');
+         document.body.style.overflow = 'hidden';
+         paymentDetailsModal.querySelector('select, input, button')?.focus();
+      };
+
+      const closePaymentDetailsModal = () => {
+         if (!paymentDetailsModal) {
+            return;
+         }
+
+         paymentDetailsModal.classList.remove('is-open');
+         paymentDetailsModal.setAttribute('aria-hidden', 'true');
+         document.body.style.overflow = supportersModal?.classList.contains('is-open') || donationModal?.classList.contains('is-open') ? 'hidden' : '';
+      };
+
+      const openReportModal = () => {
+         if (!reportModal) {
+            return;
+         }
+
+         reportModal.classList.add('is-open');
+         reportModal.setAttribute('aria-hidden', 'false');
+         document.body.style.overflow = 'hidden';
+         reportModal.querySelector('input, select, textarea, button')?.focus();
+      };
+
+      const closeReportModal = () => {
+         if (!reportModal) {
+            return;
+         }
+
+         reportModal.classList.remove('is-open');
+         reportModal.setAttribute('aria-hidden', 'true');
+         document.body.style.overflow = donationModal?.classList.contains('is-open') ? 'hidden' : '';
+      };
+
+      const openDocumentPreview = (button) => {
+         if (!documentModal || !documentBody || !documentTitle) {
+            return;
+         }
+
+         const url = button.dataset.documentUrl;
+         const title = button.dataset.documentTitle || 'Campaign Document';
+         const type = button.dataset.documentType || 'frame';
+
+         documentTitle.textContent = title;
+         documentBody.innerHTML = type === 'image'
+            ? `<img class="document-preview-modal__image" src="${url}" alt="${title}">`
+            : `<iframe class="document-preview-modal__frame" src="${url}" title="${title}"></iframe>`;
+         documentModal.classList.add('is-open');
+         documentModal.setAttribute('aria-hidden', 'false');
+         document.body.style.overflow = 'hidden';
+         documentCloseButton?.focus();
+      };
+
+      const closeDocumentPreview = () => {
+         if (!documentModal || !documentBody) {
+            return;
+         }
+
+         documentModal.classList.remove('is-open');
+         documentModal.setAttribute('aria-hidden', 'true');
+         documentBody.innerHTML = '';
+         document.body.style.overflow = '';
+      };
+
+      const setDonationMethod = (method = 'card') => {
+         donationMethodButtons.forEach((item) => {
+            const isActive = item.dataset.donationMethod === method;
+            item.classList.toggle('is-active', isActive);
+            item.setAttribute('aria-selected', isActive ? 'true' : 'false');
+         });
+
+         if (donationPaymentMethodInput) {
+            donationPaymentMethodInput.value = method;
+         }
+      };
+
+      const openDonationModal = (method = null) => {
+         if (!donationModal) {
+            return;
+         }
+
+         hideDonationExitConfirm();
+         if (method) {
+            setDonationMethod(method);
+         }
+         updateDonationTotal();
+         donationModal.classList.add('is-open');
+         donationModal.setAttribute('aria-hidden', 'false');
+         document.body.style.overflow = 'hidden';
+         donationModal.querySelector('input:not([type="hidden"]), button')?.focus();
+      };
+
+      const showDonationExitConfirm = () => {
+         if (!donationExit) {
+            closeDonationModal(true);
+            return;
+         }
+
+         donationExit.classList.add('is-open');
+         donationExit.setAttribute('aria-hidden', 'false');
+         donationExit.querySelector('button')?.focus();
+      };
+
+      function hideDonationExitConfirm() {
+         if (!donationExit) {
+            return;
+         }
+
+         donationExit.classList.remove('is-open');
+         donationExit.setAttribute('aria-hidden', 'true');
+      }
+
+      function closeDonationModal(force = false) {
+         if (!donationModal) {
+            return;
+         }
+
+         if (!force) {
+            showDonationExitConfirm();
+            return;
+         }
+
+         hideDonationExitConfirm();
+         donationModal.classList.remove('is-open');
+         donationModal.setAttribute('aria-hidden', 'true');
+         document.body.style.overflow = '';
+      }
+
       referOpenButtons.forEach((button) => {
          button.addEventListener('click', openReferModal);
       });
+
+      supportersOpenButton?.addEventListener('click', openSupportersModal);
+      supportersCloseButton?.addEventListener('click', closeSupportersModal);
+      supportersDonateButton?.addEventListener('click', () => {
+         closeSupportersModal();
+         openDonationModal();
+      });
+      supportersModal?.addEventListener('click', (event) => {
+         if (event.target === supportersModal) {
+            closeSupportersModal();
+         }
+      });
+      paymentDetailsOpenButtons.forEach((button) => {
+         button.addEventListener('click', openPaymentDetailsModal);
+      });
+      paymentDetailsCloseButton?.addEventListener('click', closePaymentDetailsModal);
+      paymentDetailsModal?.addEventListener('click', (event) => {
+         if (event.target === paymentDetailsModal) {
+            closePaymentDetailsModal();
+         }
+      });
+      reportOpenButton?.addEventListener('click', openReportModal);
+      reportCloseButton?.addEventListener('click', closeReportModal);
+      reportModal?.addEventListener('click', (event) => {
+         if (event.target === reportModal) {
+            closeReportModal();
+         }
+      });
+      reportFileInput?.addEventListener('change', () => {
+         const file = reportFileInput.files?.[0];
+         reportFileName && (reportFileName.textContent = file ? `Selected: ${file.name}` : 'No file selected');
+      });
+
+      donationOpenButtons.forEach((button) => {
+         button.addEventListener('click', () => openDonationModal());
+      });
+
+      donationMethodButtons.forEach((button) => {
+         button.addEventListener('click', () => {
+            setDonationMethod(button.dataset.donationMethod || 'card');
+         });
+      });
+
+      donationAmountInput?.addEventListener('input', updateDonationTotal);
+      donationAmountInput?.addEventListener('keyup', updateDonationTotal);
+      donationAmountInput?.addEventListener('change', updateDonationTotal);
+      donationAmountInput?.addEventListener('blur', () => {
+         formatDonationAmountField();
+         updateDonationTotal();
+      });
+      donationTipSelect?.addEventListener('change', () => {
+         selectedDonationTipPercent = Number(donationTipSelect.value) || 0;
+         updateDonationTotal();
+      });
+
+      donationNameInput?.addEventListener('input', validateDonationIdentity);
+      donationContactInput?.addEventListener('input', validateDonationIdentity);
+      donationForm?.addEventListener('submit', (event) => {
+         if (validateDonationIdentity()) {
+            return;
+         }
+
+         event.preventDefault();
+         donationForm.reportValidity();
+      });
+
+      donationModal?.addEventListener('click', (event) => {
+         const tipOption = event.target.closest('.donation-modal__tip .nice-select .option');
+
+         if (!tipOption || !donationTipSelect) {
+            return;
+         }
+
+         window.setTimeout(() => {
+            selectedDonationTipPercent = Number(tipOption.dataset.value) || 0;
+            donationTipSelect.value = String(selectedDonationTipPercent);
+            updateDonationTotal();
+         }, 0);
+      });
+
+      updateDonationTotal();
+      syncDonationSticky();
+      window.addEventListener('scroll', syncDonationSticky, { passive: true });
+      window.addEventListener('resize', syncDonationSticky);
 
       referCloseButton?.addEventListener('click', closeReferModal);
       referModal?.addEventListener('click', (event) => {
@@ -1811,9 +3811,43 @@
          }
       });
 
+      donationCloseButton?.addEventListener('click', () => closeDonationModal());
+      donationContinueButton?.addEventListener('click', hideDonationExitConfirm);
+      donationConfirmCloseButton?.addEventListener('click', () => closeDonationModal(true));
+      donationModal?.addEventListener('click', (event) => {
+         if (event.target === donationModal) {
+            closeDonationModal();
+         }
+      });
+
       document.addEventListener('keydown', (event) => {
          if (event.key === 'Escape' && referModal?.classList.contains('is-open')) {
             closeReferModal();
+         }
+
+         if (event.key === 'Escape' && supportersModal?.classList.contains('is-open')) {
+            closeSupportersModal();
+         }
+
+         if (event.key === 'Escape' && paymentDetailsModal?.classList.contains('is-open')) {
+            closePaymentDetailsModal();
+         }
+
+         if (event.key === 'Escape' && reportModal?.classList.contains('is-open')) {
+            closeReportModal();
+         }
+
+         if (event.key === 'Escape' && donationModal?.classList.contains('is-open')) {
+            if (donationExit?.classList.contains('is-open')) {
+               hideDonationExitConfirm();
+               return;
+            }
+
+            closeDonationModal();
+         }
+
+         if (event.key === 'Escape' && documentModal?.classList.contains('is-open')) {
+            closeDocumentPreview();
          }
       });
 
@@ -1856,19 +3890,21 @@
          });
       });
 
-      const supporterToggle = document.querySelector('[data-supporter-toggle]');
-      supporterToggle?.addEventListener('click', () => {
-         document.querySelectorAll('[data-supporter-extra]').forEach((row) => {
-            row.classList.remove('d-none');
-         });
+      document.querySelectorAll('[data-document-open]').forEach((button) => {
+         button.addEventListener('click', () => openDocumentPreview(button));
+      });
 
-         supporterToggle.remove();
+      documentCloseButton?.addEventListener('click', closeDocumentPreview);
+      documentModal?.addEventListener('click', (event) => {
+         if (event.target === documentModal) {
+            closeDocumentPreview();
+         }
       });
 
       const canvas = document.getElementById('donationQrCanvas');
-      const button = document.querySelector('.donation-qr__button');
+      const qrButton = document.querySelector('.donation-qr__button');
 
-      if (!canvas || !button) {
+      if (!canvas || !qrButton) {
          return;
       }
 
@@ -1904,16 +3940,16 @@
 
                const shouldFill = Math.random() > 0.58;
                if (shouldFill) {
-                  context.fillStyle = Math.random() > 0.16 ? '#001b3f' : '#f59e0b';
+                  context.fillStyle = Math.random() > 0.16 ? '#001b3f' : '#a83220';
                   context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
                }
             }
          }
       };
 
-      button.addEventListener('click', () => {
+      qrButton.addEventListener('click', () => {
          generateQr();
-         button.classList.add('is-hidden');
+         openDonationModal('qr');
       });
       generateQr();
    });

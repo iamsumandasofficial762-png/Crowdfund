@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donation;
 use App\Models\FundraiserPost;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class PageController extends Controller
@@ -14,6 +16,12 @@ class PageController extends Controller
         if (Schema::hasTable('fundraiser_posts')) {
             $recentFundraiserPosts = FundraiserPost::approved()
                 ->with('fundraiser')
+                ->addSelect([
+                    'actual_raised_amount' => Donation::query()
+                        ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount ELSE amount END), 0)')
+                        ->whereColumn('donations.fundraiser_post_id', 'fundraiser_posts.id')
+                        ->where('status', Donation::STATUS_PAID),
+                ])
                 ->latest('approved_at')
                 ->latest()
                 ->take(3)
@@ -59,6 +67,12 @@ class PageController extends Controller
         if (Schema::hasTable('fundraiser_posts')) {
             $recentFundraiserPosts = FundraiserPost::approved()
                 ->with('fundraiser')
+                ->addSelect([
+                    'actual_raised_amount' => Donation::query()
+                        ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount ELSE amount END), 0)')
+                        ->whereColumn('donations.fundraiser_post_id', 'fundraiser_posts.id')
+                        ->where('status', Donation::STATUS_PAID),
+                ])
                 ->when($post, fn ($query) => $query->whereKeyNot($post->getKey()))
                 ->latest('approved_at')
                 ->latest()
@@ -74,14 +88,16 @@ class PageController extends Controller
             $post->loadMissing('fundraiser');
 
             $supporterCount = $post->paidDonations()->count();
-            $donationsRaisedAmount = (float) $post->paidDonations()->sum('amount');
+            $donationsRaisedAmount = (float) $post->paidDonations()
+                ->selectRaw('SUM(CASE WHEN main_amount > 0 THEN main_amount ELSE amount END) as raised_amount')
+                ->value('raised_amount');
 
             if ($donationsRaisedAmount > 0) {
                 $post->raised_amount = $donationsRaisedAmount;
             }
 
             $topSupporters = $post->paidDonations()
-                ->orderByDesc('amount')
+                ->orderByDesc(DB::raw('CASE WHEN main_amount > 0 THEN main_amount ELSE amount END'))
                 ->latest('paid_at')
                 ->latest()
                 ->take(10)

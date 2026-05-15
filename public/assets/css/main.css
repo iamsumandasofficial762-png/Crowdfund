@@ -7429,6 +7429,66 @@ div {
 .cause .cause-progress__bar {
   margin: 5px 0px 10px;
 }
+.cause .post-progress-bar {
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #eadbd8;
+}
+.cause .post-progress-bar__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  position: relative;
+  background: -webkit-gradient(linear, left top, right top, from(#a83220), to(#8f2619));
+  background: linear-gradient(90deg, #a83220 0%, #8f2619 100%);
+  -webkit-box-shadow: 0 0 14px rgba(255, 31, 31, 0.75);
+          box-shadow: 0 0 14px rgba(255, 31, 31, 0.75);
+  -webkit-animation: postProgressFill 1.35s 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          animation: postProgressFill 1.35s 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.cause .post-progress-bar__fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(48%, rgba(255, 38, 38, 0.95)), to(transparent));
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 38, 38, 0.95) 48%, transparent 100%);
+  -webkit-transform: translateX(-100%);
+      -ms-transform: translateX(-100%);
+          transform: translateX(-100%);
+  -webkit-animation: postProgressGlow 1.8s ease-in-out infinite;
+          animation: postProgressGlow 1.8s ease-in-out infinite;
+}
+@-webkit-keyframes postProgressFill {
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--progress-width, 0%);
+  }
+}
+@keyframes postProgressFill {
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--progress-width, 0%);
+  }
+}
+@-webkit-keyframes postProgressGlow {
+  to {
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+  }
+}
+@keyframes postProgressGlow {
+  to {
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+  }
+}
 .cause .cause__cta {
   margin-top: 30px;
 }

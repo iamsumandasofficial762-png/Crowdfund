@@ -61,7 +61,7 @@
          @forelse ($posts as $post)
             @php
                $goalAmount = max((float) $post->goal_amount, 1);
-               $raisedAmount = max((float) $post->raised_amount, 0);
+               $raisedAmount = max((float) ($post->actual_raised_amount ?? $post->raised_amount), 0);
                $progress = min(100, (int) round(($raisedAmount / $goalAmount) * 100));
                $postImage = $post->main_image ? asset('storage/' . $post->main_image) : asset('assets/images/cause/one.png');
                $postLink = route('donate-us', $post);
@@ -90,11 +90,8 @@
                            </p>
                         </div>
                         <div class="cause-progress__bar">
-                           <div class="progress-bar-wrapper" data-percent="{{ $progress }}%">
-                              <div class="progress-bar">
-                                 <div class="progress-bar-percent">
-                                 </div>
-                              </div>
+                           <div class="post-progress-bar" aria-hidden="true">
+                              <span class="post-progress-bar__fill" style="--progress-width: {{ $progress }}%"></span>
                            </div>
                         </div>
                         <div class="cause-progress__goal">

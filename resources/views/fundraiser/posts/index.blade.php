@@ -36,7 +36,7 @@
     <div class="row g-4">
         @forelse ($posts as $post)
             @php
-                $donationTotal = (float) ($post->paid_donations_sum_amount ?? 0);
+                $donationTotal = (float) ($post->paid_donations_main_sum_amount ?? 0);
                 $raised = max((float) $post->raised_amount, $donationTotal);
                 $goal = max((float) $post->goal_amount, 1);
                 $remaining = max($goal - $raised, 0);
@@ -53,9 +53,15 @@
                         <h4 class="fw-black">{{ $post->title }}</h4>
                         <p class="muted">{{ \Illuminate\Support\Str::limit($post->short_description, 105) }}</p>
 
-                        <div class="progress mb-2">
-                            <div class="progress-bar" style="width: {{ $progress }}%"></div>
-                        </div>
+                        @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
+                            <div class="approved-progress mb-2" aria-hidden="true">
+                                <span class="approved-progress__fill" style="--progress-width: {{ $progress }}%"></span>
+                            </div>
+                        @else
+                            <div class="progress mb-2">
+                                <div class="progress-bar" style="width: {{ $progress }}%"></div>
+                            </div>
+                        @endif
                         <div class="d-flex align-items-center justify-content-between small fw-bold mb-3">
                             <span>{{ $progress }}%</span>
                             <span>{{ $post->created_at->format('d M Y') }}</span>
@@ -72,7 +78,9 @@
 
                         <div class="post-card-actions">
                             <a class="btn btn-sm btn-soft post-action-primary" href="{{ route('fundraiser.posts.show', $post) }}">View Details</a>
-                            <a class="btn btn-sm btn-gold" href="{{ route('fundraiser.posts.updates.index', $post) }}">Manage Updates</a>
+                            @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
+                                <a class="btn btn-sm btn-gold" href="{{ route('fundraiser.posts.updates.index', $post) }}">Manage Post</a>
+                            @endif
                             @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING)
                                 <a class="btn btn-sm btn-outline-dark" href="{{ route('fundraiser.posts.edit', $post) }}">Edit</a>
                             @endif

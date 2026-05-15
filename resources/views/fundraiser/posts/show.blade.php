@@ -2,6 +2,48 @@
 
 @section('title', $post->title)
 
+@push('styles')
+    <style>
+        .supporter-table-anchor {
+            scroll-margin-top: 110px;
+        }
+
+        .post-stat-progress {
+            height: 8px;
+            margin-bottom: 18px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: #eadbd8;
+        }
+
+        .post-stat-progress__fill {
+            display: block;
+            width: var(--progress-width, 0%);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #a83220 0%, #8f2619 100%);
+            box-shadow: 0 0 14px rgba(255, 31, 31, 0.75);
+        }
+
+        .post-stat-progress__fill::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 38, 38, 0.95) 48%, transparent 100%);
+            transform: translateX(-100%);
+            animation: postStatProgressGlow 1.8s ease-in-out infinite;
+        }
+
+        @keyframes postStatProgressGlow {
+            to {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap mb-4">
         <div>
@@ -11,7 +53,9 @@
         </div>
         <div class="d-flex gap-2 flex-wrap">
             <a class="btn btn-soft" href="{{ route('fundraiser.posts.index') }}">Back to My Posts</a>
-            <a class="btn btn-gold" href="{{ route('fundraiser.posts.updates.index', $post) }}">Manage Updates</a>
+            @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
+                <a class="btn btn-gold" href="{{ route('fundraiser.posts.updates.index', $post) }}">Manage Post</a>
+            @endif
             @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING)
                 <a class="btn btn-gold" href="{{ route('fundraiser.posts.edit', $post) }}">Edit Pending Post</a>
             @endif
@@ -38,7 +82,7 @@
                 </div>
             </section>
 
-            <section class="dashboard-panel p-3 p-md-4 mb-4">
+            <section class="dashboard-panel p-3 p-md-4 mb-4 supporter-table-anchor" id="supporter-table">
                 <h4 class="fw-black mb-3">Donation History</h4>
                 <div class="table-responsive">
                     <table class="table align-middle">
@@ -78,8 +122,8 @@
         <div class="col-lg-4">
             <section class="dashboard-panel p-3 p-md-4 mb-4">
                 <h4 class="fw-black mb-3">Raised Amount Statistics</h4>
-                <div class="progress mb-3">
-                    <div class="progress-bar" style="width: {{ $stats['progress'] }}%"></div>
+                <div class="post-stat-progress" aria-hidden="true">
+                    <span class="post-stat-progress__fill" style="--progress-width: {{ $stats['progress'] }}%"></span>
                 </div>
                 <div class="row g-3">
                     <div class="col-6"><span class="muted">Progress</span><h5 class="fw-black">{{ $stats['progress'] }}%</h5></div>
@@ -88,6 +132,9 @@
                     <div class="col-6"><span class="muted">Goal</span><h5 class="fw-black">Rs. {{ number_format($stats['goal'], 0) }}</h5></div>
                     <div class="col-12"><span class="muted">Remaining Amount</span><h5 class="fw-black">Rs. {{ number_format($stats['remaining'], 0) }}</h5></div>
                 </div>
+                @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
+                    <a class="btn btn-gold w-100 mt-3" href="#supporter-table">View Supporters</a>
+                @endif
             </section>
 
             <section class="dashboard-panel p-3 p-md-4 mb-4">

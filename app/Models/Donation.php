@@ -18,6 +18,11 @@ class Donation extends Model
         'donor_email',
         'donor_phone',
         'amount',
+        'main_amount',
+        'tip_amount',
+        'tip_percent',
+        'message',
+        'is_private',
         'payment_method',
         'status',
         'paid_at',
@@ -27,8 +32,17 @@ class Donation extends Model
     {
         return [
             'amount' => 'decimal:2',
+            'main_amount' => 'decimal:2',
+            'tip_amount' => 'decimal:2',
+            'tip_percent' => 'integer',
+            'is_private' => 'boolean',
             'paid_at' => 'datetime',
         ];
+    }
+
+    public function publicDonorName(): string
+    {
+        return $this->is_private ? 'Anonymous Donor' : ($this->donor_name ?: 'Anonymous Donor');
     }
 
     public function fundraiserPost(): BelongsTo

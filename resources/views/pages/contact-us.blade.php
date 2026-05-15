@@ -249,23 +249,35 @@
                            <h4 class="title-animation">Fill Up The Form</h4>
                            <p>Your email address will not be published. Required fields are marked *</p>
                         </div>
-                        <form action="#" method="post" class="mt-60">
+                        @if (session('status'))
+                           <div class="alert alert-success mt-4">{{ session('status') }}</div>
+                        @endif
+                        @if ($errors->any())
+                           <div class="alert alert-danger mt-4">
+                              <ul class="mb-0 ps-3">
+                                 @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                 @endforeach
+                              </ul>
+                           </div>
+                        @endif
+                        <form action="{{ route('contact-messages.store') }}" method="post" class="mt-60">
+                           @csrf
                            <div class="input-single">
-                              <input type="text" name="full-name" id="fullName" placeholder="Enter Name" required>
+                              <input type="text" name="name" id="fullName" value="{{ old('name') }}" placeholder="Enter Name" required>
                               <i class="fa-solid fa-user"></i>
                            </div>
                            <div class="input-single">
-                              <input type="email" name="c-email" id="cEmail" placeholder="Enter Email" required>
+                              <input type="email" name="email" id="cEmail" value="{{ old('email') }}" placeholder="Enter Email" required>
                               <i class="fa-solid fa-envelope"></i>
                            </div>
                            <div class="input-single">
-                              <input type="text" name="phone-number" id="phoneNumber" placeholder="Phone Number"
-                                 required>
+                              <input type="text" name="phone" id="phoneNumber" value="{{ old('phone') }}" placeholder="Phone Number">
                               <i class="fa-solid fa-phone"></i>
                            </div>
                            <div class="input-single alter-input">
-                              <textarea name="contact-message" id="contactMessage"
-                                 placeholder="Your Message..."></textarea>
+                              <textarea name="message" id="contactMessage"
+                                 placeholder="Your Message...">{{ old('message') }}</textarea>
                               <i class="fa-solid fa-comments"></i>
                            </div>
                            <div class="form-cta">
