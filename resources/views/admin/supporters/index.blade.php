@@ -40,10 +40,12 @@
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
-                <a class="nav-link" href="{{ route('admin.contact-messages.index') }}"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-reports.index') }}"><i class="fa-solid fa-flag"></i> Reports</a>
+                <a class="nav-link" href="{{ route('admin.events.index') }}"><i class="fa-solid fa-calendar-days"></i> Events</a>
+                <a class="nav-link" href="{{ route('admin.blogs.index') }}"><i class="fa-solid fa-newspaper"></i> Blogs</a>
+                <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
-                <a class="nav-link active" href="{{ route('admin.supporters.index') }}"><i class="fa-solid fa-users"></i> Supporters</a>
+                <a class="nav-link active" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -56,6 +58,7 @@
                         <h1 class="h4 fw-bold mb-0">Supporters</h1>
                     </div>
                     <div class="topbar-actions">
+                        @include('admin.partials.activity-bell')
                         <div class="dropdown">
                             <button class="btn profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user-circle text-warning"></i>
@@ -65,7 +68,7 @@
                                 <li><a class="dropdown-item" href="{{ route('admin.settings.index') }}">Profile</a></li>
                             </ul>
                         </div>
-                        <form action="{{ route('logout') }}" method="post">@csrf<button class="btn btn-sm btn-warning fw-bold" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></form>
+                        <form action="{{ route('logout') }}" method="post">@csrf<button class="btn btn-warning fw-bold" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></form>
                     </div>
                 </div>
             </header>
@@ -107,6 +110,10 @@
             </div>
         </main>
     </div>
+    @include('partials.delete-confirm-modal')
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
+
+
+

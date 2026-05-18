@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminActivity;
 use App\Models\Donation;
 use App\Models\FundraiserPost;
 use Illuminate\Http\RedirectResponse;
@@ -17,7 +18,7 @@ class FundraiserPostController extends Controller
             ->with('fundraiser')
             ->addSelect([
                 'actual_raised_amount' => Donation::query()
-                    ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount ELSE amount END), 0)')
+                    ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')
                     ->whereColumn('donations.fundraiser_post_id', 'fundraiser_posts.id')
                     ->where('status', Donation::STATUS_PAID),
             ])
@@ -89,7 +90,7 @@ class FundraiserPostController extends Controller
         $mainImage = $request->file('main_image')->store('fundraiser-posts/images', 'public');
         $supportingFile = $request->file('supporting_file')?->store('fundraiser-posts/supporting-files', 'public');
 
-        FundraiserPost::create([
+        $post = FundraiserPost::create([
             'fundraiser_id' => $request->attributes->get('fundraiser')->id,
             'title' => $validated['title'],
             'short_description' => $validated['short_description'],
@@ -103,6 +104,13 @@ class FundraiserPostController extends Controller
             'main_image' => $mainImage,
             'supporting_file' => $supportingFile,
             'status' => FundraiserPost::STATUS_PENDING,
+        ]);
+
+        AdminActivity::create([
+            'title' => 'New Fundraiser Post Created',
+            'message' => $post->title.' was submitted for admin review.',
+            'type' => 'campaign',
+            'created_by' => $request->attributes->get('fundraiser')->name,
         ]);
 
         return redirect()

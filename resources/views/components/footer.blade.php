@@ -196,6 +196,8 @@ Newtown, Kolkata, West Bengal 700161
             </svg>
          </button>
          <!-- ==== / scroll to top end ==== -->
+         @include('partials.delete-confirm-modal')
+         @include('partials.auto-alerts')
       </div>
       <!-- ==== js dependencies start ==== -->
       <!-- jquery -->

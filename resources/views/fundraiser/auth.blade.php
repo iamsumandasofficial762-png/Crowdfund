@@ -621,6 +621,7 @@
         </section>
     </main>
 
+    @include('partials.auto-alerts')
     <script>
         const card = document.querySelector('[data-card]');
         const switches = document.querySelectorAll('[data-switch]');
@@ -715,14 +716,6 @@
             });
         });
 
-        document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
-            const delay = Number(alert.dataset.autoDismiss) || 3500;
-
-            window.setTimeout(() => {
-                alert.classList.add('is-hiding');
-                window.setTimeout(() => alert.remove(), 400);
-            }, delay);
-        });
     </script>
 </body>
 </html>

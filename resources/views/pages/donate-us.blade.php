@@ -11,6 +11,9 @@
    $topSupporters = $topSupporters ?? collect();
    $supporters = $supporters ?? collect();
    $supporterCount = $supporterCount ?? 0;
+   $pendingDonationAmount = (float) ($pendingDonationAmount ?? 0);
+   $shouldOpenDonationModal = (bool) ($shouldOpenDonationModal ?? false) || $errors->donation->any();
+   $donationModalAmount = old('amount', $pendingDonationAmount > 0 ? number_format($pendingDonationAmount, 0) : '2,500');
    $topSupporterNames = $topSupporters->map(fn ($supporter) => $supporter->publicDonorName())->filter()->take(10)->join(', ');
    $storyUpdates = $selectedPost?->publishedUpdates ?? collect();
 @endphp
@@ -20,8 +23,8 @@
       --donate-navy: #001b3f;
       --donate-ink: #0b2240;
       --donate-muted: #475569;
-      --donate-orange: #f59e0b;
-      --donate-orange-soft: #fff2d6;
+      --donate-orange: #932a19;
+      --donate-orange-soft: #f7e1df;
       --donate-brick: #a83220;
       --donate-brick-dark: #8f2619;
       --donate-cream: #fff8ed;
@@ -50,7 +53,7 @@
 
    .story-tabs__button.is-active {
       color: #111111;
-      border-color: #ffb33f;
+      border-color: #932a19;
    }
 
    .story-tab-panel {
@@ -123,7 +126,7 @@
    }
 
    .public-update-card__share {
-      border: 1px solid rgba(255, 179, 63, 0.65);
+      border: 1px solid rgba(147, 42, 25, 0.65);
       border-radius: 999px;
       min-height: 40px;
       box-sizing: border-box;
@@ -793,6 +796,21 @@
 
    .report-form__control:focus {
       border-bottom-color: var(--donate-brick);
+   }
+
+   textarea.report-form__control {
+      min-height: 118px;
+      border: 1px solid rgba(168, 50, 32, 0.28);
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #ffffff;
+      resize: vertical;
+      line-height: 1.5;
+   }
+
+   textarea.report-form__control:focus {
+      border-color: var(--donate-brick);
+      box-shadow: 0 0 0 3px rgba(168, 50, 32, 0.1);
    }
 
    .report-form__phone {
@@ -2937,7 +2955,7 @@
 <!-- ==== / donate us section end ==== -->
 
 @if ($selectedPost)
-   <div class="donation-modal {{ $errors->donation->any() ? 'is-open' : '' }}" data-donation-modal aria-hidden="{{ $errors->donation->any() ? 'false' : 'true' }}">
+   <div class="donation-modal {{ $shouldOpenDonationModal ? 'is-open' : '' }}" data-donation-modal aria-hidden="{{ $shouldOpenDonationModal ? 'false' : 'true' }}">
       <section class="donation-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="donationModalTitle">
          <div class="donation-modal__head">
             <h3 id="donationModalTitle">Make a secure donation</h3>
@@ -2959,7 +2977,7 @@
                </div>
                <label>
                   <span class="donation-modal__label">Amount</span>
-                  <input type="text" name="amount" value="2,500" inputmode="numeric" aria-label="Donation amount" data-donation-amount>
+                  <input type="text" name="amount" value="{{ $donationModalAmount }}" inputmode="numeric" aria-label="Donation amount" data-donation-amount>
                </label>
             </div>
 
@@ -3163,28 +3181,28 @@
          <form class="report-form" action="{{ route('fundraiser-reports.store', $selectedPost) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="report-form__field">
-               <input class="report-form__control" type="text" name="name" placeholder="Name" aria-label="Name">
+               <input class="report-form__control" type="text" name="name" value="{{ old('name') }}" placeholder="Name" aria-label="Name">
             </div>
 
             <div class="report-form__field">
-               <input class="report-form__control" type="email" name="email" placeholder="Email id" aria-label="Email id">
+               <input class="report-form__control" type="email" name="email" value="{{ old('email') }}" placeholder="Email id" aria-label="Email id">
             </div>
 
             <div class="report-form__field">
                <div class="report-form__phone">
                   <select class="report-form__control" name="country_code" aria-label="Country code">
-                     <option value="+91">+91</option>
-                     <option value="+1">+1</option>
-                     <option value="+44">+44</option>
-                     <option value="+971">+971</option>
+                     <option value="+91" @selected(old('country_code', '+91') === '+91')>+91</option>
+                     <option value="+1" @selected(old('country_code') === '+1')>+1</option>
+                     <option value="+44" @selected(old('country_code') === '+44')>+44</option>
+                     <option value="+971" @selected(old('country_code') === '+971')>+971</option>
                   </select>
-                  <input class="report-form__control" type="tel" name="phone" placeholder="Phone number" aria-label="Phone number">
+                  <input class="report-form__control" type="tel" name="phone" value="{{ old('phone') }}" placeholder="Phone number" aria-label="Phone number">
                </div>
                <p class="report-form__hint">Our team will verify your claim via this number; please ensure it is correct.</p>
             </div>
 
             <div class="report-form__field">
-               <textarea class="report-form__control" name="message" rows="2" placeholder="Message" aria-label="Message"></textarea>
+               <textarea class="report-form__control" name="message" rows="5" placeholder="Write your report message..." aria-label="Message">{{ old('message') }}</textarea>
             </div>
 
             <div class="report-form__field">
@@ -3358,6 +3376,7 @@
       const documentTitle = document.querySelector('[data-document-title]');
       const documentBody = document.querySelector('[data-document-body]');
       const documentCloseButton = document.querySelector('[data-document-close]');
+      let retainedReportFile = null;
       let selectedDonationTipPercent = null;
 
       const formatDonationAmount = (amount, decimals = 0) => {
@@ -3749,7 +3768,27 @@
       });
       reportFileInput?.addEventListener('change', () => {
          const file = reportFileInput.files?.[0];
-         reportFileName && (reportFileName.textContent = file ? `Selected: ${file.name}` : 'No file selected');
+
+         if (file) {
+            retainedReportFile = file;
+            reportFileName && (reportFileName.textContent = `Selected: ${file.name}`);
+            return;
+         }
+
+         if (retainedReportFile) {
+            try {
+               const retainedFiles = new DataTransfer();
+               retainedFiles.items.add(retainedReportFile);
+               reportFileInput.files = retainedFiles.files;
+            } catch (error) {
+               // Some older browsers do not allow restoring file inputs.
+            }
+
+            reportFileName && (reportFileName.textContent = `Selected: ${retainedReportFile.name}`);
+            return;
+         }
+
+         reportFileName && (reportFileName.textContent = 'No file selected');
       });
 
       donationOpenButtons.forEach((button) => {

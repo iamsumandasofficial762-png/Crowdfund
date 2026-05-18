@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donation;
 use App\Models\FundraiserPost;
 use App\Models\FundraiserPostUpdate;
 use Illuminate\Http\RedirectResponse;
@@ -16,8 +17,13 @@ class FundraiserPostUpdateController extends Controller
         $fundraiser = $request->attributes->get('fundraiser');
 
         $posts = $fundraiser->posts()
+            ->addSelect([
+                'paid_donations_main_sum_amount' => Donation::query()
+                    ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')
+                    ->whereColumn('donations.fundraiser_post_id', 'fundraiser_posts.id')
+                    ->where('status', Donation::STATUS_PAID),
+            ])
             ->withCount(['updates', 'publishedUpdates'])
-            ->withSum('paidDonations', 'amount')
             ->withCount('paidDonations')
             ->latest()
             ->paginate(9);
@@ -30,15 +36,16 @@ class FundraiserPostUpdateController extends Controller
         $this->authorizeFundraiserPost($request, $post);
 
         $post->load('fundraiser')
-            ->loadCount('paidDonations')
-            ->loadSum('paidDonations', 'amount');
+            ->loadCount('paidDonations');
 
         $updates = $post->updates()
             ->orderByDesc('is_pinned')
             ->latest()
             ->paginate(10);
 
-        $raisedFromDonations = (float) ($post->paid_donations_sum_amount ?? $post->paidDonations()->sum('amount'));
+        $raisedFromDonations = (float) $post->paidDonations()
+            ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0) as total')
+            ->value('total');
         $raisedAmount = max((float) $post->raised_amount, $raisedFromDonations);
 
         return view('fundraiser.updates.index', compact('post', 'updates', 'raisedAmount'));

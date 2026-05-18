@@ -424,6 +424,7 @@
             </div>
         </section>
     </main>
+    @include('partials.auto-alerts')
     <script>
         document.querySelectorAll('[data-admin-password-toggle]').forEach((button) => {
             const input = document.getElementById(button.dataset.adminPasswordToggle);
@@ -445,14 +446,9 @@
             });
         });
 
-        document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
-            const delay = Number(alert.dataset.autoDismiss) || 3500;
-
-            window.setTimeout(() => {
-                alert.classList.add('is-hiding');
-                window.setTimeout(() => alert.remove(), 400);
-            }, delay);
-        });
     </script>
 </body>
 </html>
+
+
+

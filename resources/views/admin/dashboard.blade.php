@@ -139,6 +139,10 @@
             transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
+        .stat-card[data-card-url] {
+            cursor: pointer;
+        }
+
         .stat-card__top {
             display: flex;
             align-items: flex-start;
@@ -216,7 +220,7 @@
         }
 
         .panel {
-            min-height: 390px;
+            min-height: auto;
             padding: 28px !important;
         }
 
@@ -229,12 +233,13 @@
         }
 
         .chart-bars {
-            height: 270px;
+            height: 100%;
+            min-height: 280px;
             display: grid;
             grid-template-columns: repeat(8, 1fr);
             align-items: end;
             gap: 16px;
-            padding-top: 24px;
+            padding-top: 12px;
             border-bottom: 1px solid var(--line);
             background-image: repeating-linear-gradient(to top, transparent 0 63px, #e7ebf1 64px);
         }
@@ -308,6 +313,15 @@
             visibility: hidden;
             transform: translate(-50%, 6px);
             transition: opacity 0.18s ease, visibility 0.18s ease, transform 0.18s ease;
+        }
+
+        .growth-panel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .growth-panel .chart-bars {
+            flex: 1;
         }
 
         .chart-bar:hover::after {
@@ -682,7 +696,7 @@
             }
 
             .chart-bars {
-                height: 220px;
+                min-height: 180px;
                 gap: 8px;
             }
 
@@ -702,10 +716,12 @@
                 <a class="nav-link active" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
-                <a class="nav-link" href="{{ route('admin.contact-messages.index') }}"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-reports.index') }}"><i class="fa-solid fa-flag"></i> Reports</a>
+                <a class="nav-link" href="{{ route('admin.events.index') }}"><i class="fa-solid fa-calendar-days"></i> Events</a>
+                <a class="nav-link" href="{{ route('admin.blogs.index') }}"><i class="fa-solid fa-newspaper"></i> Blogs</a>
+                <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
-                <a class="nav-link" href="{{ route('admin.supporters.index') }}"><i class="fa-solid fa-users"></i> Supporters</a>
+                <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -724,6 +740,7 @@
                     </div>
 
                     <div class="topbar-actions d-flex align-items-center gap-2">
+                        @include('admin.partials.activity-bell')
                         <div class="dropdown">
                             <button class="btn profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user-circle text-warning"></i>
@@ -735,7 +752,7 @@
                         </div>
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
-                            <button class="btn btn-sm btn-warning fw-bold" type="submit">
+                            <button class="btn btn-warning fw-bold" type="submit">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 Logout
                             </button>
@@ -748,27 +765,24 @@
                 <div class="content-inner">
                 <section class="mb-4">
                     <div class="report-grid">
-                        <article class="stat-card">
+                        <article class="stat-card" data-card-url="{{ route('admin.donations.index') }}" tabindex="0" role="link">
                             <div class="stat-card__top">
-                                <span class="icon-box"><i class="fa-solid fa-wallet"></i></span>
-                                <span class="badge badge-gold">{{ $supporterCount }} paid</span>
+                                <div class="stat-switch" aria-label="Donation card type">
+                                    <button class="stat-switch__button is-active" type="button" data-stat-switch="donation" data-label="Total donations" data-value="Rs. {{ number_format($totalDonations, 0) }}" data-badge="{{ $supporterCount }} paid" aria-label="Show total donations">
+                                        <i class="fa-solid fa-wallet"></i>
+                                    </button>
+                                    <button class="stat-switch__button" type="button" data-stat-switch="donation" data-label="Tip amount" data-value="Rs. {{ number_format($totalTips, 0) }}" data-badge="Tips" aria-label="Show tip amount">
+                                        <i class="fa-solid fa-coins"></i>
+                                    </button>
+                                </div>
+                                <span class="badge badge-gold" data-stat-badge="donation">{{ $supporterCount }} paid</span>
                             </div>
                             <div>
-                                <p class="muted mb-1">Total donations</p>
-                                <h2 class="h3 fw-black mb-0">Rs. {{ number_format($totalDonations, 0) }}</h2>
+                                <p class="muted mb-1" data-stat-label="donation">Total donations</p>
+                                <h2 class="h3 fw-black mb-0" data-stat-value="donation">Rs. {{ number_format($totalDonations, 0) }}</h2>
                             </div>
                         </article>
-                        <article class="stat-card">
-                            <div class="stat-card__top">
-                                <span class="icon-box"><i class="fa-solid fa-coins"></i></span>
-                                <span class="badge badge-gold">Tips</span>
-                            </div>
-                            <div>
-                                <p class="muted mb-1">Tip amount</p>
-                                <h2 class="h3 fw-black mb-0">Rs. {{ number_format($totalTips, 0) }}</h2>
-                            </div>
-                        </article>
-                        <article class="stat-card">
+                        <article class="stat-card" data-card-url="{{ route('admin.fundraiser-posts.index') }}" tabindex="0" role="link">
                             <div class="stat-card__top">
                                 <div class="stat-switch" aria-label="Campaign card type">
                                     <button class="stat-switch__button is-active" type="button" data-stat-switch="campaign" data-label="Live campaigns" data-value="{{ number_format($liveCampaignCount) }}" data-badge="Live" aria-label="Show live campaigns">
@@ -785,34 +799,51 @@
                                 <h2 class="h3 fw-black mb-0" data-stat-value="campaign">{{ number_format($liveCampaignCount) }}</h2>
                             </div>
                         </article>
-                        <article class="stat-card">
+                        <article class="stat-card" data-card-url="{{ route('admin.events.index') }}" tabindex="0" role="link">
                             <div class="stat-card__top">
-                                <div class="stat-switch" aria-label="Report card type">
-                                    <button class="stat-switch__button is-active" type="button" data-stat-switch="report" data-label="Site reports" data-value="{{ number_format($siteReportCount) }}" data-badge="Site" aria-label="Show site reports">
-                                        <i class="fa-solid fa-globe"></i>
+                                <div class="stat-switch" aria-label="Event card type">
+                                    <button class="stat-switch__button is-active" type="button" data-stat-switch="event" data-label="Published events" data-value="{{ number_format($publishedEventCount) }}" data-badge="Published" aria-label="Show published events">
+                                        <i class="fa-solid fa-calendar-check"></i>
                                     </button>
-                                    <button class="stat-switch__button" type="button" data-stat-switch="report" data-label="Supporter reports" data-value="{{ number_format($supporterReportCount) }}" data-badge="Supporter" aria-label="Show supporter reports">
-                                        <i class="fa-solid fa-user-shield"></i>
+                                    <button class="stat-switch__button" type="button" data-stat-switch="event" data-label="Draft events" data-value="{{ number_format($draftEventCount) }}" data-badge="Draft" aria-label="Show draft events">
+                                        <i class="fa-solid fa-calendar-plus"></i>
                                     </button>
                                 </div>
-                                <span class="badge badge-gold" data-stat-badge="report">Site</span>
+                                <span class="badge badge-gold" data-stat-badge="event">Published</span>
                             </div>
                             <div>
-                                <p class="muted mb-1" data-stat-label="report">Site reports</p>
-                                <h2 class="h3 fw-black mb-0" data-stat-value="report">{{ number_format($siteReportCount) }}</h2>
+                                <p class="muted mb-1" data-stat-label="event">Published events</p>
+                                <h2 class="h3 fw-black mb-0" data-stat-value="event">{{ number_format($publishedEventCount) }}</h2>
                             </div>
                         </article>
-                        <article class="stat-card">
+                        <article class="stat-card" data-card-url="{{ route('admin.blogs.index') }}" tabindex="0" role="link">
                             <div class="stat-card__top">
-                                <span class="icon-box"><i class="fa-solid fa-envelope"></i></span>
-                                <span class="badge badge-gold">Messages</span>
+                                <div class="stat-switch" aria-label="Blog card type">
+                                    <button class="stat-switch__button is-active" type="button" data-stat-switch="blog" data-label="Published blogs" data-value="{{ number_format($publishedBlogCount) }}" data-badge="Published" aria-label="Show published blogs">
+                                        <i class="fa-solid fa-newspaper"></i>
+                                    </button>
+                                    <button class="stat-switch__button" type="button" data-stat-switch="blog" data-label="Draft blogs" data-value="{{ number_format($draftBlogCount) }}" data-badge="Draft" aria-label="Show draft blogs">
+                                        <i class="fa-solid fa-file-pen"></i>
+                                    </button>
+                                </div>
+                                <span class="badge badge-gold" data-stat-badge="blog">Published</span>
                             </div>
                             <div>
-                                <p class="muted mb-1">Contact messages</p>
-                                <h2 class="h3 fw-black mb-0">{{ number_format($contactCount) }}</h2>
+                                <p class="muted mb-1" data-stat-label="blog">Published blogs</p>
+                                <h2 class="h3 fw-black mb-0" data-stat-value="blog">{{ number_format($publishedBlogCount) }}</h2>
                             </div>
                         </article>
-                        <article class="stat-card">
+                        <article class="stat-card" data-card-url="{{ route('admin.fundraiser-reports.index') }}" tabindex="0" role="link">
+                            <div class="stat-card__top">
+                                <span class="icon-box"><i class="fa-solid fa-user-shield"></i></span>
+                                <span class="badge badge-gold">Supporter</span>
+                            </div>
+                            <div>
+                                <p class="muted mb-1">Supporter reports</p>
+                                <h2 class="h3 fw-black mb-0">{{ number_format($supporterReportCount) }}</h2>
+                            </div>
+                        </article>
+                        <article class="stat-card" data-card-url="{{ route('admin.fundraiser-referrals.index') }}" tabindex="0" role="link">
                             <div class="stat-card__top">
                                 <span class="icon-box"><i class="fa-solid fa-hand-holding-heart"></i></span>
                                 <span class="badge badge-gold">Requests</span>
@@ -822,7 +853,7 @@
                                 <h2 class="h3 fw-black mb-0">{{ number_format($referralCount) }}</h2>
                             </div>
                         </article>
-                        <article class="stat-card">
+                        <article class="stat-card" data-card-url="{{ route('admin.fundraisers.index') }}" tabindex="0" role="link">
                             <div class="stat-card__top">
                                 <span class="icon-box"><i class="fa-solid fa-users-gear"></i></span>
                                 <span class="badge badge-gold">Accounts</span>
@@ -837,7 +868,7 @@
 
                 <div class="row g-4">
                     <div class="col-xl-7">
-                        <section class="panel h-100">
+                        <section class="panel h-100 growth-panel">
                             <div class="panel-header">
                                 <div>
                                     <p class="muted small mb-1">Donations</p>
@@ -949,50 +980,8 @@
                         <section class="panel h-100">
                             <div class="panel-header">
                                 <div>
-                                    <p class="muted small mb-1">Report data</p>
-                                    <h2 class="h5 fw-black mb-0">Recent site reports</h2>
-                                </div>
-                                <a class="table-link" href="{{ route('admin.fundraiser-reports.index') }}">View all</a>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table align-middle">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Subject</th>
-                                            <th>Phone</th>
-                                            <th>Document</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($recentSiteReports as $report)
-                                            <tr>
-                                                <td>{{ $report->name ?: '-' }}</td>
-                                                <td class="text-clip">{{ $report->subject ?: ($report->message ?: '-') }}</td>
-                                                <td>{{ $report->phone ?: '-' }}</td>
-                                                <td>
-                                                    @if ($report->supporting_document)
-                                                        <a class="table-link" href="{{ asset('storage/' . $report->supporting_document) }}" target="_blank">View</a>
-                                                    @else
-                                                        -
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr><td colspan="4" class="text-center muted py-4">No site reports yet.</td></tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </section>
-                    </div>
-
-                    <div class="col-xl-6">
-                        <section class="panel h-100">
-                            <div class="panel-header">
-                                <div>
                                     <p class="muted small mb-1">Supporter report data</p>
-                                    <h2 class="h5 fw-black mb-0">Recent supporter side reports</h2>
+                                    <h2 class="h5 fw-black mb-0">Recent supporter reports</h2>
                                 </div>
                                 <a class="table-link" href="{{ route('admin.fundraiser-reports.index') }}">View all</a>
                             </div>
@@ -1033,31 +1022,31 @@
                         <section class="panel h-100">
                             <div class="panel-header">
                                 <div>
-                                    <p class="muted small mb-1">Contact data</p>
-                                    <h2 class="h5 fw-black mb-0">Contact messages</h2>
+                                    <p class="muted small mb-1">Referral data</p>
+                                    <h2 class="h5 fw-black mb-0">Referral requests</h2>
                                 </div>
-                                <a class="table-link" href="{{ route('admin.contact-messages.index') }}">View all</a>
+                                <a class="table-link" href="{{ route('admin.fundraiser-referrals.index') }}">View all</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table align-middle">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Message</th>
+                                            <th>Reason</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($recentContacts as $message)
+                                        @forelse ($recentReferrals as $referral)
                                             <tr>
-                                                <td>{{ $message->name }}</td>
-                                                <td>{{ $message->email }}</td>
-                                                <td>{{ $message->phone ?: '-' }}</td>
-                                                <td class="text-clip">{{ $message->message ?: '-' }}</td>
+                                                <td class="text-clip">{{ $referral->name }}</td>
+                                                <td class="text-clip">{{ $referral->reason ?: '-' }}</td>
+                                                <td><span class="badge badge-gold">{{ ucfirst($referral->status) }}</span></td>
+                                                <td class="muted">{{ $referral->created_at->format('d M') }}</td>
                                             </tr>
                                         @empty
-                                            <tr><td colspan="4" class="text-center muted py-4">No contact messages yet.</td></tr>
+                                            <tr><td colspan="4" class="text-center muted py-4">No referral requests yet.</td></tr>
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -1069,41 +1058,98 @@
                         <section class="panel h-100">
                             <div class="panel-header">
                                 <div>
-                                    <p class="muted small mb-1">Campaign data</p>
-                                    <h2 class="h5 fw-black mb-0">Campaigns and referrals</h2>
+                                    <p class="muted small mb-1">Blog data</p>
+                                    <h2 class="h5 fw-black mb-0">Recent blogs</h2>
                                 </div>
-                                <a class="table-link" href="{{ route('admin.fundraiser-posts.index') }}">View posts</a>
+                                <a class="table-link" href="{{ route('admin.blogs.index') }}">View all</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="table align-middle">
                                     <thead>
                                         <tr>
-                                            <th>Item</th>
+                                            <th>Title</th>
                                             <th>Status</th>
-                                            <th>Type</th>
                                             <th>Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($recentCampaigns as $campaign)
+                                        @forelse ($recentBlogs as $blog)
                                             <tr>
-                                                <td class="text-clip">{{ $campaign->title }}</td>
-                                                <td><span class="badge badge-gold">{{ ucfirst($campaign->status) }}</span></td>
-                                                <td>Campaign</td>
-                                                <td class="muted">{{ $campaign->created_at->format('d M') }}</td>
+                                                <td class="text-clip">{{ $blog->title }}</td>
+                                                <td><span class="badge badge-gold">{{ ucfirst($blog->status) }}</span></td>
+                                                <td class="muted">{{ $blog->created_at->format('d M') }}</td>
                                             </tr>
-                                        @endforeach
-                                        @foreach ($recentReferrals as $referral)
+                                        @empty
+                                            <tr><td colspan="3" class="text-center muted py-4">No blogs yet.</td></tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <section class="panel h-100">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="muted small mb-1">Event data</p>
+                                    <h2 class="h5 fw-black mb-0">Recent events</h2>
+                                </div>
+                                <a class="table-link" href="{{ route('admin.events.index') }}">View all</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($recentEvents as $event)
                                             <tr>
-                                                <td class="text-clip">{{ $referral->name }} - {{ $referral->reason ?: 'Referral' }}</td>
-                                                <td><span class="badge badge-gold">{{ ucfirst($referral->status) }}</span></td>
-                                                <td>Referral</td>
-                                                <td class="muted">{{ $referral->created_at->format('d M') }}</td>
+                                                <td class="text-clip">{{ $event->title }}</td>
+                                                <td><span class="badge badge-gold">{{ ucfirst($event->status) }}</span></td>
+                                                <td class="muted">{{ $event->created_at->format('d M') }}</td>
                                             </tr>
-                                        @endforeach
-                                        @if ($recentCampaigns->isEmpty() && $recentReferrals->isEmpty())
-                                            <tr><td colspan="4" class="text-center muted py-4">No campaign data yet.</td></tr>
-                                        @endif
+                                        @empty
+                                            <tr><td colspan="3" class="text-center muted py-4">No events yet.</td></tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <section class="panel h-100">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="muted small mb-1">Fundraiser data</p>
+                                    <h2 class="h5 fw-black mb-0">Recent fundraisers</h2>
+                                </div>
+                                <a class="table-link" href="{{ route('admin.fundraisers.index') }}">View all</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($recentFundraisers as $fundraiser)
+                                            <tr>
+                                                <td class="text-clip">{{ $fundraiser->name }}</td>
+                                                <td><span class="badge badge-gold">{{ ucfirst($fundraiser->status) }}</span></td>
+                                                <td class="muted">{{ $fundraiser->created_at->format('d M') }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr><td colspan="3" class="text-center muted py-4">No fundraisers yet.</td></tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -1145,6 +1191,7 @@
         </section>
     </div>
 
+    @include('partials.delete-confirm-modal')
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script>
         (() => {
@@ -1184,7 +1231,8 @@
             });
 
             document.querySelectorAll('[data-stat-switch]').forEach((button) => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation();
                     const stat = button.dataset.statSwitch;
                     const label = document.querySelector(`[data-stat-label="${stat}"]`);
                     const value = document.querySelector(`[data-stat-value="${stat}"]`);
@@ -1204,6 +1252,31 @@
 
                     if (badge) {
                         badge.textContent = button.dataset.badge || '';
+                    }
+                });
+            });
+
+            document.querySelectorAll('[data-card-url]').forEach((card) => {
+                const openCard = () => {
+                    const url = card.dataset.cardUrl;
+
+                    if (url) {
+                        window.location.href = url;
+                    }
+                };
+
+                card.addEventListener('click', (event) => {
+                    if (event.target.closest('button, a, input, select, textarea')) {
+                        return;
+                    }
+
+                    openCard();
+                });
+
+                card.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        openCard();
                     }
                 });
             });
@@ -1267,3 +1340,4 @@
     </script>
 </body>
 </html>
+

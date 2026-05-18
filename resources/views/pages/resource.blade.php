@@ -169,6 +169,13 @@
    .resource-input,
    .resource-select {
       height: 46px;
+      line-height: 46px;
+   }
+
+   .resource-input::placeholder,
+   .resource-textarea::placeholder {
+      color: #6f7787;
+      opacity: 1;
    }
 
    .resource-textarea {
@@ -201,6 +208,7 @@
    .resource-phone .resource-select {
       padding-right: 24px;
       background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%;
+      line-height: 46px;
    }
 
    .resource-submit {
@@ -302,12 +310,13 @@
                   </div>
                @endif
 
-               <form action="{{ route('fundraiser-referrals.store') }}" method="post">
+               <form action="{{ route('contact-messages.store') }}" method="post">
                   @csrf
+                  <input type="hidden" name="resource_callback" value="1">
 
                   <div class="resource-field">
                      <label class="resource-label" for="resource_name">Name *</label>
-                     <input class="resource-input" id="resource_name" type="text" name="name" value="{{ old('name') }}" required>
+                     <input class="resource-input" id="resource_name" type="text" name="name" value="{{ old('name') }}" placeholder="Enter your full name" required>
                   </div>
 
                   <div class="resource-field">
@@ -319,7 +328,7 @@
                            <option value="+44" @selected(old('country_code') === '+44')>+44</option>
                            <option value="+971" @selected(old('country_code') === '+971')>+971</option>
                         </select>
-                        <input class="resource-input" type="tel" name="phone" value="{{ old('phone') }}" placeholder="Enter number" required>
+                        <input class="resource-input" type="tel" name="phone" value="{{ old('phone') }}" placeholder="Enter contact number" required>
                      </div>
                   </div>
 
@@ -327,7 +336,7 @@
                      <div class="resource-field">
                         <label class="resource-label" for="estimated_cost">Estimated cost (Rs) *</label>
                         <select class="resource-select" id="estimated_cost" name="estimated_cost" required>
-                           <option value="">Select an estimated cost</option>
+                           <option value="">Select estimated cost</option>
                            @foreach (['Below Rs. 50,000', 'Rs. 50,000 - Rs. 1,00,000', 'Rs. 1,00,000 - Rs. 5,00,000', 'Above Rs. 5,00,000', 'Not sure yet'] as $cost)
                               <option value="{{ $cost }}" @selected(old('estimated_cost') === $cost)>{{ $cost }}</option>
                            @endforeach
@@ -337,7 +346,7 @@
                      <div class="resource-field">
                         <label class="resource-label" for="preferred_language">Language Preference</label>
                         <select class="resource-select" id="preferred_language" name="preferred_language" required>
-                           <option value="">Select a language</option>
+                           <option value="">Select preferred language</option>
                            @foreach (['English', 'Hindi', 'Bengali', 'Telugu', 'Tamil', 'Kannada', 'Malayalam', 'Marathi', 'Gujarati'] as $language)
                               <option value="{{ $language }}" @selected(old('preferred_language') === $language)>{{ $language }}</option>
                            @endforeach
@@ -348,7 +357,7 @@
                   <div class="resource-field">
                      <label class="resource-label" for="reason">Reason for fundraising *</label>
                      <select class="resource-select" id="reason" name="reason" required>
-                        <option value="">Select a reason</option>
+                        <option value="">Select fundraising reason</option>
                         @foreach (['Medical treatment', 'Education support', 'Emergency relief', 'Community support', 'Other'] as $reason)
                            <option value="{{ $reason }}" @selected(old('reason') === $reason)>{{ $reason }}</option>
                         @endforeach
@@ -357,7 +366,7 @@
 
                   <div class="resource-field">
                      <label class="resource-label" for="description">Description</label>
-                     <textarea class="resource-textarea" id="description" name="description" placeholder="Please provide details about your requirements...">{{ old('description') }}</textarea>
+                     <textarea class="resource-textarea" id="description" name="description" placeholder="Write details about your requirements">{{ old('description') }}</textarea>
                   </div>
 
                   <div class="resource-field">
@@ -369,7 +378,7 @@
                            <option value="+44" @selected(old('alternate_country_code') === '+44')>+44</option>
                            <option value="+971" @selected(old('alternate_country_code') === '+971')>+971</option>
                         </select>
-                        <input class="resource-input" type="tel" name="alternate_phone" value="{{ old('alternate_phone') }}" placeholder="Enter number">
+                        <input class="resource-input" type="tel" name="alternate_phone" value="{{ old('alternate_phone') }}" placeholder="Enter alternate number">
                      </div>
                   </div>
 

@@ -531,17 +531,6 @@
             </form>
         </section>
     </main>
-    <script>
-        (() => {
-            document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
-                const delay = Number(alert.dataset.autoDismiss) || 3500;
-
-                window.setTimeout(() => {
-                    alert.classList.add('is-hiding');
-                    window.setTimeout(() => alert.remove(), 400);
-                }, delay);
-            });
-        })();
-    </script>
+    @include('partials.auto-alerts')
 </body>
 </html>

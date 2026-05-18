@@ -12,6 +12,7 @@ class FundraiserPost extends Model
     public const STATUS_PENDING = 'pending';
     public const STATUS_APPROVED = 'approved';
     public const STATUS_REJECTED = 'rejected';
+    public const STATUS_HOLD = 'hold';
 
     protected $fillable = [
         'fundraiser_id',
@@ -75,5 +76,10 @@ class FundraiserPost extends Model
     public function scopePending(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_PENDING);
+    }
+
+    public function scopeHold(Builder $query): Builder
+    {
+        return $query->where('status', self::STATUS_HOLD);
     }
 }

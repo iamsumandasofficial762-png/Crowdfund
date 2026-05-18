@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
     <style>
         :root {
-            --gold: #ffb33f;
+            --gold: #932a19;
             --ink: #0a0a0a;
             --muted: #6c6c6c;
         }
@@ -20,8 +20,8 @@
             font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: #ffffff;
             background:
-                radial-gradient(circle at 100% 20%, rgba(255, 179, 63, 0.26), transparent 30%),
-                linear-gradient(135deg, #000000, #151515 62%, #3a2408);
+                radial-gradient(circle at 100% 20%, rgba(147, 42, 25, 0.26), transparent 30%),
+                linear-gradient(135deg, #000000, #151515 62%, #2d120c);
         }
 
         .public-page {
@@ -76,7 +76,7 @@
 
         .fundraiser-card {
             height: 100%;
-            border: 1px solid rgba(255, 179, 63, 0.22);
+            border: 1px solid rgba(147, 42, 25, 0.22);
             border-radius: 14px;
             padding: 22px;
             background: rgba(255, 255, 255, 0.96);
@@ -88,7 +88,7 @@
             display: inline-flex;
             border-radius: 999px;
             padding: 6px 10px;
-            background: rgba(255, 179, 63, 0.2);
+            background: rgba(147, 42, 25, 0.2);
             color: #7a4700;
             font-size: 12px;
             font-weight: 900;
@@ -106,7 +106,7 @@
         }
 
         .empty-state {
-            border: 1px solid rgba(255, 179, 63, 0.22);
+            border: 1px solid rgba(147, 42, 25, 0.22);
             border-radius: 14px;
             padding: 28px;
             background: rgba(0, 0, 0, 0.34);

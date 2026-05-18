@@ -28,8 +28,14 @@
         .btn-warning,.btn-warning:focus { border-color:var(--gold); color:#fff !important; background:var(--gold); }
         .btn-warning:hover,.btn-warning:active { border-color:#b21f17; color:#fff !important; background:#b21f17; }
         .panel { border:1px solid var(--line); border-radius:18px; background:#fff; box-shadow:0 14px 34px rgba(18,24,39,.07); }
+        .summary-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-bottom:24px; }
+        .summary-card { min-height:132px; display:flex; align-items:center; justify-content:space-between; gap:18px; border:1px solid var(--line); border-radius:16px; padding:22px; background:#fff; box-shadow:0 12px 28px rgba(18,24,39,.07); }
+        .summary-card__icon { width:48px; height:48px; display:grid; place-items:center; flex:0 0 48px; border-radius:14px; color:var(--gold); background:var(--gold-soft); }
+        .summary-card__icon i { display:block; margin:0; font-size:18px; line-height:1; transform:none; }
+        .summary-card span { display:block; color:var(--muted); font-weight:800; }
+        .summary-card strong { display:block; margin-top:8px; color:var(--ink); font-size:28px; line-height:1.1; font-weight:900; }
         .text-clip { max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-        @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } .sidebar { position:static; } }
+        @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } .sidebar { position:static; } .summary-grid { grid-template-columns:1fr; } }
     </style>
 </head>
 <body>
@@ -40,10 +46,12 @@
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
-                <a class="nav-link" href="{{ route('admin.contact-messages.index') }}"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-reports.index') }}"><i class="fa-solid fa-flag"></i> Reports</a>
+                <a class="nav-link" href="{{ route('admin.events.index') }}"><i class="fa-solid fa-calendar-days"></i> Events</a>
+                <a class="nav-link" href="{{ route('admin.blogs.index') }}"><i class="fa-solid fa-newspaper"></i> Blogs</a>
+                <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link active" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
-                <a class="nav-link" href="{{ route('admin.supporters.index') }}"><i class="fa-solid fa-users"></i> Supporters</a>
+                <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -56,6 +64,7 @@
                         <h1 class="h4 fw-bold mb-0">Donations</h1>
                     </div>
                     <div class="topbar-actions">
+                        @include('admin.partials.activity-bell')
                         <div class="dropdown">
                             <button class="btn profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user-circle text-warning"></i>
@@ -65,12 +74,36 @@
                                 <li><a class="dropdown-item" href="{{ route('admin.settings.index') }}">Profile</a></li>
                             </ul>
                         </div>
-                        <form action="{{ route('logout') }}" method="post">@csrf<button class="btn btn-sm btn-warning fw-bold" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></form>
+                        <form action="{{ route('logout') }}" method="post">@csrf<button class="btn btn-warning fw-bold" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></form>
                     </div>
                 </div>
             </header>
 
             <div class="content">
+                <div class="summary-grid">
+                    <article class="summary-card">
+                        <div>
+                            <span>Total amount</span>
+                            <strong>Rs. {{ number_format($totalAmount, 0) }}</strong>
+                        </div>
+                        <span class="summary-card__icon"><i class="fa-solid fa-indian-rupee-sign"></i></span>
+                    </article>
+                    <article class="summary-card">
+                        <div>
+                            <span>Main amount</span>
+                            <strong>Rs. {{ number_format($mainAmount, 0) }}</strong>
+                        </div>
+                        <span class="summary-card__icon"><i class="fa-solid fa-hand-holding-heart"></i></span>
+                    </article>
+                    <article class="summary-card">
+                        <div>
+                            <span>Tip amount</span>
+                            <strong>Rs. {{ number_format($tipAmount, 0) }}</strong>
+                        </div>
+                        <span class="summary-card__icon"><i class="fa-solid fa-coins"></i></span>
+                    </article>
+                </div>
+
                 <div class="panel table-responsive">
                     <table class="table align-middle mb-0">
                         <thead>
@@ -96,7 +129,13 @@
                                     <td>{{ $donation->publicDonorName() }}</td>
                                     <td>{{ $donation->donor_email ?: '-' }}</td>
                                     <td>{{ $donation->donor_phone ?: '-' }}</td>
-                                    <td class="text-clip">{{ $donation->fundraiserPost?->title ?? '-' }}</td>
+                                    <td class="text-clip">
+                                        @if ($donation->fundraiserPost)
+                                            <a class="fw-bold" href="{{ route('donate-us', $donation->fundraiserPost) }}" target="_blank" title="{{ $donation->fundraiserPost->title }}">{{ $donation->fundraiserPost->title }}</a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td>Rs. {{ number_format((float) ($donation->main_amount ?: $donation->amount), 0) }}</td>
                                     <td>Rs. {{ number_format((float) $donation->tip_amount, 0) }}</td>
                                     <td>Rs. {{ number_format((float) $donation->amount, 0) }}</td>
@@ -113,6 +152,10 @@
             </div>
         </main>
     </div>
+    @include('partials.delete-confirm-modal')
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
+
+
+

@@ -43,20 +43,28 @@
         </div>
         <div class="col-md-6">
             <label class="form-label fw-bold" for="main_image">Main Image Upload</label>
-            <div class="file-input-row">
-                <input class="form-control" id="main_image" type="file" name="main_image" accept=".jpg,.jpeg,.png,.webp" data-retain-file @required(! $isEdit)>
-                <button class="btn btn-soft file-clear-button d-none" type="button" data-clear-file="main_image">Remove</button>
-            </div>
+            <label class="upload-box" for="main_image">
+                <input id="main_image" type="file" name="main_image" accept=".jpg,.jpeg,.png,.webp" data-retain-file @required(! $isEdit)>
+                <span class="upload-icon"><i class="fa-solid fa-image"></i></span>
+                <span class="upload-title">Choose main image</span>
+                <span class="upload-help">JPG, PNG, or WEBP</span>
+                <span class="upload-selected" data-file-label>No file chosen</span>
+                <button class="upload-clear d-none" type="button" data-clear-file="main_image">Remove</button>
+            </label>
             @if ($isEdit && $post->main_image)
                 <p class="small muted mt-2 mb-0">Current: {{ basename($post->main_image) }}</p>
             @endif
         </div>
         <div class="col-md-6">
             <label class="form-label fw-bold" for="supporting_file">Supporting Document Upload</label>
-            <div class="file-input-row">
-                <input class="form-control" id="supporting_file" type="file" name="supporting_file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-retain-file>
-                <button class="btn btn-soft file-clear-button d-none" type="button" data-clear-file="supporting_file">Remove</button>
-            </div>
+            <label class="upload-box" for="supporting_file">
+                <input id="supporting_file" type="file" name="supporting_file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-retain-file>
+                <span class="upload-icon"><i class="fa-solid fa-file-arrow-up"></i></span>
+                <span class="upload-title">Choose supporting file</span>
+                <span class="upload-help">PDF, JPG, PNG, or WEBP</span>
+                <span class="upload-selected" data-file-label>No file chosen</span>
+                <button class="upload-clear d-none" type="button" data-clear-file="supporting_file">Remove</button>
+            </label>
             @if ($isEdit && $post->supporting_file)
                 <p class="small muted mt-2 mb-0">Current: {{ basename($post->supporting_file) }}</p>
             @endif

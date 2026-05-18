@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\Donation;
+use App\Models\Blog;
+use App\Models\Event;
 use App\Models\Fundraiser;
 use App\Models\FundraiserPost;
 use App\Models\FundraiserReferral;
 use App\Models\FundraiserReport;
-use App\Models\SiteReport;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
@@ -30,10 +31,13 @@ class DashboardController extends Controller
         $campaignCount = FundraiserPost::count();
         $liveCampaignCount = FundraiserPost::approved()->count();
         $pendingCampaignCount = FundraiserPost::pending()->count();
+        $publishedEventCount = Event::where('status', Event::STATUS_PUBLISHED)->count();
+        $draftEventCount = Event::where('status', Event::STATUS_DRAFT)->count();
+        $publishedBlogCount = Blog::where('status', Blog::STATUS_PUBLISHED)->count();
+        $draftBlogCount = Blog::where('status', Blog::STATUS_DRAFT)->count();
         $fundraiserCount = Fundraiser::count();
         $supporterReportCount = FundraiserReport::count();
-        $siteReportCount = SiteReport::count();
-        $reportCount = $supporterReportCount + $siteReportCount;
+        $reportCount = $supporterReportCount;
         $contactCount = ContactMessage::count();
         $referralCount = FundraiserReferral::count();
         $completedDonationCount = Donation::paid()->count();
@@ -64,15 +68,16 @@ class DashboardController extends Controller
 
         $recentDonations = Donation::with('fundraiserPost')->latest()->take(6)->get();
         $recentReports = FundraiserReport::with('fundraiserPost')->latest()->take(5)->get();
-        $recentSiteReports = SiteReport::latest()->take(5)->get();
         $recentContacts = ContactMessage::latest()->take(5)->get();
         $recentReferrals = FundraiserReferral::with('fundraiserPost')->latest()->take(5)->get();
         $recentCampaigns = FundraiserPost::latest()->take(5)->get();
+        $recentBlogs = Blog::latest()->take(5)->get();
+        $recentEvents = Event::latest()->take(5)->get();
+        $recentFundraisers = Fundraiser::latest()->take(5)->get();
 
         $recentActivity = $this->recentActivity(
             $recentDonations,
             $recentReports,
-            $recentSiteReports,
             $recentContacts,
             $recentReferrals,
             $recentCampaigns
@@ -85,10 +90,13 @@ class DashboardController extends Controller
             'campaignCount',
             'liveCampaignCount',
             'pendingCampaignCount',
+            'publishedEventCount',
+            'draftEventCount',
+            'publishedBlogCount',
+            'draftBlogCount',
             'fundraiserCount',
             'reportCount',
             'supporterReportCount',
-            'siteReportCount',
             'contactCount',
             'referralCount',
             'successRate',
@@ -97,10 +105,12 @@ class DashboardController extends Controller
             'recentActivity',
             'recentDonations',
             'recentReports',
-            'recentSiteReports',
             'recentContacts',
             'recentReferrals',
-            'recentCampaigns'
+            'recentCampaigns',
+            'recentBlogs',
+            'recentEvents',
+            'recentFundraisers'
         ));
     }
 
@@ -118,7 +128,6 @@ class DashboardController extends Controller
     private function recentActivity(
         Collection $donations,
         Collection $reports,
-        Collection $siteReports,
         Collection $contacts,
         Collection $referrals,
         Collection $campaigns
@@ -132,11 +141,6 @@ class DashboardController extends Controller
             ->merge($reports->map(fn (FundraiserReport $report) => [
                 'activity' => 'Supporter report submitted',
                 'status' => 'Supporter report',
-                'time' => $report->created_at,
-            ]))
-            ->merge($siteReports->map(fn (SiteReport $report) => [
-                'activity' => 'Site report submitted'.($report->subject ? ': '.$report->subject : ''),
-                'status' => 'Site report',
                 'time' => $report->created_at,
             ]))
             ->merge($contacts->map(fn (ContactMessage $message) => [

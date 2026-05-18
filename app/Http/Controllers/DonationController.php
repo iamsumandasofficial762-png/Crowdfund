@@ -2,15 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminActivity;
 use App\Models\Donation;
 use App\Models\FundraiserPost;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class DonationController extends Controller
 {
+    public function captureAmount(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'amount' => ['required', 'numeric', 'min:1', 'max:99999999'],
+        ], [
+            'amount.required' => 'Please enter a donation amount.',
+            'amount.numeric' => 'Please enter a valid donation amount.',
+            'amount.min' => 'Donation amount must be at least Rs. 1.',
+        ]);
+
+        $request->session()->put('pending_donation_amount', (float) $validated['amount']);
+
+        return redirect()->route('donations.campaigns');
+    }
+
+    public function campaigns(): View
+    {
+        $posts = FundraiserPost::approved()
+            ->with('fundraiser')
+            ->addSelect([
+                'actual_raised_amount' => Donation::query()
+                    ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')
+                    ->whereColumn('donations.fundraiser_post_id', 'fundraiser_posts.id')
+                    ->where('status', Donation::STATUS_PAID),
+            ])
+            ->latest('approved_at')
+            ->latest()
+            ->paginate(9);
+
+        $pendingAmount = session('pending_donation_amount');
+
+        return view('pages.donation-campaigns', compact('posts', 'pendingAmount'));
+    }
+
     public function store(Request $request, FundraiserPost $post): RedirectResponse
     {
         abort_unless($post->status === FundraiserPost::STATUS_APPROVED, 404);
@@ -53,7 +89,7 @@ class DonationController extends Controller
         $totalAmount = $this->parseAmount($request->input('total_amount'));
         $amount = $totalAmount > 0 ? $totalAmount : $mainAmount + $tipAmount;
 
-        Donation::create([
+        $donation = Donation::create([
             'fundraiser_post_id' => $post->id,
             'donor_name' => $request->input('name'),
             'donor_email' => filter_var($contact, FILTER_VALIDATE_EMAIL) ? $contact : null,
@@ -68,6 +104,15 @@ class DonationController extends Controller
             'status' => Donation::STATUS_PAID,
             'paid_at' => now(),
         ]);
+
+        AdminActivity::create([
+            'title' => 'New Donation Received',
+            'message' => $donation->publicDonorName().' donated Rs. '.number_format((float) $donation->amount, 0).' to '.$post->title.'.',
+            'type' => 'donation',
+            'created_by' => $donation->publicDonorName(),
+        ]);
+
+        $request->session()->forget('pending_donation_amount');
 
         return redirect()
             ->route('donate-us', $post)

@@ -181,10 +181,8 @@
                <div class="row">
                   <div class="col-12">
                      <div class="map-inner" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                        <iframe
-                           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20342.411046372905!2d-74.16638039276373!3d40.719832743885284!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1649562691355!5m2!1sen!2sbd"
-                           width="100" height="800" style="border:0;" allowfullscreen="" loading="lazy"
-                           referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14731.466891410182!2d88.44925396382753!3d22.62145157826544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f89fdd81deeb33%3A0x191e034976d7c464!2sEk%20Tower%2C%204B%2C%20Action%20Area%20II%2C%20Action%20Area%20IID%2C%20Newtown%2C%20New%20Town%2C%20West%20Bengal%20700161!5e0!3m2!1sen!2sin!4v1779107838333!5m2!1sen!2sin" 
+                           width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                      </div>
                   </div>
                </div>
@@ -211,7 +209,7 @@
                               </div>
                               <div class="topbar__item-single__content">
                                  <span>Call Us:</span>
-                                 <p><a href="tel:2305-587-3407">+1 (368) 567 89 54 </a></p>
+                                 <p><a href="tel:6231255667">6231255667</a></p>
                               </div>
                            </div>
                            <div class="topbar__item-single" data-aos="fade-up" data-aos-duration="1000"
@@ -232,10 +230,10 @@
                               </div>
                               <div class="topbar__item-single__content">
                                  <span>
-                                 Australia
+                                 kolkata, west bengal
                                  </span>
-                                 <p><a href="https://maps.app.goo.gl/1PQ1JmL7HUYEvQvq7" target="_blank">380
-                                    Albert St, Melbourne</a>
+                                 <p><a href="https://maps.app.goo.gl/oyBEwhxRQuHmkTqE6" target="_blank">Shrachi EK Tower, EKT/5/Office-B,
+Newtown, Kolkata, West Bengal 700161</a>
                                  </p>
                               </div>
                            </div>

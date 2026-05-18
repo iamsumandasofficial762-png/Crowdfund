@@ -10,6 +10,12 @@ class ContactMessage extends Model
         'name',
         'email',
         'phone',
+        'request_type',
+        'estimated_cost',
+        'preferred_language',
+        'reason',
+        'description',
+        'alternate_phone',
         'message',
     ];
 }

@@ -27,14 +27,48 @@
         .dropdown-item:hover { color:var(--gold); background:var(--gold-soft); }
         .btn-warning,.btn-warning:focus { border-color:var(--gold); color:#fff !important; background:var(--gold); }
         .btn-warning:hover,.btn-warning:active { border-color:#b21f17; color:#fff !important; background:#b21f17; }
-        .panel { border:1px solid var(--line); border-radius:18px; background:#fff; box-shadow:0 14px 34px rgba(18,24,39,.07); }
+        .panel { border:1px solid var(--line); border-radius:18px; background:#fff; box-shadow:0 14px 34px rgba(18,24,39,.07); overflow:hidden; }
         .panel + .panel { margin-top:24px; }
-        .section-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:20px 20px 0; }
+        .section-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:22px 22px 0; }
         .section-head h2 { margin:0; font-size:20px; font-weight:900; }
         .section-head p { margin:4px 0 0; color:var(--muted); }
         .count-pill { border-radius:999px; padding:6px 10px; color:var(--gold); background:var(--gold-soft); font-weight:900; }
-        .message-cell { max-width:360px; white-space:normal; }
-        @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } .sidebar { position:static; } }
+        .status-overview { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; padding:18px 22px 8px; }
+        .status-tile { min-height:82px; display:flex; align-items:center; justify-content:space-between; gap:14px; border:1px solid var(--line); border-radius:14px; padding:16px; background:#fbfcfe; }
+        .status-tile span { display:block; color:var(--muted); font-size:12px; font-weight:900; text-transform:uppercase; }
+        .status-tile strong { display:block; margin-top:4px; color:var(--ink); font-size:24px; font-weight:900; line-height:1; }
+        .status-tile i { width:38px; height:38px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; font-size:16px; }
+        .status-tile--under-processing { border-color:#f2d99c; background:#fffaf0; }
+        .status-tile--under-processing i { color:#8a5b00; background:#fff1cf; }
+        .status-tile--solved { border-color:#b9ebcb; background:#f3fff7; }
+        .status-tile--solved i { color:#087a2a; background:#e0f7e8; }
+        .status-tile--dismissed { border-color:#efc5c1; background:#fff6f5; }
+        .status-tile--dismissed i { color:#9b2417; background:#fde3e0; }
+        .reports-table { margin-top:10px; }
+        .reports-table thead th { border-top:1px solid var(--line); border-bottom:1px solid var(--line); color:#354052; background:#fbfcfe; font-size:12px; font-weight:900; text-transform:uppercase; white-space:nowrap; }
+        .reports-table tbody tr { border-color:#eef1f5; }
+        .reports-table tbody tr:hover { background:#fffaf8; }
+        .message-cell { max-width:380px; min-width:260px; white-space:normal; line-height:1.55; }
+        .report-title-link { display:inline-block; max-width:280px; color:#0057ff; line-height:1.4; }
+        .muted-meta { color:var(--muted); font-size:12px; font-weight:800; }
+        .status-cell { min-width:250px; }
+        .report-status-form { max-width:245px; }
+        .status-control { border:1px solid var(--line); border-radius:14px; padding:10px; background:#fff; box-shadow:0 8px 18px rgba(18,24,39,.05); }
+        .status-control__top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+        .status-badge { display:inline-flex; align-items:center; border-radius:999px; padding:6px 10px; font-size:12px; font-weight:900; white-space:nowrap; }
+        .status-badge i { margin-right:5px; font-size:10px; }
+        .status-badge--under-processing { color:#8a5b00; background:#fff1cf; }
+        .status-badge--solved { color:#087a2a; background:#e0f7e8; }
+        .status-badge--dismissed { color:#9b2417; background:#fde3e0; }
+        .status-control__hint { color:var(--muted); font-size:11px; font-weight:800; }
+        .report-status-select { width:100%; border:1px solid var(--line); border-radius:10px; padding:8px 34px 8px 10px; color:var(--ink); background-color:#fff; font-size:13px; font-weight:900; }
+        .report-status-select:focus { border-color:rgba(147,42,25,.65); box-shadow:0 0 0 .2rem rgba(147,42,25,.12); }
+        .report-status-select--under-processing { border-color:#f2d99c; background-color:#fffaf0; }
+        .report-status-select--solved { border-color:#b9ebcb; background-color:#f3fff7; }
+        .report-status-select--dismissed { border-color:#efc5c1; background-color:#fff6f5; }
+        .doc-link { display:inline-flex; align-items:center; gap:6px; border:1px solid rgba(147,42,25,.28); border-radius:999px; padding:7px 11px; color:var(--gold); background:var(--gold-soft); font-size:12px; font-weight:900; }
+        .doc-link:hover { color:#fff; background:var(--gold); }
+        @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } .sidebar { position:static; } .status-overview { grid-template-columns:1fr; } }
     </style>
 </head>
 <body>
@@ -45,10 +79,12 @@
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
-                <a class="nav-link" href="{{ route('admin.contact-messages.index') }}"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
                 <a class="nav-link active" href="{{ route('admin.fundraiser-reports.index') }}"><i class="fa-solid fa-flag"></i> Reports</a>
+                <a class="nav-link" href="{{ route('admin.events.index') }}"><i class="fa-solid fa-calendar-days"></i> Events</a>
+                <a class="nav-link" href="{{ route('admin.blogs.index') }}"><i class="fa-solid fa-newspaper"></i> Blogs</a>
+                <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
-                <a class="nav-link" href="{{ route('admin.supporters.index') }}"><i class="fa-solid fa-users"></i> Supporters</a>
+                <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -57,10 +93,11 @@
             <header class="topbar">
                 <div class="topbar-inner d-flex align-items-center justify-content-between gap-3">
                     <div>
-                        <p class="text-muted small mb-1">Site and supporter report data</p>
+                        <p class="text-muted small mb-1">Supporter report data</p>
                         <h1 class="h4 fw-bold mb-0">Reports</h1>
                     </div>
                     <div class="topbar-actions">
+                        @include('admin.partials.activity-bell')
                         <div class="dropdown">
                             <button class="btn profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user-circle text-warning"></i>
@@ -70,75 +107,44 @@
                                 <li><a class="dropdown-item" href="{{ route('admin.settings.index') }}">Profile</a></li>
                             </ul>
                         </div>
-                        <form action="{{ route('logout') }}" method="post">@csrf<button class="btn btn-sm btn-warning fw-bold" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></form>
+                        <form action="{{ route('logout') }}" method="post">@csrf<button class="btn btn-warning fw-bold" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></form>
                     </div>
                 </div>
             </header>
 
             <div class="content">
+                @if (session('status'))
+                    <div class="alert alert-success fw-bold">{{ session('status') }}</div>
+                @endif
                 <div class="panel">
                     <div class="section-head">
                         <div>
-                            <h2>Site Related Reports</h2>
-                            <p>General website issues, misuse reports, page problems, and support concerns.</p>
-                        </div>
-                        <span class="count-pill">{{ $siteReports->total() }} total</span>
-                    </div>
-                    <div class="table-responsive">
-                    <table class="table align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Page</th>
-                                <th>Subject</th>
-                                <th>Message</th>
-                                <th>Document</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($siteReports as $report)
-                                <tr>
-                                    <td>#{{ $report->id }}</td>
-                                    <td>{{ $report->created_at->format('d M Y, h:i A') }}</td>
-                                    <td>{{ $report->name ?: '-' }}</td>
-                                    <td>{{ $report->email ?: '-' }}</td>
-                                    <td>{{ $report->phone ?: '-' }}</td>
-                                    <td class="message-cell">{{ $report->page_url ?: '-' }}</td>
-                                    <td>{{ $report->subject ?: '-' }}</td>
-                                    <td class="message-cell">{{ $report->message ?: '-' }}</td>
-                                    <td>
-                                        @if ($report->supporting_document)
-                                            <a href="{{ asset('storage/' . $report->supporting_document) }}" target="_blank">View</a>
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>{{ ucfirst($report->status) }}</td>
-                                </tr>
-                            @empty
-                                <tr><td colspan="10" class="text-center text-muted py-5">No site reports yet.</td></tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    </div>
-                    <div class="p-3">{{ $siteReports->links() }}</div>
-                </div>
-
-                <div class="panel">
-                    <div class="section-head">
-                        <div>
-                            <h2>Supporter Side Reports</h2>
+                            <h2>Supporter Reports</h2>
                             <p>Reports submitted from fundraiser detail pages by supporters or visitors.</p>
                         </div>
                         <span class="count-pill">{{ $supporterReports->total() }} total</span>
                     </div>
+                    <div class="status-overview">
+                        @foreach (\App\Models\FundraiserReport::statuses() as $statusValue => $statusLabel)
+                            @php
+                                $statusClass = str_replace('_', '-', $statusValue);
+                                $statusIcon = [
+                                    \App\Models\FundraiserReport::STATUS_UNDER_PROCESSING => 'fa-hourglass-half',
+                                    \App\Models\FundraiserReport::STATUS_SOLVED => 'fa-circle-check',
+                                    \App\Models\FundraiserReport::STATUS_DISMISSED => 'fa-circle-xmark',
+                                ][$statusValue] ?? 'fa-flag';
+                            @endphp
+                            <article class="status-tile status-tile--{{ $statusClass }}">
+                                <div>
+                                    <span>{{ $statusLabel }}</span>
+                                    <strong>{{ number_format($statusCounts[$statusValue] ?? 0) }}</strong>
+                                </div>
+                                <i class="fa-solid {{ $statusIcon }}"></i>
+                            </article>
+                        @endforeach
+                    </div>
                     <div class="table-responsive">
-                    <table class="table align-middle mb-0">
+                    <table class="table align-middle mb-0 reports-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -149,17 +155,30 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Message</th>
+                                <th>Status</th>
                                 <th>Document</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($supporterReports as $report)
+                                @php
+                                    $currentStatus = $report->status ?: \App\Models\FundraiserReport::STATUS_UNDER_PROCESSING;
+                                    $statusClass = str_replace('_', '-', $currentStatus);
+                                    $statusIcon = [
+                                        \App\Models\FundraiserReport::STATUS_UNDER_PROCESSING => 'fa-hourglass-half',
+                                        \App\Models\FundraiserReport::STATUS_SOLVED => 'fa-circle-check',
+                                        \App\Models\FundraiserReport::STATUS_DISMISSED => 'fa-circle-xmark',
+                                    ][$currentStatus] ?? 'fa-flag';
+                                @endphp
                                 <tr>
                                     <td>#{{ $report->id }}</td>
-                                    <td>{{ $report->created_at->format('d M Y, h:i A') }}</td>
+                                    <td>
+                                        <strong>{{ $report->created_at->format('d M Y') }}</strong>
+                                        <div class="muted-meta">{{ $report->created_at->format('h:i A') }}</div>
+                                    </td>
                                     <td>
                                         @if ($report->fundraiserPost)
-                                            <a class="fw-bold" href="{{ route('donate-us', $report->fundraiserPost) }}" target="_blank">{{ $report->fundraiserPost->title }}</a>
+                                            <a class="fw-bold report-title-link" href="{{ route('donate-us', $report->fundraiserPost) }}" target="_blank">{{ $report->fundraiserPost->title }}</a>
                                         @else
                                             -
                                         @endif
@@ -169,16 +188,33 @@
                                     <td>{{ $report->email ?: '-' }}</td>
                                     <td>{{ trim(($report->country_code ?? '') . ' ' . ($report->phone ?? '')) ?: '-' }}</td>
                                     <td class="message-cell">{{ $report->message ?: '-' }}</td>
+                                    <td class="status-cell">
+                                        <form class="report-status-form" action="{{ route('admin.reports.status', $report->id) }}" method="post">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="status-control">
+                                                <div class="status-control__top">
+                                                    <span class="status-badge status-badge--{{ $statusClass }}"><i class="fa-solid {{ $statusIcon }}"></i>{{ $report->statusLabel() }}</span>
+                                                    <span class="status-control__hint">Change</span>
+                                                </div>
+                                                <select class="form-select form-select-sm report-status-select report-status-select--{{ $statusClass }}" name="status" aria-label="Report status" onchange="this.form.submit()">
+                                                    @foreach (\App\Models\FundraiserReport::statuses() as $statusValue => $statusLabel)
+                                                        <option value="{{ $statusValue }}" @selected($currentStatus === $statusValue)>{{ $statusLabel }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </td>
                                     <td>
                                         @if ($report->supporting_document)
-                                            <a href="{{ asset('storage/' . $report->supporting_document) }}" target="_blank">View</a>
+                                            <a class="doc-link" href="{{ asset('storage/' . $report->supporting_document) }}" target="_blank"><i class="fa-solid fa-paperclip"></i> View</a>
                                         @else
                                             -
                                         @endif
                                     </td>
                                 </tr>
                             @empty
-                                <tr><td colspan="9" class="text-center text-muted py-5">No supporter side reports yet.</td></tr>
+                                <tr><td colspan="10" class="text-center text-muted py-5">No supporter side reports yet.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -188,6 +224,10 @@
             </div>
         </main>
     </div>
+    @include('partials.delete-confirm-modal')
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
+
+
+

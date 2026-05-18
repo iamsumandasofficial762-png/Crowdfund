@@ -30,7 +30,14 @@
                 </div>
                 <div class="col-lg-7">
                     <label class="form-label fw-bold" for="update_image">Replace Image (optional)</label>
-                    <input class="form-control" id="update_image" type="file" name="update_image" accept=".jpg,.jpeg,.png,.webp" data-image-preview-source>
+                    <label class="upload-box" for="update_image">
+                        <input id="update_image" type="file" name="update_image" accept=".jpg,.jpeg,.png,.webp" data-image-preview-source data-retain-file>
+                        <span class="upload-icon"><i class="fa-solid fa-image"></i></span>
+                        <span class="upload-title">Choose replacement image</span>
+                        <span class="upload-help">JPG, PNG, JPEG, or WEBP up to 5 MB</span>
+                        <span class="upload-selected" data-file-label>No file chosen</span>
+                        <button class="upload-clear d-none" type="button" data-clear-file="update_image">Remove</button>
+                    </label>
                     <p class="small muted mb-0 mt-2">Leave empty to keep the current image.</p>
                     <div class="form-check mt-3">
                         <input type="hidden" name="is_published" value="0">
@@ -81,6 +88,8 @@
             const modal = document.querySelector('[data-image-preview-modal]');
             const modalImage = document.querySelector('[data-image-preview-full]');
             const modalClose = document.querySelector('[data-image-preview-close]');
+            const fallbackPreviewHtml = preview?.innerHTML ?? '';
+            const fallbackHasImage = preview?.classList.contains('has-image') ?? false;
 
             const refreshCount = () => {
                 if (text && count) {
@@ -117,7 +126,13 @@
             file?.addEventListener('change', () => {
                 const selectedFile = file.files?.[0];
 
-                if (!preview || !selectedFile) {
+                if (!preview) {
+                    return;
+                }
+
+                if (!selectedFile) {
+                    preview.innerHTML = fallbackPreviewHtml;
+                    preview.classList.toggle('has-image', fallbackHasImage);
                     return;
                 }
 

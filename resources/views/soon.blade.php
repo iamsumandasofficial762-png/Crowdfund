@@ -16,11 +16,16 @@
    .soon--simple .form-group {
       margin-top: 44px;
    }
+
+   .soon--simple .soon-bg img {
+      object-fit: cover;
+      object-position: center;
+   }
 </style>
 
 <section class="soon soon--simple">
    <div class="soon-bg">
-      <img src="{{ asset('assets/images/coming-soon-bg.jpg') }}" alt="Coming soon background" class="parallax-image">
+      <img src="{{ asset('assets/images/contact-bg.jpg') }}" alt="Coming soon background" class="parallax-image">
    </div>
 
    <div class="container">

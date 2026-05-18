@@ -176,8 +176,7 @@
       <div class="page-wrapper">
          <!-- ==== preloader start ==== -->
          <div class="preloader">
-            <i class="icon-donation"></i>
-            <p>Karna Kabach</p>
+            <img src="{{ asset('assets/images/loading.gif') }}" alt="Preloader Image">
          </div>
          <!-- ==== / preloader end ==== -->
          <!-- ==== topbar start ==== -->
@@ -269,6 +268,12 @@
                                  </li>
                                  <li class="navbar__item nav-fade">
                                     <a href="{{ route('resource') }}" class="{{ request()->routeIs('resource') ? 'is-active' : '' }}">Resource</a>
+                                 </li>
+                                 <li class="navbar__item nav-fade">
+                                    <a href="{{ route('events.index') }}" class="{{ request()->routeIs('events.*') ? 'is-active' : '' }}">Events</a>
+                                 </li>
+                                 <li class="navbar__item nav-fade">
+                                    <a href="{{ route('home') }}#blog" class="{{ request()->routeIs('blogs.show') ? 'is-active' : '' }}">Blog</a>
                                  </li>
                                  <li class="navbar__item nav-fade">
                                     <a href="{{ route('contact-us') }}" class="{{ request()->routeIs('contact-us') ? 'is-active' : '' }}">Contact Us</a>

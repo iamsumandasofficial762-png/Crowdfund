@@ -442,20 +442,104 @@
             color: var(--muted);
         }
 
-        .file-input-row {
-            display: flex;
-            gap: 8px;
-            align-items: stretch;
+        .upload-box {
+            position: relative;
+            display: grid;
+            place-items: center;
+            min-height: 118px;
+            width: 100%;
+            border: 2px dashed rgba(147, 42, 25, 0.7);
+            border-radius: 12px;
+            padding: 14px;
+            background: #fff9f8;
+            color: var(--ink);
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .file-input-row .form-control {
-            min-width: 0;
+        .upload-box.has-selected-file {
+            padding-right: 96px;
+            background: #ffffff;
         }
 
-        .file-clear-button {
-            flex: 0 0 auto;
-            min-height: 48px;
-            padding-inline: 14px;
+        .upload-box:hover,
+        .upload-box:focus-within {
+            border-color: var(--gold-dark);
+            background: var(--gold-soft);
+            box-shadow: 0 12px 28px rgba(147, 42, 25, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .upload-box input {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-box.has-selected-file input {
+            right: 82px;
+            width: calc(100% - 82px);
+        }
+
+        .upload-icon {
+            width: 34px;
+            height: 34px;
+            display: inline-grid;
+            place-items: center;
+            margin-bottom: 6px;
+            border-radius: 50%;
+            color: #ffffff;
+            background: var(--gold);
+            font-size: 15px;
+        }
+
+        .upload-title {
+            display: block;
+            margin-bottom: 2px;
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .upload-help,
+        .upload-selected {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .upload-selected {
+            width: 100%;
+            margin-top: 4px;
+            color: #8a5400;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .upload-clear {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            z-index: 2;
+            border: 0;
+            border-radius: 999px;
+            padding: 5px 12px;
+            color: #8a5400;
+            background: #ffffff;
+            font-size: 11px;
+            font-weight: 900;
+            box-shadow: 0 6px 14px rgba(147, 42, 25, 0.2);
+        }
+
+        .upload-clear:hover,
+        .upload-clear:focus {
+            color: #000000;
+            background: #ffe6b7;
         }
 
         .alert-auto-dismiss {
@@ -827,12 +911,9 @@
                 white-space: normal;
             }
 
-            .file-input-row {
-                flex-direction: column;
-            }
-
-            .file-clear-button {
-                width: 100%;
+            .upload-box.has-selected-file {
+                padding-right: 14px;
+                padding-bottom: 48px;
             }
 
             .fundraiser-image {
@@ -916,35 +997,14 @@
 
     <main class="fundraiser-shell">
         <div class="container">
-            @if (session('status'))
-                <div class="alert alert-success alert-auto-dismiss" role="status" data-auto-dismiss="3500">{{ session('status') }}</div>
-            @endif
-
-            @if ($errors->any())
-                <div class="alert alert-danger alert-auto-dismiss" role="alert" data-auto-dismiss="5500">
-                    <ul class="mb-0 ps-3">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('partials.flash-messages')
 
             @yield('content')
         </div>
     </main>
 
-    <div class="delete-confirm-modal" data-delete-modal aria-hidden="true">
-        <section class="delete-confirm-card" role="dialog" aria-modal="true" aria-labelledby="delete-confirm-title" aria-describedby="delete-confirm-copy">
-            <span class="delete-confirm-icon" aria-hidden="true"><i class="fa-solid fa-trash-can"></i></span>
-            <h3 id="delete-confirm-title">Delete fundraiser post?</h3>
-            <p id="delete-confirm-copy">This action cannot be undone. The post and its uploaded files will be removed permanently.</p>
-            <div class="delete-confirm-actions">
-                <button class="btn btn-soft" type="button" data-delete-cancel>Cancel</button>
-                <button class="btn btn-danger" type="button" data-delete-confirm-button>Confirm Delete</button>
-            </div>
-        </section>
-    </div>
+    @include('partials.delete-confirm-modal')
+    @include('partials.auto-alerts')
 
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script>
@@ -962,24 +1022,39 @@
                 return transfer.files;
             }
 
-            function toggleClearButton(input) {
+            function updateUploadState(input) {
+                const box = input.closest('.upload-box');
                 const button = document.querySelector(`[data-clear-file="${input.id}"]`);
+                const label = box ? box.querySelector('[data-file-label]') : null;
+                const files = Array.from(input.files || []);
 
                 if (button) {
-                    button.classList.toggle('d-none', !input.files.length);
+                    button.classList.toggle('d-none', files.length === 0);
+                }
+
+                if (label) {
+                    label.textContent = files.length === 0
+                        ? 'No file chosen'
+                        : files.length === 1
+                            ? files[0].name
+                            : `${files.length} files selected`;
+                }
+
+                if (box) {
+                    box.classList.toggle('has-selected-file', files.length > 0);
                 }
             }
 
             document.querySelectorAll('input[type="file"][data-retain-file]').forEach((input) => {
                 if (input.files.length) {
                     retainedFiles.set(input, cloneFileList(input.files));
-                    toggleClearButton(input);
+                    updateUploadState(input);
                 }
 
                 input.addEventListener('change', () => {
                     if (input.files.length) {
                         retainedFiles.set(input, cloneFileList(input.files));
-                        toggleClearButton(input);
+                        updateUploadState(input);
                         return;
                     }
 
@@ -989,12 +1064,15 @@
                         input.files = cloneFileList(previousFiles);
                     }
 
-                    toggleClearButton(input);
+                    updateUploadState(input);
                 });
             });
 
             document.querySelectorAll('[data-clear-file]').forEach((button) => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
                     const input = document.getElementById(button.dataset.clearFile);
 
                     if (!input) {
@@ -1003,76 +1081,13 @@
 
                     retainedFiles.delete(input);
                     input.value = '';
-                    toggleClearButton(input);
+                    updateUploadState(input);
                     input.dispatchEvent(new Event('change', { bubbles: true }));
                 });
-            });
-        })();
-    </script>
-    <script>
-        (() => {
-            const modal = document.querySelector('[data-delete-modal]');
-            const cancelButton = document.querySelector('[data-delete-cancel]');
-            const confirmButton = document.querySelector('[data-delete-confirm-button]');
-            let pendingForm = null;
-
-            if (!modal || !cancelButton || !confirmButton) {
-                return;
-            }
-
-            function openModal(form) {
-                pendingForm = form;
-                modal.classList.add('is-open');
-                modal.setAttribute('aria-hidden', 'false');
-                confirmButton.focus();
-            }
-
-            function closeModal() {
-                pendingForm = null;
-                modal.classList.remove('is-open');
-                modal.setAttribute('aria-hidden', 'true');
-            }
-
-            document.querySelectorAll('[data-delete-confirm]').forEach((form) => {
-                form.addEventListener('submit', (event) => {
-                    event.preventDefault();
-                    openModal(form);
-                });
-            });
-
-            cancelButton.addEventListener('click', closeModal);
-
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    closeModal();
-                }
-            });
-
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && modal.classList.contains('is-open')) {
-                    closeModal();
-                }
-            });
-
-            confirmButton.addEventListener('click', () => {
-                if (pendingForm) {
-                    pendingForm.submit();
-                }
-            });
-        })();
-    </script>
-    <script>
-        (() => {
-            document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
-                const delay = Number(alert.dataset.autoDismiss) || 3500;
-
-                window.setTimeout(() => {
-                    alert.classList.add('is-hiding');
-                    window.setTimeout(() => alert.remove(), 400);
-                }, delay);
             });
         })();
     </script>
     @stack('scripts')
 </body>
 </html>
+

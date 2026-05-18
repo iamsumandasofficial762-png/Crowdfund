@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donation;
+use App\Models\Blog;
 use App\Models\FundraiserPost;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -18,7 +20,7 @@ class PageController extends Controller
                 ->with('fundraiser')
                 ->addSelect([
                     'actual_raised_amount' => Donation::query()
-                        ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount ELSE amount END), 0)')
+                        ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')
                         ->whereColumn('donations.fundraiser_post_id', 'fundraiser_posts.id')
                         ->where('status', Donation::STATUS_PAID),
                 ])
@@ -28,7 +30,17 @@ class PageController extends Controller
                 ->get();
         }
 
-        return view('index', compact('recentFundraiserPosts'));
+        $latestBlogs = collect();
+
+        if (Schema::hasTable('blogs')) {
+            $latestBlogs = Blog::published()
+                ->latest('published_at')
+                ->latest()
+                ->take(3)
+                ->get();
+        }
+
+        return view('index', compact('recentFundraiserPosts', 'latestBlogs'));
     }
 
     public function comingSoon()
@@ -56,11 +68,16 @@ class PageController extends Controller
         return view('pages.resource');
     }
 
-    public function donate(?FundraiserPost $post = null)
+    public function donate(Request $request, ?FundraiserPost $post = null)
     {
         if ($post && $post->status !== FundraiserPost::STATUS_APPROVED) {
             abort(404);
         }
+
+        $pendingDonationAmount = $this->parseDonationAmount(
+            $request->query('amount', session('pending_donation_amount'))
+        );
+        $shouldOpenDonationModal = (bool) $post && ($request->boolean('donate') || $pendingDonationAmount > 0);
 
         $recentFundraiserPosts = collect();
 
@@ -69,7 +86,7 @@ class PageController extends Controller
                 ->with('fundraiser')
                 ->addSelect([
                     'actual_raised_amount' => Donation::query()
-                        ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount ELSE amount END), 0)')
+                        ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')
                         ->whereColumn('donations.fundraiser_post_id', 'fundraiser_posts.id')
                         ->where('status', Donation::STATUS_PAID),
                 ])
@@ -89,7 +106,7 @@ class PageController extends Controller
 
             $supporterCount = $post->paidDonations()->count();
             $donationsRaisedAmount = (float) $post->paidDonations()
-                ->selectRaw('SUM(CASE WHEN main_amount > 0 THEN main_amount ELSE amount END) as raised_amount')
+                ->selectRaw('SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END) as raised_amount')
                 ->value('raised_amount');
 
             if ($donationsRaisedAmount > 0) {
@@ -97,7 +114,7 @@ class PageController extends Controller
             }
 
             $topSupporters = $post->paidDonations()
-                ->orderByDesc(DB::raw('CASE WHEN main_amount > 0 THEN main_amount ELSE amount END'))
+                ->orderByDesc(DB::raw('CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END'))
                 ->latest('paid_at')
                 ->latest()
                 ->take(10)
@@ -116,6 +133,21 @@ class PageController extends Controller
             $post->load(['publishedUpdates' => fn ($query) => $query->orderByDesc('is_pinned')->latest()]);
         }
 
-        return view('pages.donate-us', compact('post', 'recentFundraiserPosts', 'topSupporters', 'supporters', 'supporterCount'));
+        return view('pages.donate-us', compact(
+            'post',
+            'recentFundraiserPosts',
+            'topSupporters',
+            'supporters',
+            'supporterCount',
+            'pendingDonationAmount',
+            'shouldOpenDonationModal'
+        ));
+    }
+
+    private function parseDonationAmount(mixed $value): float
+    {
+        $amount = (float) preg_replace('/[^0-9.]/', '', (string) $value);
+
+        return is_finite($amount) && $amount > 0 ? $amount : 0.0;
     }
 }

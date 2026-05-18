@@ -28,7 +28,9 @@
         .btn-warning,.btn-warning:focus { border-color:var(--gold); color:#fff !important; background:var(--gold); }
         .btn-warning:hover,.btn-warning:active { border-color:#b21f17; color:#fff !important; background:#b21f17; }
         .panel { border:1px solid var(--line); border-radius:18px; background:#fff; box-shadow:0 14px 34px rgba(18,24,39,.07); }
-        .message-cell { max-width:420px; white-space:normal; }
+        .message-cell { min-width:260px; max-width:360px; white-space:normal; }
+        .text-nowrap-soft { white-space:nowrap; }
+        .detail-pill { display:inline-flex; align-items:center; border-radius:999px; padding:5px 10px; color:#932a19; background:#f7e1df; font-size:12px; font-weight:900; }
         @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } .sidebar { position:static; } }
     </style>
 </head>
@@ -40,10 +42,12 @@
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
-                <a class="nav-link active" href="{{ route('admin.contact-messages.index') }}"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-reports.index') }}"><i class="fa-solid fa-flag"></i> Reports</a>
+                <a class="nav-link" href="{{ route('admin.events.index') }}"><i class="fa-solid fa-calendar-days"></i> Events</a>
+                <a class="nav-link" href="{{ route('admin.blogs.index') }}"><i class="fa-solid fa-newspaper"></i> Blogs</a>
+                <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
-                <a class="nav-link" href="{{ route('admin.supporters.index') }}"><i class="fa-solid fa-users"></i> Supporters</a>
+                <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -56,6 +60,7 @@
                         <h1 class="h4 fw-bold mb-0">Contact Messages</h1>
                     </div>
                     <div class="topbar-actions">
+                        @include('admin.partials.activity-bell')
                         <div class="dropdown">
                             <button class="btn profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user-circle text-warning"></i>
@@ -65,7 +70,7 @@
                                 <li><a class="dropdown-item" href="{{ route('admin.settings.index') }}">Profile</a></li>
                             </ul>
                         </div>
-                        <form action="{{ route('logout') }}" method="post">@csrf<button class="btn btn-sm btn-warning fw-bold" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></form>
+                        <form action="{{ route('logout') }}" method="post">@csrf<button class="btn btn-warning fw-bold" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></form>
                     </div>
                 </div>
             </header>
@@ -80,7 +85,12 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Message</th>
+                                <th>Type</th>
+                                <th>Estimated Cost</th>
+                                <th>Language</th>
+                                <th>Reason</th>
+                                <th>Description</th>
+                                <th>Alternate Phone</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,12 +99,23 @@
                                     <td>#{{ $message->id }}</td>
                                     <td>{{ $message->created_at->format('d M Y, h:i A') }}</td>
                                     <td class="fw-bold">{{ $message->name }}</td>
-                                    <td><a href="mailto:{{ $message->email }}">{{ $message->email }}</a></td>
+                                    <td>
+                                        @if ($message->email)
+                                            <a href="mailto:{{ $message->email }}">{{ $message->email }}</a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td>{{ $message->phone ?: '-' }}</td>
-                                    <td class="message-cell">{{ $message->message ?: '-' }}</td>
+                                    <td><span class="detail-pill">{{ $message->request_type ?: 'Contact Message' }}</span></td>
+                                    <td class="text-nowrap-soft">{{ $message->estimated_cost ?: '-' }}</td>
+                                    <td>{{ $message->preferred_language ?: '-' }}</td>
+                                    <td>{{ $message->reason ?: '-' }}</td>
+                                    <td class="message-cell">{!! $message->description || $message->message ? nl2br(e($message->description ?: $message->message)) : '-' !!}</td>
+                                    <td class="text-nowrap-soft">{{ $message->alternate_phone ?: '-' }}</td>
                                 </tr>
                             @empty
-                                <tr><td colspan="6" class="text-center text-muted py-5">No contact messages yet.</td></tr>
+                                <tr><td colspan="11" class="text-center text-muted py-5">No contact messages yet.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -103,6 +124,10 @@
             </div>
         </main>
     </div>
+    @include('partials.delete-confirm-modal')
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
+
+
+

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminActivity;
 use App\Models\Fundraiser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -63,6 +64,13 @@ class FundraiserAuthController extends Controller
 
         $request->session()->regenerate();
         $request->session()->put('fundraiser_id', $fundraiser->id);
+
+        AdminActivity::create([
+            'title' => 'New Fundraiser Registered',
+            'message' => $fundraiser->name.' registered as a fundraiser.',
+            'type' => 'fundraiser',
+            'created_by' => $fundraiser->name,
+        ]);
 
         return redirect()
             ->route('fundraiser.dashboard')

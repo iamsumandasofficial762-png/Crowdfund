@@ -425,10 +425,12 @@
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link active" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
-                <a class="nav-link" href="{{ route('admin.contact-messages.index') }}"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-reports.index') }}"><i class="fa-solid fa-flag"></i> Reports</a>
+                <a class="nav-link" href="{{ route('admin.events.index') }}"><i class="fa-solid fa-calendar-days"></i> Events</a>
+                <a class="nav-link" href="{{ route('admin.blogs.index') }}"><i class="fa-solid fa-newspaper"></i> Blogs</a>
+                <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
-                <a class="nav-link" href="{{ route('admin.supporters.index') }}"><i class="fa-solid fa-users"></i> Supporters</a>
+                <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -447,6 +449,7 @@
                     </div>
 
                     <div class="topbar-actions">
+                        @include('admin.partials.activity-bell')
                         <div class="dropdown">
                             <button class="btn profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user-circle text-warning"></i>
@@ -458,7 +461,7 @@
                         </div>
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
-                            <button class="btn btn-sm btn-warning fw-bold" type="submit">
+                            <button class="btn btn-warning fw-bold" type="submit">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 Logout
                             </button>
@@ -475,7 +478,7 @@
 
                 <div class="panel filters-panel mb-4">
                     <div class="d-flex flex-wrap gap-2">
-                        @foreach (['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'all' => 'All'] as $key => $label)
+                        @foreach (['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'hold' => 'Hold', 'all' => 'All'] as $key => $label)
                             <a class="filter-link {{ $status === $key ? 'active' : '' }}" href="{{ route('admin.fundraiser-posts.index', ['status' => $key]) }}">
                                 {{ $label }}
                                 <span>{{ $counts[$key] }}</span>
@@ -507,16 +510,29 @@
                                     @endif
 
                                     <div class="post-card__actions">
-                                        <form action="{{ route('admin.fundraiser-posts.approve', $post) }}" method="post">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button class="btn btn-warning btn-sm fw-bold" type="submit" @disabled($post->status === 'approved')>Approve</button>
-                                        </form>
-                                        <form action="{{ route('admin.fundraiser-posts.reject', $post) }}" method="post">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button class="btn btn-outline-light btn-sm fw-bold" type="submit" @disabled($post->status === 'rejected')>Reject</button>
-                                        </form>
+                                        @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
+                                            <form action="{{ route('admin.fundraiser-posts.hold', $post) }}" method="post">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button class="btn btn-warning btn-sm fw-bold" type="submit">Hold</button>
+                                            </form>
+                                            <form action="{{ route('admin.fundraiser-posts.destroy', $post) }}" method="post" data-delete-confirm>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-outline-danger btn-sm fw-bold" type="submit">Delete</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('admin.fundraiser-posts.approve', $post) }}" method="post">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button class="btn btn-warning btn-sm fw-bold" type="submit" @disabled($post->status === 'approved')>Approve</button>
+                                            </form>
+                                            <form action="{{ route('admin.fundraiser-posts.reject', $post) }}" method="post">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button class="btn btn-outline-light btn-sm fw-bold" type="submit" @disabled($post->status === 'rejected')>Reject</button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             </article>
@@ -543,6 +559,10 @@
             }, delay);
         });
     </script>
+    @include('partials.delete-confirm-modal')
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
+
+
+

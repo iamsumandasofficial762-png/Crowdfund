@@ -596,6 +596,7 @@
         </section>
     </main>
 
+    @include('partials.auto-alerts')
     <script>
         (function () {
             const card = document.querySelector('[data-auth-card]');
@@ -642,15 +643,6 @@
                     button.classList.add('is-loading');
                     button.setAttribute('disabled', 'disabled');
                 });
-            });
-
-            document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
-                const delay = Number(alert.dataset.autoDismiss) || 3500;
-
-                window.setTimeout(() => {
-                    alert.classList.add('is-hiding');
-                    window.setTimeout(() => alert.remove(), 400);
-                }, delay);
             });
 
             setMode(card.dataset.initialMode === 'register' ? 'register' : 'login');

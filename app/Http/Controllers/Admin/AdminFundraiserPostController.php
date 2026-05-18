@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FundraiserPost;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AdminFundraiserPostController extends Controller
@@ -17,6 +18,7 @@ class AdminFundraiserPostController extends Controller
             FundraiserPost::STATUS_PENDING,
             FundraiserPost::STATUS_APPROVED,
             FundraiserPost::STATUS_REJECTED,
+            FundraiserPost::STATUS_HOLD,
             'all',
         ];
 
@@ -35,6 +37,7 @@ class AdminFundraiserPostController extends Controller
             'pending' => FundraiserPost::pending()->count(),
             'approved' => FundraiserPost::approved()->count(),
             'rejected' => FundraiserPost::where('status', FundraiserPost::STATUS_REJECTED)->count(),
+            'hold' => FundraiserPost::hold()->count(),
             'all' => FundraiserPost::count(),
         ];
 
@@ -61,5 +64,32 @@ class AdminFundraiserPostController extends Controller
         ]);
 
         return back()->with('status', 'Fundraiser post rejected successfully.');
+    }
+
+    public function hold(FundraiserPost $post): RedirectResponse
+    {
+        $post->update([
+            'status' => FundraiserPost::STATUS_HOLD,
+            'approved_at' => null,
+            'rejected_at' => null,
+        ]);
+
+        return back()->with('status', 'Fundraiser post moved to hold successfully.');
+    }
+
+    public function destroy(FundraiserPost $post): RedirectResponse
+    {
+        $this->deletePublicFile($post->main_image);
+        $this->deletePublicFile($post->supporting_file);
+        $post->delete();
+
+        return back()->with('status', 'Fundraiser post deleted successfully.');
+    }
+
+    private function deletePublicFile(?string $path): void
+    {
+        if ($path && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
     }
 }

@@ -85,7 +85,7 @@
     <div class="row g-4">
         @forelse ($posts as $post)
             @php
-                $donationTotal = (float) ($post->paid_donations_sum_amount ?? 0);
+                $donationTotal = (float) ($post->paid_donations_main_sum_amount ?? 0);
                 $raised = max((float) $post->raised_amount, $donationTotal);
                 $goal = max((float) $post->goal_amount, 1);
                 $progress = min(100, (int) round(($raised / $goal) * 100));

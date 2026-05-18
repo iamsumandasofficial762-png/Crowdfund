@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminActivity;
 use App\Models\FundraiserPost;
 use App\Models\FundraiserReport;
 use Illuminate\Http\RedirectResponse;
@@ -24,9 +25,19 @@ class FundraiserReportController extends Controller
             $validated['supporting_document'] = $request->file('supporting_document')->store('fundraiser-reports', 'public');
         }
 
+        $validated['message'] = trim((string) ($validated['message'] ?? '')) ?: null;
         $validated['fundraiser_post_id'] = $post->id;
 
-        FundraiserReport::create($validated);
+        $report = FundraiserReport::create($validated);
+
+        $reporterName = trim((string) ($report->name ?: 'A supporter'));
+
+        AdminActivity::create([
+            'title' => 'New Supporter Report Submitted',
+            'message' => $reporterName.' reported '.$post->title.'.',
+            'type' => 'report',
+            'created_by' => $report->name,
+        ]);
 
         return back()->with('status', 'Your report has been submitted successfully.');
     }

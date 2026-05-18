@@ -854,7 +854,9 @@
      */
     if ($("#donationAmount").length > 0) {
       const activeAmount = $(".donation-amount.active").text();
-      $("#donationAmount").val(activeAmount);
+      if (!$("#donationAmount").val()) {
+        $("#donationAmount").val(activeAmount);
+      }
 
       $(".donation-amount").on("click", function () {
         $(".donation-amount").removeClass("active");
@@ -1393,6 +1395,11 @@
           const circle = element.querySelector(".circle-progress");
 
           if (percentDisplay && circle) {
+            element.style.setProperty(
+              "--progress-angle",
+              `${Math.max(0, Math.min(100, Number(progress))) * 3.6}deg`
+            );
+
             const radius = 15.9155;
             const circumference = 2 * Math.PI * radius;
 

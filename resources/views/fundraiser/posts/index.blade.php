@@ -84,7 +84,7 @@
                             @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING)
                                 <a class="btn btn-sm btn-outline-dark" href="{{ route('fundraiser.posts.edit', $post) }}">Edit</a>
                             @endif
-                            <form class="post-action-form" action="{{ route('fundraiser.posts.destroy', $post) }}" method="post" data-delete-confirm>
+                            <form class="post-action-form {{ $post->status === \App\Models\FundraiserPost::STATUS_REJECTED ? 'post-action-full' : '' }}" action="{{ route('fundraiser.posts.destroy', $post) }}" method="post" data-delete-confirm>
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>

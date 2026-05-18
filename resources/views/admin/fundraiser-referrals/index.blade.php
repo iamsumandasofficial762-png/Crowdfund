@@ -88,7 +88,8 @@
         }
 
         .content-inner {
-            max-width: 1320px;
+            width: 100%;
+            max-width: none;
             margin-inline: auto;
         }
 
@@ -312,6 +313,8 @@
 
         .status-badge {
             display: inline-flex;
+            align-items: center;
+            gap: 6px;
             border-radius: 999px;
             padding: 6px 10px;
             color: #932a19;
@@ -319,6 +322,19 @@
             font-size: 12px;
             font-weight: 900;
             text-transform: capitalize;
+        }
+
+        .source-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(147, 42, 25, 0.2);
+            border-radius: 999px;
+            padding: 6px 10px;
+            color: var(--gold);
+            background: #fff7f5;
+            font-size: 12px;
+            font-weight: 900;
         }
 
         .muted {
@@ -493,10 +509,12 @@
                 <a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-posts.index') }}"><i class="fa-solid fa-rectangle-list"></i> Fundraiser Posts</a>
                 <a class="nav-link active" href="{{ route('admin.fundraiser-referrals.index') }}"><i class="fa-solid fa-hand-holding-heart"></i> Referrals</a>
-                <a class="nav-link" href="{{ route('admin.contact-messages.index') }}"><i class="fa-solid fa-envelope"></i> Contact Messages</a>
                 <a class="nav-link" href="{{ route('admin.fundraiser-reports.index') }}"><i class="fa-solid fa-flag"></i> Reports</a>
+                <a class="nav-link" href="{{ route('admin.events.index') }}"><i class="fa-solid fa-calendar-days"></i> Events</a>
+                <a class="nav-link" href="{{ route('admin.blogs.index') }}"><i class="fa-solid fa-newspaper"></i> Blogs</a>
+                <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
-                <a class="nav-link" href="{{ route('admin.supporters.index') }}"><i class="fa-solid fa-users"></i> Supporters</a>
+                <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -509,6 +527,7 @@
                         <h1 class="h4 fw-black mb-0">Fundraiser Referrals</h1>
                     </div>
                     <div class="topbar-actions">
+                        @include('admin.partials.activity-bell')
                         <div class="dropdown">
                             <button class="btn profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user-circle text-warning"></i>
@@ -520,7 +539,7 @@
                         </div>
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
-                            <button class="btn btn-sm btn-warning fw-bold" type="submit">
+                            <button class="btn btn-warning fw-bold" type="submit">
                                 <i class="fa-solid fa-right-from-bracket"></i> Logout
                             </button>
                         </form>
@@ -592,6 +611,10 @@
                                             </div>
                                         </div>
                                         <div class="referral-card__meta">
+                                            <span class="source-badge">
+                                                <i class="fa-solid {{ $referral->source === \App\Models\FundraiserReferral::SOURCE_REQUEST_CALLBACK ? 'fa-phone' : 'fa-share-nodes' }}"></i>
+                                                {{ $referral->sourceLabel() }}
+                                            </span>
                                             <span class="status-badge">{{ $referral->status }}</span>
                                             <div class="referral-actions" aria-label="Referral actions">
                                                 @foreach (['new' => 'New', 'contacted' => 'Contacted', 'closed' => 'Closed'] as $statusKey => $statusLabel)
@@ -602,7 +625,7 @@
                                                         <button class="referral-action-btn {{ $referral->status === $statusKey ? 'active' : '' }}" type="submit" @disabled($referral->status === $statusKey)>{{ $statusLabel }}</button>
                                                     </form>
                                                 @endforeach
-                                                <form action="{{ route('admin.fundraiser-referrals.destroy', $referral) }}" method="post" onsubmit="return confirm('Delete this referral?')">
+                                                <form action="{{ route('admin.fundraiser-referrals.destroy', $referral) }}" method="post" data-delete-confirm>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="referral-action-btn delete" type="submit">Delete</button>
@@ -633,9 +656,13 @@
                                                 <span>Estimated Cost</span>
                                                 <strong>{{ $referral->estimated_cost }}</strong>
                                             </div>
+                                            <div class="detail-box">
+                                                <span>Lead Source</span>
+                                                <strong>{{ $referral->sourceLabel() }}</strong>
+                                            </div>
                                             <div class="detail-box detail-box--wide">
                                                 <span>Source Campaign</span>
-                                                <strong>{{ $referral->fundraiserPost?->title ?: 'General referral' }}</strong>
+                                                <strong>{{ $referral->fundraiserPost?->title ?: ($referral->source === \App\Models\FundraiserReferral::SOURCE_REQUEST_CALLBACK ? 'Resource page request' : 'General referral') }}</strong>
                                             </div>
                                         </div>
                                     </div>
@@ -672,6 +699,10 @@
             }, delay);
         });
     </script>
+    @include('partials.delete-confirm-modal')
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
+
+
+

@@ -29,6 +29,7 @@ class FundraiserReferralController extends Controller
         FundraiserReferral::create([
             ...$validated,
             'fundraiser_post_id' => $post?->id,
+            'source' => FundraiserReferral::SOURCE_REFER_US,
             'status' => FundraiserReferral::STATUS_NEW,
         ]);
 
