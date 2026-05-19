@@ -69,7 +69,7 @@ class EventController extends Controller
             return collect();
         }
 
-        return FundraiserPost::approved()
+        return FundraiserPost::publiclyVisible()
             ->with('fundraiser')
             ->addSelect([
                 'actual_raised_amount' => Donation::query()

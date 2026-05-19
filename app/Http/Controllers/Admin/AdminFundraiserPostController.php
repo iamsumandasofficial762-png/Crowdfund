@@ -49,29 +49,46 @@ class AdminFundraiserPostController extends Controller
         $post->update([
             'status' => FundraiserPost::STATUS_APPROVED,
             'approved_at' => now(),
+            'held_at' => null,
             'rejected_at' => null,
+            'hold_reason' => null,
+            'rejected_reason' => null,
         ]);
 
         return back()->with('status', 'Fundraiser post approved successfully.');
     }
 
-    public function reject(FundraiserPost $post): RedirectResponse
+    public function reject(Request $request, FundraiserPost $post): RedirectResponse
     {
+        $validated = $request->validate([
+            'rejected_reason' => ['required', 'string', 'max:5000'],
+        ]);
+
         $post->update([
             'status' => FundraiserPost::STATUS_REJECTED,
+            'rejected_reason' => $validated['rejected_reason'],
             'approved_at' => null,
+            'held_at' => null,
             'rejected_at' => now(),
+            'hold_reason' => null,
         ]);
 
         return back()->with('status', 'Fundraiser post rejected successfully.');
     }
 
-    public function hold(FundraiserPost $post): RedirectResponse
+    public function hold(Request $request, FundraiserPost $post): RedirectResponse
     {
+        $validated = $request->validate([
+            'hold_reason' => ['required', 'string', 'max:5000'],
+        ]);
+
         $post->update([
             'status' => FundraiserPost::STATUS_HOLD,
+            'hold_reason' => $validated['hold_reason'],
+            'held_at' => now(),
             'approved_at' => null,
             'rejected_at' => null,
+            'rejected_reason' => null,
         ]);
 
         return back()->with('status', 'Fundraiser post moved to hold successfully.');

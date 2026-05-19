@@ -10,7 +10,9 @@
                 <h1 class="fw-black mb-2">Your Fundraiser Campaigns</h1>
                 <p class="muted mb-0">Search, filter, and manage every campaign created by your account.</p>
             </div>
-            <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}"><i class="fa-solid fa-plus"></i>Create Post</a>
+            @if ($fundraiser->canManagePosts())
+                <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}"><i class="fa-solid fa-plus"></i>Create Post</a>
+            @endif
         </div>
 
         <form action="{{ route('fundraiser.posts.index') }}" method="get" class="row g-3 align-items-end">
@@ -24,6 +26,7 @@
                     <option value="all" @selected($status === 'all')>All ({{ $counts['all'] }})</option>
                     <option value="pending" @selected($status === 'pending')>Pending ({{ $counts['pending'] }})</option>
                     <option value="approved" @selected($status === 'approved')>Approved ({{ $counts['approved'] }})</option>
+                    <option value="hold" @selected($status === 'hold')>Hold ({{ $counts['hold'] }})</option>
                     <option value="rejected" @selected($status === 'rejected')>Rejected ({{ $counts['rejected'] }})</option>
                 </select>
             </div>
@@ -52,6 +55,11 @@
                         </div>
                         <h4 class="fw-black">{{ $post->title }}</h4>
                         <p class="muted">{{ \Illuminate\Support\Str::limit($post->short_description, 105) }}</p>
+                        @if ($post->status === \App\Models\FundraiserPost::STATUS_HOLD && $post->hold_reason)
+                            <p class="small fw-bold text-warning-emphasis">{{ $post->hold_reason }}</p>
+                        @elseif ($post->status === \App\Models\FundraiserPost::STATUS_REJECTED && $post->rejected_reason)
+                            <p class="small fw-bold text-danger">{{ $post->rejected_reason }}</p>
+                        @endif
 
                         @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
                             <div class="approved-progress mb-2" aria-hidden="true">
@@ -78,10 +86,10 @@
 
                         <div class="post-card-actions">
                             <a class="btn btn-sm btn-soft post-action-primary" href="{{ route('fundraiser.posts.show', $post) }}">View Details</a>
-                            @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
+                            @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED && $fundraiser->canManagePosts())
                                 <a class="btn btn-sm btn-gold" href="{{ route('fundraiser.posts.updates.index', $post) }}">Manage Post</a>
                             @endif
-                            @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING)
+                            @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING && $fundraiser->canManagePosts())
                                 <a class="btn btn-sm btn-outline-dark" href="{{ route('fundraiser.posts.edit', $post) }}">Edit</a>
                             @endif
                             <form class="post-action-form {{ $post->status === \App\Models\FundraiserPost::STATUS_REJECTED ? 'post-action-full' : '' }}" action="{{ route('fundraiser.posts.destroy', $post) }}" method="post" data-delete-confirm>
@@ -98,7 +106,9 @@
                 <section class="dashboard-panel p-5 text-center">
                     <h4 class="fw-black">No fundraiser posts found.</h4>
                     <p class="muted">Try changing your filters or create your first fundraiser campaign.</p>
-                    <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}">Create Post</a>
+                    @if ($fundraiser->canManagePosts())
+                        <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}">Create Post</a>
+                    @endif
                 </section>
             </div>
         @endforelse

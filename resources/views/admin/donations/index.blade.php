@@ -28,14 +28,16 @@
         .btn-warning,.btn-warning:focus { border-color:var(--gold); color:#fff !important; background:var(--gold); }
         .btn-warning:hover,.btn-warning:active { border-color:#b21f17; color:#fff !important; background:#b21f17; }
         .panel { border:1px solid var(--line); border-radius:18px; background:#fff; box-shadow:0 14px 34px rgba(18,24,39,.07); }
-        .summary-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-bottom:24px; }
-        .summary-card { min-height:132px; display:flex; align-items:center; justify-content:space-between; gap:18px; border:1px solid var(--line); border-radius:16px; padding:22px; background:#fff; box-shadow:0 12px 28px rgba(18,24,39,.07); }
-        .summary-card__icon { width:48px; height:48px; display:grid; place-items:center; flex:0 0 48px; border-radius:14px; color:var(--gold); background:var(--gold-soft); }
-        .summary-card__icon i { display:block; margin:0; font-size:18px; line-height:1; transform:none; }
-        .summary-card span { display:block; color:var(--muted); font-weight:800; }
-        .summary-card strong { display:block; margin-top:8px; color:var(--ink); font-size:28px; line-height:1.1; font-weight:900; }
+        .summary-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:38px; margin:0 8px 34px; }
+        .summary-card { min-height:196px; display:flex; align-items:center; justify-content:space-between; gap:28px; border:1px solid var(--line); border-radius:22px; padding:38px 54px; background:#fff; box-shadow:0 16px 36px rgba(18,24,39,.08); }
+        .summary-card__body { min-width:0; }
+        .summary-card__label { display:block; color:var(--muted); font-size:26px; line-height:1.2; font-weight:900; }
+        .summary-card__value { display:block; margin-top:22px; color:var(--ink); font-size:48px; line-height:1.05; font-weight:900; white-space:nowrap; }
+        .summary-card__icon { width:82px; height:82px; display:inline-flex; align-items:center; justify-content:center; flex:0 0 82px; border-radius:18px; color:#607185; background:var(--gold-soft); }
+        .summary-card__icon i { display:block; margin:0; font-size:36px; line-height:1; }
         .text-clip { max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-        @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } .sidebar { position:static; } .summary-grid { grid-template-columns:1fr; } }
+        @media (max-width: 1400px) { .summary-grid { gap:24px; } .summary-card { padding:32px 36px; } .summary-card__value { font-size:40px; } .summary-card__label { font-size:22px; } }
+        @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } .sidebar { position:static; } .summary-grid { grid-template-columns:1fr; gap:18px; margin:0 0 24px; } .summary-card { min-height:160px; padding:28px; } }
     </style>
 </head>
 <body>
@@ -82,23 +84,23 @@
             <div class="content">
                 <div class="summary-grid">
                     <article class="summary-card">
-                        <div>
-                            <span>Total amount</span>
-                            <strong>Rs. {{ number_format($totalAmount, 0) }}</strong>
+                        <div class="summary-card__body">
+                            <span class="summary-card__label">Total amount</span>
+                            <strong class="summary-card__value">Rs. {{ number_format($totalAmount, 0) }}</strong>
                         </div>
                         <span class="summary-card__icon"><i class="fa-solid fa-indian-rupee-sign"></i></span>
                     </article>
                     <article class="summary-card">
-                        <div>
-                            <span>Main amount</span>
-                            <strong>Rs. {{ number_format($mainAmount, 0) }}</strong>
+                        <div class="summary-card__body">
+                            <span class="summary-card__label">Main amount</span>
+                            <strong class="summary-card__value">Rs. {{ number_format($mainAmount, 0) }}</strong>
                         </div>
                         <span class="summary-card__icon"><i class="fa-solid fa-hand-holding-heart"></i></span>
                     </article>
                     <article class="summary-card">
-                        <div>
-                            <span>Tip amount</span>
-                            <strong>Rs. {{ number_format($tipAmount, 0) }}</strong>
+                        <div class="summary-card__body">
+                            <span class="summary-card__label">Tip amount</span>
+                            <strong class="summary-card__value">Rs. {{ number_format($tipAmount, 0) }}</strong>
                         </div>
                         <span class="summary-card__icon"><i class="fa-solid fa-coins"></i></span>
                     </article>

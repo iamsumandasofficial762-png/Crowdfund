@@ -45,8 +45,8 @@
             <label class="form-label fw-bold" for="main_image">Main Image Upload</label>
             <label class="upload-box" for="main_image">
                 <input id="main_image" type="file" name="main_image" accept=".jpg,.jpeg,.png,.webp" data-retain-file @required(! $isEdit)>
-                <span class="upload-icon"><i class="fa-solid fa-image"></i></span>
-                <span class="upload-title">Choose main image</span>
+                <span class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                <span class="upload-title">Upload image</span>
                 <span class="upload-help">JPG, PNG, or WEBP</span>
                 <span class="upload-selected" data-file-label>No file chosen</span>
                 <button class="upload-clear d-none" type="button" data-clear-file="main_image">Remove</button>
@@ -59,8 +59,8 @@
             <label class="form-label fw-bold" for="supporting_file">Supporting Document Upload</label>
             <label class="upload-box" for="supporting_file">
                 <input id="supporting_file" type="file" name="supporting_file" accept=".pdf,.jpg,.jpeg,.png,.webp" data-retain-file>
-                <span class="upload-icon"><i class="fa-solid fa-file-arrow-up"></i></span>
-                <span class="upload-title">Choose supporting file</span>
+                <span class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                <span class="upload-title">Upload documents</span>
                 <span class="upload-help">PDF, JPG, PNG, or WEBP</span>
                 <span class="upload-selected" data-file-label>No file chosen</span>
                 <button class="upload-clear d-none" type="button" data-clear-file="supporting_file">Remove</button>

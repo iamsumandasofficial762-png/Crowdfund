@@ -234,6 +234,38 @@
             color: #932a19;
         }
 
+        .badge-status.approved {
+            color: #137333;
+            background: #dff7e7;
+        }
+
+        .badge-status.hold {
+            color: #9a4f00;
+            background: #ffe8c2;
+        }
+
+        .badge-status.rejected {
+            color: #a12828;
+            background: #ffe1e1;
+        }
+
+        .modal-backdrop.show {
+            opacity: 0.22;
+            backdrop-filter: blur(8px);
+        }
+
+        .moderation-modal .modal-content {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: 0 22px 60px rgba(18, 24, 39, 0.2);
+        }
+
+        .moderation-modal textarea {
+            min-height: 130px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
         .document-link {
             display: inline-flex;
             border-radius: 999px;
@@ -496,7 +528,7 @@
                                 @endif
                                 <div class="post-card__body">
                                     <div class="post-card__meta">
-                                        <span class="badge badge-status">{{ ucfirst($post->status) }}</span>
+                                        <span class="badge badge-status {{ $post->status }}">{{ ucfirst($post->status) }}</span>
                                         <span class="muted small">{{ $post->created_at->diffForHumans() }}</span>
                                     </div>
                                     <h2 class="h5 fw-black">{{ $post->title }}</h2>
@@ -504,35 +536,89 @@
                                     <p class="mb-1"><strong>Fundraiser:</strong> {{ $post->fundraiser?->name ?? 'Unknown' }}</p>
                                     <p class="mb-1"><strong>Goal:</strong> Rs. {{ number_format((float) $post->goal_amount, 2) }}</p>
                                     <p class="mb-3"><strong>Location:</strong> {{ $post->location }}</p>
+                                    @if ($post->status === \App\Models\FundraiserPost::STATUS_HOLD && $post->hold_reason)
+                                        <p class="small fw-bold text-warning-emphasis">{{ $post->hold_reason }}</p>
+                                    @elseif ($post->status === \App\Models\FundraiserPost::STATUS_REJECTED && $post->rejected_reason)
+                                        <p class="small fw-bold text-danger">{{ $post->rejected_reason }}</p>
+                                    @endif
 
                                     @if ($post->supporting_file)
                                         <a class="document-link mb-3" href="{{ asset('storage/'.$post->supporting_file) }}" target="_blank" rel="noopener">View supporting file</a>
                                     @endif
 
                                     <div class="post-card__actions">
-                                        @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
-                                            <form action="{{ route('admin.fundraiser-posts.hold', $post) }}" method="post">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button class="btn btn-warning btn-sm fw-bold" type="submit">Hold</button>
-                                            </form>
-                                            <form action="{{ route('admin.fundraiser-posts.destroy', $post) }}" method="post" data-delete-confirm>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-outline-danger btn-sm fw-bold" type="submit">Delete</button>
-                                            </form>
-                                        @else
-                                            <form action="{{ route('admin.fundraiser-posts.approve', $post) }}" method="post">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button class="btn btn-warning btn-sm fw-bold" type="submit" @disabled($post->status === 'approved')>Approve</button>
-                                            </form>
-                                            <form action="{{ route('admin.fundraiser-posts.reject', $post) }}" method="post">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button class="btn btn-outline-light btn-sm fw-bold" type="submit" @disabled($post->status === 'rejected')>Reject</button>
-                                            </form>
-                                        @endif
+                                        <button class="btn btn-warning btn-sm fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#approvePost{{ $post->id }}" @disabled($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)>Approve</button>
+                                        <button class="btn btn-warning btn-sm fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#holdPost{{ $post->id }}" @disabled($post->status === \App\Models\FundraiserPost::STATUS_HOLD)>Hold</button>
+                                        <button class="btn btn-outline-light btn-sm fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#rejectPost{{ $post->id }}" @disabled($post->status === \App\Models\FundraiserPost::STATUS_REJECTED)>Reject</button>
+                                        <form action="{{ route('admin.fundraiser-posts.destroy', $post) }}" method="post" data-delete-confirm>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-outline-danger btn-sm fw-bold" type="submit">Delete</button>
+                                        </form>
+
+                                        <div class="modal fade moderation-modal" id="approvePost{{ $post->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header border-0">
+                                                        <h2 class="modal-title h5 fw-bold">Approve post?</h2>
+                                                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body pt-0">
+                                                        <p class="muted mb-0">This campaign will become public when its fundraiser account is approved.</p>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button class="btn btn-light fw-bold" type="button" data-bs-dismiss="modal">Cancel</button>
+                                                        <form action="{{ route('admin.fundraiser-posts.approve', $post) }}" method="post">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button class="btn btn-warning fw-bold" type="submit">Approve</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade moderation-modal" id="holdPost{{ $post->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <form class="modal-content" action="{{ route('admin.fundraiser-posts.hold', $post) }}" method="post">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <div class="modal-header border-0">
+                                                        <h2 class="modal-title h5 fw-bold">Hold post</h2>
+                                                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body pt-0">
+                                                        <label class="form-label fw-bold" for="post_hold_reason_{{ $post->id }}">Reason for holding</label>
+                                                        <textarea class="form-control" id="post_hold_reason_{{ $post->id }}" name="hold_reason" required>{{ old('hold_reason') }}</textarea>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button class="btn btn-light fw-bold" type="button" data-bs-dismiss="modal">Cancel</button>
+                                                        <button class="btn btn-warning fw-bold" type="submit">Hold</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade moderation-modal" id="rejectPost{{ $post->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <form class="modal-content" action="{{ route('admin.fundraiser-posts.reject', $post) }}" method="post">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <div class="modal-header border-0">
+                                                        <h2 class="modal-title h5 fw-bold">Reject post</h2>
+                                                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body pt-0">
+                                                        <label class="form-label fw-bold" for="post_rejected_reason_{{ $post->id }}">Reason for rejection</label>
+                                                        <textarea class="form-control" id="post_rejected_reason_{{ $post->id }}" name="rejected_reason" required>{{ old('rejected_reason') }}</textarea>
+                                                    </div>
+                                                    <div class="modal-footer border-0">
+                                                        <button class="btn btn-light fw-bold" type="button" data-bs-dismiss="modal">Cancel</button>
+                                                        <button class="btn btn-outline-danger fw-bold" type="submit">Reject</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </article>

@@ -273,7 +273,7 @@
                                     <a href="{{ route('events.index') }}" class="{{ request()->routeIs('events.*') ? 'is-active' : '' }}">Events</a>
                                  </li>
                                  <li class="navbar__item nav-fade">
-                                    <a href="{{ route('home') }}#blog" class="{{ request()->routeIs('blogs.show') ? 'is-active' : '' }}">Blog</a>
+                                    <a href="{{ route('blogs.index') }}" class="{{ request()->routeIs('blogs.*') ? 'is-active' : '' }}">Blog</a>
                                  </li>
                                  <li class="navbar__item nav-fade">
                                     <a href="{{ route('contact-us') }}" class="{{ request()->routeIs('contact-us') ? 'is-active' : '' }}">Contact Us</a>
@@ -413,3 +413,38 @@
                </div>
             </div>
          </header>
+         <!-- ==== mobile menu start ==== -->
+         <div class="mobile-menu d-block d-xl-none">
+            <nav class="mobile-menu__wrapper">
+               <div class="mobile-menu__header nav-fade">
+                  <div class="logo">
+                     <a href="{{ route('home') }}" aria-label="home page" title="logo">
+                     <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
+                     </a>
+                  </div>
+                  <button aria-label="close mobile menu" class="close-mobile-menu">
+                  <i class="fa-solid fa-xmark"></i>
+                  </button>
+               </div>
+               <div class="mobile-menu__list"></div>
+               <div class="mobile-menu__cta nav-fade d-block d-md-none">
+                  <a href="{{ route('fundraiser-posts.index', ['menu' => 'donate']) }}" class="btn--secondary" data-text="Donate Now"><span>Donate Now</span></a>
+               </div>
+               <div class="mobile-menu__social social nav-fade">
+                  <a href="https://www.facebook.com/" target="_blank" aria-label="share us on facebook" title="facebook">
+                  <i class="fa-brands fa-facebook-f"></i>
+                  </a>
+                  <a href="https://vimeo.com/" target="_blank" aria-label="share us on vimeo" title="vimeo">
+                  <i class="fa-brands fa-vimeo-v"></i>
+                  </a>
+                  <a href="https://x.com/" target="_blank" aria-label="share us on twitter" title="twitter">
+                  <i class="fa-brands fa-twitter"></i>
+                  </a>
+                  <a href="https://www.linkedin.com/" target="_blank" aria-label="share us on linkedin" title="linkedin">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                  </a>
+               </div>
+            </nav>
+         </div>
+         <div class="mobile-menu__backdrop"></div>
+         <!-- ==== / mobile menu end ==== -->

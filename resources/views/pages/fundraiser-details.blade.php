@@ -428,6 +428,7 @@
             }
         }
     </style>
+    @include('partials.upload-ui')
 </head>
 <body>
     <main class="fundraiser-page">
@@ -505,11 +506,12 @@
                     <span>Upload reports, bills, estimates, admission letters, death certificate/summary etc.</span>
                 </p>
 
-                <label class="fundraiser-upload" for="documents">
+                <label class="upload-box" for="documents">
                     <input type="file" id="documents" name="documents[]" accept=".pdf,.jpg,.jpeg,.png" multiple>
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                    <strong>Upload documents</strong>
-                    <span>PDF, JPG, PNG - Max 4 documents</span>
+                    <span class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                    <span class="upload-title">Upload documents</span>
+                    <span class="upload-help">PDF, JPG, PNG - Max 4 documents</span>
+                    <span class="upload-selected" data-file-label>No file chosen</span>
                 </label>
 
                 <button class="fundraiser-form__submit" type="submit">

@@ -1,4 +1,27 @@
+@php
+   $recentFundraiserPosts = $recentFundraiserPosts ?? collect();
+@endphp
 <footer class="footer footer-two">
+            <style>
+               @media (max-width: 575px) {
+                  .footer-two .footer__widget-list {
+                     display: grid;
+                     grid-template-columns: repeat(2, minmax(0, 1fr));
+                     gap: 12px 18px;
+                  }
+
+                  .footer-two .footer__widget-list li {
+                     margin: 0;
+                  }
+
+                  .footer-two .footer__widget-list a {
+                     display: inline-flex;
+                     align-items: center;
+                     gap: 8px;
+                     line-height: 1.25;
+                  }
+               }
+            </style>
             <div class="container">
                <div class="row">
                   <div class="col-12">
@@ -38,16 +61,25 @@
                         <div class="footer__widget-content">
                            <ul class="footer__widget-list">
                               <li>
-                                 <a href="{{ route('about-us', ['menu' => 'about-us']) }}"><i class="fa-solid fa-angle-right"></i> About Us</a>
+                                 <a href="{{ route('home') }}"><i class="fa-solid fa-angle-right"></i>Home</a>
                               </li>
                               <li>
-                                 <a href="{{ route('fundraiser-posts.index', ['menu' => 'donate-us']) }}"><i class="fa-solid fa-angle-right"></i>Donate</a>
+                                 <a href="{{ route('fundraiser-posts.index', ['menu' => 'donate']) }}"><i class="fa-solid fa-angle-right"></i>Donate</a>
                               </li>
                               <li>
                                  <a href="{{ route('pricing') }}"><i class="fa-solid fa-angle-right"></i>Pricing</a>
                               </li>
                               <li>
                                  <a href="{{ route('resource') }}"><i class="fa-solid fa-angle-right"></i>Resource</a>
+                              </li>
+                              <li>
+                                 <a href="{{ route('events.index') }}"><i class="fa-solid fa-angle-right"></i>Events</a>
+                              </li>
+                              <li>
+                                 <a href="{{ route('blogs.index') }}"><i class="fa-solid fa-angle-right"></i>Blog</a>
+                              </li>
+                              <li>
+                                 <a href="{{ route('contact-us') }}"><i class="fa-solid fa-angle-right"></i>Contact Us</a>
                               </li>
                            </ul>
                         </div>

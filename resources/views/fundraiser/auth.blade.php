@@ -280,10 +280,10 @@
             position: relative;
             display: grid;
             place-items: center;
-            min-height: 106px;
-            border: 2px dashed #932a19;
-            border-radius: 12px;
-            padding: 12px;
+            min-height: 112px;
+            border: 1.5px dashed #b21f17;
+            border-radius: 10px;
+            padding: 14px 16px;
             background: #fff8ec;
             color: var(--ink);
             text-align: center;
@@ -322,11 +322,11 @@
             height: 28px;
             display: inline-grid;
             place-items: center;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             border-radius: 50%;
             background: #b21f17;
             color: #ffffff;
-            font-size: 15px;
+            font-size: 13px;
         }
 
         .upload-title {
@@ -334,6 +334,7 @@
             margin-bottom: 2px;
             font-size: 15px;
             font-weight: 900;
+            line-height: 1.2;
         }
 
         .upload-help,
@@ -341,7 +342,8 @@
             display: block;
             color: var(--muted);
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
+            line-height: 1.25;
         }
 
         .upload-selected {
@@ -409,11 +411,13 @@
         @media (max-width: 575px) {
             .auth-page {
                 padding: 0;
+                min-height: 100svh;
             }
 
             .auth-card {
-                min-height: 100vh;
+                min-height: 100svh;
                 border-radius: 0;
+                overflow: visible;
             }
 
             .auth-brand {
@@ -435,7 +439,7 @@
             }
 
             .auth-panel {
-                padding: 24px 18px 34px;
+                padding: 24px 18px max(96px, env(safe-area-inset-bottom));
                 overflow: visible;
             }
 
@@ -464,7 +468,7 @@
             }
 
             .auth-card[data-mode="register"] .form-wrap {
-                min-height: 870px;
+                min-height: 960px;
             }
 
             .upload-box.has-selected-file {
@@ -476,10 +480,11 @@
         @media (max-width: 380px) {
             .auth-panel {
                 padding-inline: 14px;
+                padding-bottom: max(110px, env(safe-area-inset-bottom));
             }
 
             .auth-card[data-mode="register"] .form-wrap {
-                min-height: 910px;
+                min-height: 1010px;
             }
         }
     </style>

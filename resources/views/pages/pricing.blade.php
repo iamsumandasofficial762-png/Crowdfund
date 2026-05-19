@@ -788,23 +788,35 @@
       }
 
       .pricing-benefits {
-         padding: 56px 12px;
+         padding: 48px 12px;
       }
 
       .pricing-benefits__switch {
-         grid-template-columns: 1fr;
-         border-radius: 24px;
+         grid-template-columns: repeat(2, minmax(0, 1fr));
+         width: min(100%, 390px);
+         margin-bottom: 34px;
+         padding: 5px;
+         border-radius: 22px;
       }
 
       .pricing-benefits__tab {
-         min-height: 56px;
-         border-radius: 18px;
+         min-height: 54px;
+         gap: 8px;
+         border-radius: 17px;
+         padding: 0 10px;
+         font-size: 16px;
+      }
+
+      .pricing-benefits__tab i {
+         width: 22px;
          font-size: 18px;
       }
 
       .pricing-benefits__heading {
-         grid-template-columns: 1fr;
-         gap: 10px;
+         display: block;
+         margin-bottom: 24px;
+         font-size: 26px;
+         line-height: 1.18;
       }
 
       .pricing-benefits__heading::before,
@@ -1123,7 +1135,7 @@
             </article>
 
             <article class="pricing-benefit-card pricing-benefit-card--raise">
-               <span class="pricing-benefit-card__icon"><i class="fa-regular fa-wallet"></i></span>
+               <span class="pricing-benefit-card__icon"><i class="fa-solid fa-wallet"></i></span>
                <h3>Raise More, Stress Less</h3>
                <p>Enjoy 0% platform fees and keep more of what you raise for the cause that matters most.</p>
                <span class="pricing-benefit-card__line"></span>

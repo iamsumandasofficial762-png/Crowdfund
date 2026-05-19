@@ -2532,6 +2532,7 @@
       }
    }
 </style>
+@include('partials.upload-ui')
 
 <!-- ==== donate us section start ==== -->
 <div class="cm-details donate-us community checkout faq pt-120 pb-120">
@@ -3207,12 +3208,13 @@
 
             <div class="report-form__field">
                <span class="report-form__hint">Supporting Documents</span>
-               <label class="report-form__upload">
-                  <i class="fa-solid fa-upload" aria-hidden="true"></i>
-                  <span>Upload</span>
-                  <input type="file" name="supporting_document" data-report-file>
+               <label class="upload-box" for="supporting_document">
+                  <input id="supporting_document" type="file" name="supporting_document" accept=".pdf,.jpg,.jpeg,.png,.webp" data-report-file>
+                  <span class="upload-icon"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i></span>
+                  <span class="upload-title">Upload documents</span>
+                  <span class="upload-help">PDF, JPG, PNG, or WEBP</span>
+                  <span class="upload-selected" data-file-label data-report-file-name>No file chosen</span>
                </label>
-               <span class="report-form__file-name" data-report-file-name>No file selected</span>
             </div>
 
             <button class="report-form__submit" type="submit">Send</button>

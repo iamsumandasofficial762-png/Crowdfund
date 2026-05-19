@@ -61,8 +61,8 @@
                     <label class="form-label fw-bold" for="update_image">Upload Image (optional)</label>
                     <label class="upload-box" for="update_image">
                         <input id="update_image" type="file" name="update_image" accept=".jpg,.jpeg,.png,.webp" data-image-preview-source data-retain-file>
-                        <span class="upload-icon"><i class="fa-solid fa-image"></i></span>
-                        <span class="upload-title">Choose update image</span>
+                        <span class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                        <span class="upload-title">Upload image</span>
                         <span class="upload-help">JPG, PNG, JPEG, or WEBP up to 5 MB</span>
                         <span class="upload-selected" data-file-label>No file chosen</span>
                         <button class="upload-clear d-none" type="button" data-clear-file="update_image">Remove</button>

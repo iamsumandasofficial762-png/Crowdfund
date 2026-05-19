@@ -16,7 +16,7 @@ class PageController extends Controller
         $recentFundraiserPosts = collect();
 
         if (Schema::hasTable('fundraiser_posts')) {
-            $recentFundraiserPosts = FundraiserPost::approved()
+            $recentFundraiserPosts = FundraiserPost::publiclyVisible()
                 ->with('fundraiser')
                 ->addSelect([
                     'actual_raised_amount' => Donation::query()
@@ -70,7 +70,15 @@ class PageController extends Controller
 
     public function donate(Request $request, ?FundraiserPost $post = null)
     {
-        if ($post && $post->status !== FundraiserPost::STATUS_APPROVED) {
+        $post?->loadMissing('fundraiser');
+
+        if (
+            $post
+            && (
+                $post->status !== FundraiserPost::STATUS_APPROVED
+                || $post->fundraiser?->status !== \App\Models\Fundraiser::STATUS_APPROVED
+            )
+        ) {
             abort(404);
         }
 
@@ -82,7 +90,7 @@ class PageController extends Controller
         $recentFundraiserPosts = collect();
 
         if (Schema::hasTable('fundraiser_posts')) {
-            $recentFundraiserPosts = FundraiserPost::approved()
+            $recentFundraiserPosts = FundraiserPost::publiclyVisible()
                 ->with('fundraiser')
                 ->addSelect([
                     'actual_raised_amount' => Donation::query()

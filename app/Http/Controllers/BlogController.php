@@ -46,7 +46,7 @@ class BlogController extends Controller
         $recentFundraiserPosts = collect();
 
         if (Schema::hasTable('fundraiser_posts')) {
-            $recentFundraiserPosts = FundraiserPost::approved()
+            $recentFundraiserPosts = FundraiserPost::publiclyVisible()
                 ->with('fundraiser')
                 ->addSelect([
                     'actual_raised_amount' => Donation::query()

@@ -1,25 +1,6 @@
 <x-header>
 </x-header>
 
-<div class="mobile-menu d-block d-xl-none">
-   <nav class="mobile-menu__wrapper">
-      <div class="mobile-menu__header nav-fade">
-         <div class="logo">
-            <a href="{{ route('home') }}" aria-label="home page" title="logo">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
-            </a>
-         </div>
-         <button aria-label="close mobile menu" class="close-mobile-menu">
-         <i class="fa-solid fa-xmark"></i>
-         </button>
-      </div>
-      <div class="mobile-menu__list"></div>
-      <div class="mobile-menu__cta nav-fade d-block d-md-none">
-         <a href="{{ route('fundraiser-posts.index', ['menu' => 'donate']) }}" class="btn--secondary" data-text="Donate Now"><span>Donate Now</span></a>
-      </div>
-   </nav>
-</div>
-
 <main>
    <section class="blog-detail-hero" style="background-image: url('{{ asset('assets/images/banner/banner-bg.jpg') }}');">
       <div class="container">

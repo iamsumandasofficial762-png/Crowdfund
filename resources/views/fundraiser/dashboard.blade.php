@@ -10,17 +10,20 @@
                 <h1 class="fw-black mb-2">Fundraiser Dashboard</h1>
                 <p class="muted mb-0">Create campaigns, track approval status, and monitor donation progress.</p>
             </div>
-            <span class="status-badge approved"><i class="fa-solid fa-circle-check"></i> Active Account</span>
+            <span class="status-badge {{ $fundraiser->status }}">
+                <i class="fa-solid {{ $fundraiser->status === \App\Models\Fundraiser::STATUS_APPROVED ? 'fa-circle-check' : 'fa-circle-info' }}"></i>
+                {{ $fundraiser->status === \App\Models\Fundraiser::STATUS_APPROVED ? 'Active Account' : ucfirst($fundraiser->status).' Account' }}
+            </span>
         </div>
     </section>
 
     <div class="row g-4 mb-4">
         <div class="col-md-6">
-            <a class="dashboard-card d-block p-4" href="{{ route('fundraiser.posts.create') }}">
+            <a class="dashboard-card d-block p-4 {{ $fundraiser->canManagePosts() ? '' : 'pe-none opacity-75' }}" href="{{ $fundraiser->canManagePosts() ? route('fundraiser.posts.create') : '#' }}" aria-disabled="{{ $fundraiser->canManagePosts() ? 'false' : 'true' }}">
                 <span class="icon-pill mb-3"><i class="fa-solid fa-plus"></i></span>
                 <h3 class="fw-black">Create Post</h3>
                 <p class="muted mb-4">Submit a new fundraiser campaign for admin approval with images, documents, and beneficiary details.</p>
-                <span class="btn btn-gold">Create fundraiser post</span>
+                <span class="btn btn-gold">{{ $fundraiser->canManagePosts() ? 'Create fundraiser post' : 'Post creation blocked' }}</span>
             </a>
         </div>
         <div class="col-md-6">

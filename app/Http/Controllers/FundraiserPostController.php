@@ -14,7 +14,7 @@ class FundraiserPostController extends Controller
 {
     public function index(): View
     {
-        $posts = FundraiserPost::approved()
+        $posts = FundraiserPost::publiclyVisible()
             ->with('fundraiser')
             ->addSelect([
                 'actual_raised_amount' => Donation::query()
@@ -37,6 +37,7 @@ class FundraiserPostController extends Controller
             'all',
             FundraiserPost::STATUS_PENDING,
             FundraiserPost::STATUS_APPROVED,
+            FundraiserPost::STATUS_HOLD,
             FundraiserPost::STATUS_REJECTED,
         ];
 
@@ -69,6 +70,7 @@ class FundraiserPostController extends Controller
             'all' => $fundraiser->posts()->count(),
             'pending' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_PENDING)->count(),
             'approved' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_APPROVED)->count(),
+            'hold' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_HOLD)->count(),
             'rejected' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_REJECTED)->count(),
         ];
 
@@ -77,6 +79,8 @@ class FundraiserPostController extends Controller
 
     public function create(Request $request): View
     {
+        $this->ensureCanManagePosts($request);
+
         return view('fundraiser.posts.create', [
             'fundraiser' => $request->attributes->get('fundraiser'),
             'post' => null,
@@ -85,6 +89,8 @@ class FundraiserPostController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->ensureCanManagePosts($request);
+
         $validated = $this->validatePost($request);
 
         $mainImage = $request->file('main_image')->store('fundraiser-posts/images', 'public');
@@ -148,6 +154,7 @@ class FundraiserPostController extends Controller
 
     public function edit(Request $request, FundraiserPost $post): View
     {
+        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
         abort_unless($post->status === FundraiserPost::STATUS_PENDING, 403);
 
@@ -159,6 +166,7 @@ class FundraiserPostController extends Controller
 
     public function update(Request $request, FundraiserPost $post): RedirectResponse
     {
+        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
         abort_unless($post->status === FundraiserPost::STATUS_PENDING, 403);
 
@@ -224,6 +232,13 @@ class FundraiserPostController extends Controller
     private function authorizeFundraiserPost(Request $request, FundraiserPost $post): void
     {
         abort_unless($post->fundraiser_id === $request->attributes->get('fundraiser')->id, 404);
+    }
+
+    private function ensureCanManagePosts(Request $request): void
+    {
+        $fundraiser = $request->attributes->get('fundraiser');
+
+        abort_if($fundraiser && ! $fundraiser->canManagePosts(), 403);
     }
 
     private function deletePublicFile(?string $path): void

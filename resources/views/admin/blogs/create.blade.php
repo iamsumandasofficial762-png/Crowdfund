@@ -26,6 +26,7 @@
         .preview { width:100%; max-height:220px; object-fit:cover; border-radius:14px; border:1px solid var(--line); }
         @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } }
     </style>
+    @include('partials.upload-ui')
 </head>
 <body>
     <div class="admin-layout">

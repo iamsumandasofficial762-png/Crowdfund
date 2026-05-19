@@ -67,8 +67,13 @@
         </div>
         <div class="panel p-4">
             <label class="form-label fw-bold" for="featured_image">Featured Image</label>
-            <input class="form-control @error('featured_image') is-invalid @enderror" id="featured_image" type="file" name="featured_image" accept=".jpg,.jpeg,.png,.webp" data-image-input="blog-featured-image">
-            <div class="form-text">JPG, PNG, JPEG, or WEBP up to 5 MB.</div>
+            <label class="upload-box" for="featured_image">
+                <input class="@error('featured_image') is-invalid @enderror" id="featured_image" type="file" name="featured_image" accept=".jpg,.jpeg,.png,.webp" data-image-input="blog-featured-image">
+                <span class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                <span class="upload-title">Upload image</span>
+                <span class="upload-help">JPG, PNG, JPEG, or WEBP up to 5 MB</span>
+                <span class="upload-selected" data-file-label>No file chosen</span>
+            </label>
             @error('featured_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
             <img
                 class="preview mt-3 {{ $hasFeaturedImage ? '' : 'd-none' }}"

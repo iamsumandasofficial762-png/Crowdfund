@@ -46,6 +46,7 @@
         .summary-item.is-primary .meta-label { color:var(--gold); }
         .badge-status { display:inline-flex; align-items:center; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:900; text-transform:capitalize; background:#e8f8ed; color:#087a2a; }
         .badge-status.pending { background:#fff4d8; color:#8a5b00; }
+        .badge-status.hold { background:#ffe8c2; color:#9a4f00; }
         .badge-status.rejected { background:#fde3e0; color:#9b2417; }
         .documents { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
         .documents .btn { max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -110,6 +111,12 @@
                             <div><dt class="meta-label">Cause</dt><dd>{{ $fundraiser->cause ?: '-' }}</dd></div>
                             <div><dt class="meta-label">Registration Date</dt><dd>{{ $fundraiser->created_at->format('d M Y, h:i A') }}</dd></div>
                             <div><dt class="meta-label">Status</dt><dd><span class="badge-status {{ $fundraiser->status }}">{{ $fundraiser->status }}</span></dd></div>
+                            @if ($fundraiser->status === \App\Models\Fundraiser::STATUS_HOLD && $fundraiser->hold_reason)
+                                <div><dt class="meta-label">Hold Reason</dt><dd>{{ $fundraiser->hold_reason }}</dd></div>
+                            @endif
+                            @if ($fundraiser->status === \App\Models\Fundraiser::STATUS_REJECTED && $fundraiser->rejected_reason)
+                                <div><dt class="meta-label">Rejection Reason</dt><dd>{{ $fundraiser->rejected_reason }}</dd></div>
+                            @endif
                             <div class="meta-wide">
                                 <dt class="meta-label">Documents</dt>
                                 <dd>

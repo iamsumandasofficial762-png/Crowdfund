@@ -127,6 +127,18 @@ Route::get('/admin/fundraisers', [AdminFundraiserController::class, 'index'])
     ->middleware('jwt.session')
     ->name('admin.fundraisers.index');
 
+Route::patch('/admin/fundraisers/{fundraiser}/approve', [AdminFundraiserController::class, 'approve'])
+    ->middleware('jwt.session')
+    ->name('admin.fundraisers.approve');
+
+Route::patch('/admin/fundraisers/{fundraiser}/hold', [AdminFundraiserController::class, 'hold'])
+    ->middleware('jwt.session')
+    ->name('admin.fundraisers.hold');
+
+Route::patch('/admin/fundraisers/{fundraiser}/reject', [AdminFundraiserController::class, 'reject'])
+    ->middleware('jwt.session')
+    ->name('admin.fundraisers.reject');
+
 Route::get('/admin/fundraisers/{fundraiser}', [AdminFundraiserController::class, 'show'])
     ->middleware('jwt.session')
     ->name('admin.fundraisers.show');

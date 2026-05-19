@@ -53,10 +53,10 @@
         </div>
         <div class="d-flex gap-2 flex-wrap">
             <a class="btn btn-soft" href="{{ route('fundraiser.posts.index') }}">Back to My Posts</a>
-            @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)
+            @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED && $post->fundraiser->canManagePosts())
                 <a class="btn btn-gold" href="{{ route('fundraiser.posts.updates.index', $post) }}">Manage Post</a>
             @endif
-            @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING)
+            @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING && $post->fundraiser->canManagePosts())
                 <a class="btn btn-gold" href="{{ route('fundraiser.posts.edit', $post) }}">Edit Pending Post</a>
             @endif
         </div>
@@ -69,6 +69,17 @@
                 <div class="p-3 p-md-4">
                     <h4 class="fw-black">Full Fundraiser Details</h4>
                     <p class="muted">{{ $post->short_description }}</p>
+                    @if ($post->status === \App\Models\FundraiserPost::STATUS_HOLD && $post->hold_reason)
+                        <div class="moderation-alert mb-3">
+                            <strong>Your fundraiser account/post is currently on hold.</strong>
+                            <p>{{ $post->hold_reason }}</p>
+                        </div>
+                    @elseif ($post->status === \App\Models\FundraiserPost::STATUS_REJECTED && $post->rejected_reason)
+                        <div class="moderation-alert mb-3">
+                            <strong>This fundraiser post has been rejected.</strong>
+                            <p>{{ $post->rejected_reason }}</p>
+                        </div>
+                    @endif
                     <p>{!! nl2br(e($post->full_description)) !!}</p>
 
                     <div class="row g-3 mt-2">

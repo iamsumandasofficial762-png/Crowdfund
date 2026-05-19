@@ -13,6 +13,7 @@ class Fundraiser extends Model
 
     public const STATUS_PENDING = 'pending';
     public const STATUS_APPROVED = 'approved';
+    public const STATUS_HOLD = 'hold';
     public const STATUS_REJECTED = 'rejected';
 
     protected $fillable = [
@@ -24,6 +25,9 @@ class Fundraiser extends Model
         'cause',
         'documents',
         'status',
+        'hold_reason',
+        'rejected_reason',
+        'held_at',
         'approved_at',
         'rejected_at',
     ];
@@ -33,6 +37,7 @@ class Fundraiser extends Model
         return [
             'password' => 'hashed',
             'documents' => 'array',
+            'held_at' => 'datetime',
             'approved_at' => 'datetime',
             'rejected_at' => 'datetime',
         ];
@@ -55,6 +60,26 @@ class Fundraiser extends Model
     public function scopePending(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_PENDING);
+    }
+
+    public function scopeHold(Builder $query): Builder
+    {
+        return $query->where('status', self::STATUS_HOLD);
+    }
+
+    public function isHeld(): bool
+    {
+        return $this->status === self::STATUS_HOLD;
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->status === self::STATUS_REJECTED;
+    }
+
+    public function canManagePosts(): bool
+    {
+        return ! $this->isHeld() && ! $this->isRejected();
     }
 
     public function getFullPhoneAttribute(): string

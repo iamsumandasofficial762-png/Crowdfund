@@ -53,6 +53,7 @@ class FundraiserPostUpdateController extends Controller
 
     public function create(Request $request, FundraiserPost $post): RedirectResponse
     {
+        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
 
         return redirect()->route('fundraiser.posts.updates.index', $post);
@@ -60,6 +61,7 @@ class FundraiserPostUpdateController extends Controller
 
     public function store(Request $request, FundraiserPost $post): RedirectResponse
     {
+        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
 
         $validated = $this->validateUpdate($request);
@@ -84,6 +86,7 @@ class FundraiserPostUpdateController extends Controller
 
     public function edit(Request $request, FundraiserPost $post, FundraiserPostUpdate $update): View
     {
+        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
         $this->authorizeUpdate($post, $update);
 
@@ -92,6 +95,7 @@ class FundraiserPostUpdateController extends Controller
 
     public function update(Request $request, FundraiserPost $post, FundraiserPostUpdate $update): RedirectResponse
     {
+        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
         $this->authorizeUpdate($post, $update);
 
@@ -146,6 +150,13 @@ class FundraiserPostUpdateController extends Controller
     private function authorizeFundraiserPost(Request $request, FundraiserPost $post): void
     {
         abort_unless($post->fundraiser_id === $request->attributes->get('fundraiser')->id, 404);
+    }
+
+    private function ensureCanManagePosts(Request $request): void
+    {
+        $fundraiser = $request->attributes->get('fundraiser');
+
+        abort_if($fundraiser && ! $fundraiser->canManagePosts(), 403);
     }
 
     private function authorizeUpdate(FundraiserPost $post, FundraiserPostUpdate $update): void

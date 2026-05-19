@@ -30,7 +30,7 @@ class DonationController extends Controller
 
     public function campaigns(): View
     {
-        $posts = FundraiserPost::approved()
+        $posts = FundraiserPost::publiclyVisible()
             ->with('fundraiser')
             ->addSelect([
                 'actual_raised_amount' => Donation::query()
@@ -49,7 +49,12 @@ class DonationController extends Controller
 
     public function store(Request $request, FundraiserPost $post): RedirectResponse
     {
-        abort_unless($post->status === FundraiserPost::STATUS_APPROVED, 404);
+        $post->loadMissing('fundraiser');
+        abort_unless(
+            $post->status === FundraiserPost::STATUS_APPROVED
+            && $post->fundraiser?->status === \App\Models\Fundraiser::STATUS_APPROVED,
+            404
+        );
 
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],

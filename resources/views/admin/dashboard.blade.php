@@ -655,6 +655,35 @@
             color: var(--gold);
         }
 
+        @media (max-width: 1199px) {
+            .admin-layout {
+                grid-template-columns: 260px minmax(0, 1fr);
+            }
+
+            .sidebar {
+                padding: 24px 16px;
+            }
+
+            .report-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 18px;
+            }
+
+            .stat-card {
+                min-height: 158px;
+                padding: 20px;
+            }
+
+            .panel-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .chart-controls {
+                justify-content: flex-start;
+            }
+        }
+
         @media (max-width: 991px) {
             .admin-layout {
                 grid-template-columns: 1fr;
@@ -668,8 +697,12 @@
                 position: fixed;
                 z-index: 20;
                 width: 280px;
+                max-width: 84vw;
+                height: 100dvh;
+                overflow-y: auto;
                 transform: translateX(-100%);
                 transition: transform 0.25s ease;
+                box-shadow: 18px 0 40px rgba(18, 24, 39, 0.18);
             }
 
             .sidebar.show {
@@ -679,29 +712,96 @@
             .mobile-toggle {
                 display: inline-flex;
             }
+
+            .topbar-inner {
+                align-items: flex-start !important;
+                flex-wrap: wrap;
+            }
+
+            .topbar-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .content {
+                padding-inline: 18px;
+            }
+
+            .table-responsive {
+                border-radius: 12px;
+            }
+
+            .table-responsive table {
+                min-width: 720px;
+            }
         }
 
         @media (max-width: 575px) {
             .topbar {
-                padding: 16px;
+                padding: 14px;
             }
 
             .content {
-                padding: 18px 16px 32px;
+                padding: 16px 12px 30px;
             }
 
             .panel {
                 min-height: auto;
-                padding: 20px !important;
+                padding: 16px !important;
             }
 
             .chart-bars {
                 min-height: 180px;
                 gap: 8px;
+                overflow-x: auto;
+                grid-template-columns: repeat(8, minmax(44px, 1fr));
             }
 
             .report-grid {
                 grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .stat-card {
+                min-height: 140px;
+                padding: 18px;
+            }
+
+            .stat-card__top,
+            .mini-stat__top {
+                margin-bottom: 12px;
+            }
+
+            .stat-switch__button,
+            .icon-box {
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+            }
+
+            .topbar-actions .btn,
+            .profile-btn {
+                min-height: 38px;
+                font-size: 13px;
+            }
+
+            .chart-controls {
+                gap: 6px;
+            }
+
+            .chart-toggle {
+                flex: 1 1 calc(50% - 6px);
+                min-height: 36px;
+                padding-inline: 8px;
+                font-size: 12px;
+            }
+
+            .profile-card {
+                padding: 18px;
+            }
+
+            .text-clip {
+                max-width: 180px;
             }
         }
     </style>

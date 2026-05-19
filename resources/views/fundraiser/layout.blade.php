@@ -388,6 +388,32 @@
             background: #ffe1e1;
         }
 
+        .status-badge.hold {
+            color: #9a4f00;
+            background: #ffe8c2;
+        }
+
+        .moderation-alert {
+            border: 1px solid rgba(178, 31, 23, 0.22);
+            border-radius: 14px;
+            padding: 16px 18px;
+            color: var(--ink);
+            background: #fff8ec;
+            box-shadow: 0 10px 24px rgba(147, 42, 25, 0.08);
+        }
+
+        .moderation-alert strong {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 900;
+        }
+
+        .moderation-alert p {
+            margin: 0;
+            color: var(--muted);
+            font-weight: 800;
+        }
+
         .fundraiser-image {
             width: 100%;
             height: 190px;
@@ -446,11 +472,11 @@
             position: relative;
             display: grid;
             place-items: center;
-            min-height: 118px;
+            min-height: 112px;
             width: 100%;
-            border: 2px dashed rgba(147, 42, 25, 0.7);
-            border-radius: 12px;
-            padding: 14px;
+            border: 1.5px dashed #b21f17;
+            border-radius: 10px;
+            padding: 14px 16px;
             background: #fff9f8;
             color: var(--ink);
             text-align: center;
@@ -493,8 +519,8 @@
             margin-bottom: 6px;
             border-radius: 50%;
             color: #ffffff;
-            background: var(--gold);
-            font-size: 15px;
+            background: var(--gold-dark);
+            font-size: 14px;
         }
 
         .upload-title {
@@ -502,6 +528,7 @@
             margin-bottom: 2px;
             font-size: 15px;
             font-weight: 900;
+            line-height: 1.2;
         }
 
         .upload-help,
@@ -510,6 +537,7 @@
             color: var(--muted);
             font-size: 12px;
             font-weight: 800;
+            line-height: 1.25;
         }
 
         .upload-selected {
@@ -824,7 +852,7 @@
             .fundraiser-nav {
                 width: 100%;
                 display: grid;
-                grid-template-columns: repeat(5, minmax(0, 1fr));
+                grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 8px;
             }
 
@@ -852,6 +880,11 @@
                 border-radius: 14px;
             }
 
+            .dashboard-card,
+            .dashboard-panel {
+                min-width: 0;
+            }
+
             h1,
             .h1 {
                 font-size: clamp(28px, 5vw, 38px);
@@ -874,6 +907,10 @@
                 padding-inline: 12px;
             }
 
+            .fundraiser-shell {
+                padding: 18px 0 34px;
+            }
+
             .fundraiser-brand img {
                 width: 140px;
             }
@@ -888,6 +925,18 @@
                 gap: 6px;
                 font-size: 12px;
                 white-space: normal;
+            }
+
+            .dashboard-panel {
+                box-shadow: 0 12px 30px rgba(18, 24, 39, 0.07);
+            }
+
+            .dashboard-card {
+                box-shadow: 0 10px 24px rgba(18, 24, 39, 0.06);
+            }
+
+            .dashboard-card:hover {
+                transform: none;
             }
 
             .post-card-actions {
@@ -950,6 +999,10 @@
             .table-responsive {
                 overflow-x: auto;
             }
+
+            .table-responsive table {
+                min-width: 720px;
+            }
         }
 
         @media (max-width: 420px) {
@@ -963,6 +1016,36 @@
 
             .dashboard-panel {
                 border-radius: 12px;
+            }
+
+            .fundraiser-topbar {
+                padding-block: 12px !important;
+            }
+
+            .dashboard-panel.p-3,
+            .dashboard-panel.p-md-4,
+            .dashboard-panel.p-md-5 {
+                padding: 16px !important;
+            }
+
+            .dashboard-card.p-4 {
+                padding: 18px !important;
+            }
+
+            .status-badge {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .fundraiser-brand img {
+                width: 118px;
+            }
+
+            .fundraiser-nav a,
+            .logout-button {
+                min-height: 40px;
+                padding: 8px 10px;
             }
         }
     </style>
@@ -998,6 +1081,18 @@
     <main class="fundraiser-shell">
         <div class="container">
             @include('partials.flash-messages')
+
+            @if (($currentFundraiser ?? null)?->status === \App\Models\Fundraiser::STATUS_HOLD)
+                <div class="moderation-alert mb-4">
+                    <strong>Your fundraiser account/post is currently on hold.</strong>
+                    <p>{{ $currentFundraiser->hold_reason ?: 'Please contact the admin team for more information.' }}</p>
+                </div>
+            @elseif (($currentFundraiser ?? null)?->status === \App\Models\Fundraiser::STATUS_REJECTED)
+                <div class="moderation-alert mb-4">
+                    <strong>Your fundraiser account has been rejected.</strong>
+                    <p>{{ $currentFundraiser->rejected_reason ?: 'Please contact the admin team for more information.' }}</p>
+                </div>
+            @endif
 
             @yield('content')
         </div>
