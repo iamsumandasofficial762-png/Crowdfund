@@ -1,7 +1,34 @@
+@push('head')
+      <link rel="preload" as="image" href="{{ asset('assets/images/banner/banner-two-bg.jpg') }}">
+@endpush
 <x-header>
 </x-header>
          <style>
+            .banner-two .banner-two__slider-single {
+               padding-block: 110px 150px;
+            }
+
+            .banner-two .banner__content-cta {
+               margin-top: 28px !important;
+            }
+
+            @media (min-width: 992px) {
+               .banner-two .banner-two__slider-single {
+                  padding-block: 140px 185px;
+               }
+            }
+
+            @media (min-width: 1400px) {
+               .banner-two .banner-two__slider-single {
+                  padding-block: 150px 195px;
+               }
+            }
+
             @media (max-width: 767px) {
+               .banner-two .banner-two__slider-single {
+                  padding-block: 95px 125px;
+               }
+
                .about-area-alt .about__content {
                   text-align: center;
                }
@@ -141,7 +168,7 @@
                <div class="swiper-wrapper">
                   <div class="swiper-slide">
                      <div class="banner-two__slider-single">
-                        <div class="banner-two__slider-bg" data-background="{{ asset('assets/images/banner/banner-two-bg.jpg') }}">
+                        <div class="banner-two__slider-bg" data-background="{{ asset('assets/images/banner/banner-two-bg.jpg') }}" style="background-image: url('{{ asset('assets/images/banner/banner-two-bg.jpg') }}');">
                         </div>
                         <div class="container">
                            <div class="row">

@@ -68,12 +68,16 @@ class FundraiserPostController extends Controller
             ->paginate(9)
             ->withQueryString();
 
+        $statusCounts = $fundraiser->posts()
+            ->selectRaw('status, COUNT(*) as aggregate')
+            ->groupBy('status')
+            ->pluck('aggregate', 'status');
         $counts = [
-            'all' => $fundraiser->posts()->count(),
-            'pending' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_PENDING)->count(),
-            'approved' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_APPROVED)->count(),
-            'hold' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_HOLD)->count(),
-            'rejected' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_REJECTED)->count(),
+            'all' => (int) $statusCounts->sum(),
+            'pending' => (int) ($statusCounts[FundraiserPost::STATUS_PENDING] ?? 0),
+            'approved' => (int) ($statusCounts[FundraiserPost::STATUS_APPROVED] ?? 0),
+            'hold' => (int) ($statusCounts[FundraiserPost::STATUS_HOLD] ?? 0),
+            'rejected' => (int) ($statusCounts[FundraiserPost::STATUS_REJECTED] ?? 0),
         ];
 
         return view('fundraiser.posts.index', compact('fundraiser', 'posts', 'status', 'search', 'counts'));

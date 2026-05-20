@@ -26,36 +26,60 @@ class FundraiserController extends Controller
             $status = 'all';
         }
 
+        $statusCounts = Fundraiser::query()
+            ->selectRaw('status, COUNT(*) as aggregate')
+            ->groupBy('status')
+            ->pluck('aggregate', 'status');
         $counts = collect($statuses)
-            ->mapWithKeys(fn (string $statusKey) => [
-                $statusKey => Fundraiser::where('status', $statusKey)->count(),
-            ])
+            ->mapWithKeys(fn (string $statusKey) => [$statusKey => (int) ($statusCounts[$statusKey] ?? 0)])
             ->all();
-        $counts['all'] = Fundraiser::count();
+        $counts['all'] = (int) $statusCounts->sum();
 
         $fundraisers = Fundraiser::query()
-            ->with(['posts.paidDonations'])
             ->withCount('posts')
             ->when($status !== 'all', fn ($query) => $query->where('status', $status))
             ->latest()
             ->paginate(20)
             ->withQueryString();
 
-        $fundraisers->getCollection()->transform(
-            fn (Fundraiser $fundraiser) => $this->attachTotals($fundraiser)
-        );
+        $fundraiserIds = $fundraisers->getCollection()->pluck('id');
+        $totals = Donation::query()
+            ->join('fundraiser_posts', 'fundraiser_posts.id', '=', 'donations.fundraiser_post_id')
+            ->where('donations.status', Donation::STATUS_PAID)
+            ->whereIn('fundraiser_posts.fundraiser_id', $fundraiserIds)
+            ->selectRaw('fundraiser_posts.fundraiser_id')
+            ->selectRaw('COALESCE(SUM(CASE WHEN donations.main_amount > 0 THEN donations.main_amount WHEN donations.amount > donations.tip_amount THEN donations.amount - donations.tip_amount ELSE 0 END), 0) as total_raised_amount')
+            ->selectRaw('COALESCE(SUM(donations.tip_amount), 0) as total_tip_amount')
+            ->groupBy('fundraiser_posts.fundraiser_id')
+            ->get()
+            ->keyBy('fundraiser_id');
+
+        $fundraisers->getCollection()->each(function (Fundraiser $fundraiser) use ($totals) {
+            $fundraiserTotals = $totals->get($fundraiser->id);
+            $fundraiser->total_raised_amount = (float) ($fundraiserTotals->total_raised_amount ?? 0);
+            $fundraiser->total_tip_amount = (float) ($fundraiserTotals->total_tip_amount ?? 0);
+        });
 
         return view('admin.fundraisers.index', compact('fundraisers', 'status', 'counts'));
     }
 
     public function show(Fundraiser $fundraiser): View
     {
-        $fundraiser->load(['posts' => fn ($query) => $query->with('paidDonations')->latest()]);
-        $this->attachTotals($fundraiser);
+        $fundraiser->load(['posts' => fn ($query) => $query->latest()]);
+        $postIds = $fundraiser->posts->pluck('id');
+        $donationTotals = Donation::paid()
+            ->whereIn('fundraiser_post_id', $postIds)
+            ->selectRaw('fundraiser_post_id')
+            ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0) as raised_amount')
+            ->selectRaw('COALESCE(SUM(tip_amount), 0) as tip_amount')
+            ->groupBy('fundraiser_post_id')
+            ->get()
+            ->keyBy('fundraiser_post_id');
 
-        $posts = $fundraiser->posts->map(function (FundraiserPost $post) {
-            $post->calculated_raised_amount = $this->postRaisedAmount($post);
-            $post->calculated_tip_amount = $this->postTipAmount($post);
+        $posts = $fundraiser->posts->map(function (FundraiserPost $post) use ($donationTotals) {
+            $totals = $donationTotals->get($post->id);
+            $post->calculated_raised_amount = (float) ($totals->raised_amount ?? $post->raised_amount);
+            $post->calculated_tip_amount = (float) ($totals->tip_amount ?? 0);
 
             return $post;
         });
@@ -128,45 +152,4 @@ class FundraiserController extends Controller
         return redirect()->route('admin.fundraisers.index');
     }
 
-    private function attachTotals(Fundraiser $fundraiser): Fundraiser
-    {
-        $fundraiser->total_raised_amount = $fundraiser->posts->sum(
-            fn (FundraiserPost $post) => $this->postRaisedAmount($post)
-        );
-        $fundraiser->total_tip_amount = $fundraiser->posts->sum(
-            fn (FundraiserPost $post) => $this->postTipAmount($post)
-        );
-        $fundraiser->approved_posts_count = $fundraiser->posts->where('status', FundraiserPost::STATUS_APPROVED)->count();
-
-        return $fundraiser;
-    }
-
-    private function postRaisedAmount(FundraiserPost $post): float
-    {
-        if ($post->relationLoaded('paidDonations') && $post->paidDonations->isNotEmpty()) {
-            return $post->paidDonations->sum(fn (Donation $donation) => $this->mainDonationAmount($donation));
-        }
-
-        return (float) $post->raised_amount;
-    }
-
-    private function postTipAmount(FundraiserPost $post): float
-    {
-        if ($post->relationLoaded('paidDonations')) {
-            return $post->paidDonations->sum(fn (Donation $donation) => (float) $donation->tip_amount);
-        }
-
-        return 0.0;
-    }
-
-    private function mainDonationAmount(Donation $donation): float
-    {
-        $mainAmount = (float) $donation->main_amount;
-
-        if ($mainAmount > 0) {
-            return $mainAmount;
-        }
-
-        return max((float) $donation->amount - (float) $donation->tip_amount, 0);
-    }
 }

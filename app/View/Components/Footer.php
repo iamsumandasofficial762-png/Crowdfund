@@ -23,21 +23,18 @@ class Footer extends Component
         $this->recentFundraiserPosts = collect();
 
         if (Schema::hasTable('fundraiser_posts')) {
-            $postIds = Cache::remember(PublicSiteCache::FOOTER_POSTS, PublicSiteCache::seconds(), function () {
+            $postRows = Cache::remember(PublicSiteCache::FOOTER_POSTS, PublicSiteCache::seconds(), function () {
                 return FundraiserPost::publiclyVisible()
+                    ->select(['id', 'fundraiser_id', 'title', 'main_image', 'approved_at', 'created_at', 'status'])
                     ->latest('approved_at')
                     ->latest()
                     ->take(2)
-                    ->pluck('id')
+                    ->get()
+                    ->map(fn (FundraiserPost $post) => $post->getAttributes())
                     ->all();
             });
 
-            $this->recentFundraiserPosts = FundraiserPost::publiclyVisible()
-                ->select(['id', 'fundraiser_id', 'title', 'main_image', 'approved_at', 'created_at', 'status'])
-                ->whereKey($postIds)
-                ->latest('approved_at')
-                ->latest()
-                ->get();
+            $this->recentFundraiserPosts = FundraiserPost::hydrate($postRows);
         }
     }
 

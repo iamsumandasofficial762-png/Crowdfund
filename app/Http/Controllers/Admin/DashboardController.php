@@ -13,6 +13,7 @@ use App\Models\FundraiserReferral;
 use App\Models\FundraiserReport;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -22,8 +23,8 @@ class DashboardController extends Controller
 
         $totalDonations = Donation::paid()
             ->where('created_at', '>=', $currentMonthStart)
-            ->get(['main_amount', 'tip_amount', 'amount'])
-            ->sum(fn (Donation $donation) => $this->mainDonationAmount($donation));
+            ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0) as total')
+            ->value('total');
         $totalTips = (float) Donation::paid()
             ->where('created_at', '>=', $currentMonthStart)
             ->sum('tip_amount');
@@ -45,15 +46,22 @@ class DashboardController extends Controller
         $successRate = $allDonationCount > 0 ? (int) round(($completedDonationCount / $allDonationCount) * 100) : 0;
 
         $monthStarts = collect(range(7, 0))->map(fn (int $offset) => now()->startOfMonth()->subMonths($offset));
+        $monthExpression = in_array(DB::connection()->getDriverName(), ['mysql', 'mariadb'], true)
+            ? "DATE_FORMAT(created_at, '%Y-%m')"
+            : "strftime('%Y-%m', created_at)";
         $monthlyDonations = Donation::paid()
             ->where('created_at', '>=', $monthStarts->first()->copy()->startOfMonth())
-            ->get(['main_amount', 'tip_amount', 'amount', 'created_at'])
-            ->groupBy(fn (Donation $donation) => $donation->created_at->format('Y-m'));
+            ->selectRaw("{$monthExpression} as donation_month")
+            ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0) as donation_amount')
+            ->selectRaw('COALESCE(SUM(tip_amount), 0) as tip_amount')
+            ->groupBy('donation_month')
+            ->get()
+            ->keyBy('donation_month');
 
         $monthlyChart = $monthStarts->map(function (Carbon $month) use ($monthlyDonations) {
-            $donations = $monthlyDonations->get($month->format('Y-m'), collect());
-            $donationAmount = $donations->sum(fn (Donation $donation) => $this->mainDonationAmount($donation));
-            $tipAmount = $donations->sum(fn (Donation $donation) => (float) $donation->tip_amount);
+            $donations = $monthlyDonations->get($month->format('Y-m'));
+            $donationAmount = (float) ($donations->donation_amount ?? 0);
+            $tipAmount = (float) ($donations->tip_amount ?? 0);
             $combinedAmount = $donationAmount + $tipAmount;
 
             return [
@@ -112,17 +120,6 @@ class DashboardController extends Controller
             'recentEvents',
             'recentFundraisers'
         ));
-    }
-
-    private function mainDonationAmount(Donation $donation): float
-    {
-        $mainAmount = (float) $donation->main_amount;
-
-        if ($mainAmount > 0) {
-            return $mainAmount;
-        }
-
-        return max((float) $donation->amount - (float) $donation->tip_amount, 0);
     }
 
     private function recentActivity(

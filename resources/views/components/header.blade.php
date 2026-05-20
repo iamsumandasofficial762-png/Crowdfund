@@ -30,9 +30,10 @@
       <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
       <!-- sticky header css -->
       <link rel="stylesheet" href="{{ asset('assets/css/sticky-header.css') }}">
+      @stack('head')
       <style>
          :root {
-            --site-header-height: 70px;
+            --site-header-height: 84px;
          }
 
          html,
@@ -85,7 +86,7 @@
          .header .navbar-logo img {
             width: auto;
             height: auto;
-            max-height: 66px;
+            max-height: 74px;
          }
 
          .header .navbar__item > a {
@@ -109,7 +110,7 @@
             }
 
             .header .navbar-logo img {
-               max-height: 66px;
+               max-height: 72px;
             }
 
             .header .navbar__options {
@@ -119,7 +120,7 @@
 
          @media only screen and (max-width: 767.98px) {
             :root {
-               --site-header-height: 64px;
+               --site-header-height: 70px;
             }
 
             .header-secondary .container,
@@ -129,7 +130,7 @@
             }
 
             .header .navbar-logo img {
-               max-height: 54px;
+               max-height: 58px;
             }
 
             .header .navbar__options {
@@ -150,7 +151,7 @@
 
          @media only screen and (max-width: 399.98px) {
             .header .navbar-logo img {
-               max-height: 48px;
+               max-height: 52px;
             }
 
             .header-secondary .container {
@@ -168,11 +169,6 @@
       </p>
       <![endif]-->
       <div class="page-wrapper">
-         <!-- ==== preloader start ==== -->
-         <div class="preloader">
-            <img src="{{ asset('assets/images/loading.gif') }}" alt="Preloader Image">
-         </div>
-         <!-- ==== / preloader end ==== -->
          <!-- ==== topbar start ==== -->
          <div class="topbar topbar__secondary d-none d-lg-block">
             <div class="container">

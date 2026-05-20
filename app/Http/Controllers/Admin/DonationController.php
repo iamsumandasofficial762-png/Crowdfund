@@ -11,14 +11,14 @@ class DonationController extends Controller
     public function index(): View
     {
         $donations = Donation::with('fundraiserPost')->latest()->paginate(20);
-        $paidDonations = Donation::paid()->get(['amount', 'main_amount', 'tip_amount']);
-        $totalAmount = $paidDonations->sum(fn (Donation $donation) => (float) $donation->amount);
-        $tipAmount = $paidDonations->sum(fn (Donation $donation) => (float) $donation->tip_amount);
-        $mainAmount = $paidDonations->sum(function (Donation $donation) {
-            $mainAmount = (float) $donation->main_amount;
-
-            return $mainAmount > 0 ? $mainAmount : max((float) $donation->amount - (float) $donation->tip_amount, 0);
-        });
+        $totals = Donation::paid()
+            ->selectRaw('COALESCE(SUM(amount), 0) as total_amount')
+            ->selectRaw('COALESCE(SUM(tip_amount), 0) as tip_amount')
+            ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0) as main_amount')
+            ->first();
+        $totalAmount = (float) $totals->total_amount;
+        $tipAmount = (float) $totals->tip_amount;
+        $mainAmount = (float) $totals->main_amount;
 
         return view('admin.donations.index', compact('donations', 'totalAmount', 'mainAmount', 'tipAmount'));
     }

@@ -36,13 +36,22 @@ class FundraiserDashboardController extends Controller
             ->value('total');
 
         $stats = [
-            'total_posts' => $fundraiser->posts()->count(),
-            'pending_posts' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_PENDING)->count(),
-            'approved_posts' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_APPROVED)->count(),
-            'rejected_posts' => $fundraiser->posts()->where('status', FundraiserPost::STATUS_REJECTED)->count(),
+            'total_posts' => 0,
+            'pending_posts' => 0,
+            'approved_posts' => 0,
+            'rejected_posts' => 0,
             'total_raised' => (float) $totalRaised,
-            'total_donors' => $fundraiser->posts()->withCount('paidDonations')->get()->sum('paid_donations_count'),
+            'total_donors' => Donation::paid()->whereIn('fundraiser_post_id', $postIds)->count(),
         ];
+
+        $postCounts = $fundraiser->posts()
+            ->selectRaw('status, COUNT(*) as aggregate')
+            ->groupBy('status')
+            ->pluck('aggregate', 'status');
+        $stats['total_posts'] = (int) $postCounts->sum();
+        $stats['pending_posts'] = (int) ($postCounts[FundraiserPost::STATUS_PENDING] ?? 0);
+        $stats['approved_posts'] = (int) ($postCounts[FundraiserPost::STATUS_APPROVED] ?? 0);
+        $stats['rejected_posts'] = (int) ($postCounts[FundraiserPost::STATUS_REJECTED] ?? 0);
 
         return view('fundraiser.dashboard', compact('fundraiser', 'recentPosts', 'stats'));
     }
