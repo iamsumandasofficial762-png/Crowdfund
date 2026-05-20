@@ -130,14 +130,22 @@
             const modal = document.querySelector('[data-delete-modal]');
             const cancelButton = document.querySelector('[data-delete-cancel]');
             const confirmButton = document.querySelector('[data-delete-confirm-button]');
+            const title = document.getElementById('global-delete-confirm-title');
+            const copy = document.getElementById('global-delete-confirm-copy');
+            const defaultTitle = title?.textContent || 'Are you sure?';
+            const defaultCopy = copy?.textContent || 'This action cannot be undone.';
+            const defaultButton = confirmButton?.textContent || 'Confirm Delete';
             let pendingForm = null;
 
-            if (!modal || !cancelButton || !confirmButton) {
+            if (!modal || !cancelButton || !confirmButton || !title || !copy) {
                 return;
             }
 
             const openModal = (form) => {
                 pendingForm = form;
+                title.textContent = form.dataset.confirmTitle || defaultTitle;
+                copy.textContent = form.dataset.confirmMessage || defaultCopy;
+                confirmButton.textContent = form.dataset.confirmButton || defaultButton;
                 modal.classList.add('is-open');
                 modal.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
@@ -146,6 +154,9 @@
 
             const closeModal = () => {
                 pendingForm = null;
+                title.textContent = defaultTitle;
+                copy.textContent = defaultCopy;
+                confirmButton.textContent = defaultButton;
                 modal.classList.remove('is-open');
                 modal.setAttribute('aria-hidden', 'true');
                 document.body.style.overflow = '';

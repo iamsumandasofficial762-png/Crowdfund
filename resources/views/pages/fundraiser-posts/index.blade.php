@@ -73,7 +73,7 @@
                <div class="cause__slider-single van-tilt">
                   <div class="thumb">
                      <a href="{{ $postLink }}">
-                     <img src="{{ $postImage }}" alt="{{ $post->title }}">
+                     <img src="{{ $postImage }}" alt="{{ $post->title }}" loading="lazy" decoding="async" width="416" height="300">
                      </a>
                      <div class="tag">
                         <a href="{{ route('fundraiser-posts.index') }}">{{ $post->category }}</a>

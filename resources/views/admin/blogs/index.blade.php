@@ -11,10 +11,10 @@
         :root { --gold:#932a19; --gold-soft:#f7e1df; --bg:#f7f8fb; --line:#dde2ea; --ink:#071226; --muted:#647083; }
         body { margin:0; color:var(--ink); background:var(--bg); font-family:Nunito, system-ui, sans-serif; }
         a { text-decoration:none; }
-        .admin-layout { min-height:100vh; display:grid; grid-template-columns:280px 1fr; }
-        .sidebar { padding:24px; border-right:1px solid var(--line); background:#fff; }
+        .admin-layout { min-height:100vh; display:grid; grid-template-columns:300px minmax(0,1fr); }
+        .sidebar { position:sticky; top:0; height:100vh; min-width:300px; padding:30px 22px; border-right:1px solid var(--line); background:#fff; }
         .brand img { width:154px; }
-        .nav-link { display:flex; align-items:center; gap:10px; margin-bottom:8px; border-radius:12px; padding:12px 14px; color:var(--ink); font-weight:900; }
+        .nav-link { display:flex; align-items:center; gap:12px; margin-bottom:10px; border-radius:12px; padding:13px 15px; color:#2f3a4c; font-weight:800; line-height:1.2; }
         .nav-link:hover,.nav-link.active { color:var(--gold); background:var(--gold-soft); }
         .topbar { border-bottom:1px solid var(--line); background:#fff; }
         .topbar-inner,.content { padding:24px; }
@@ -29,12 +29,44 @@
         .btn-soft { border:1px solid rgba(147,42,25,.3); color:var(--gold); background:var(--gold-soft); font-weight:800; }
         .btn-soft:hover { color:#fff; background:var(--gold); }
         .panel { border:1px solid var(--line); border-radius:18px; background:#fff; box-shadow:0 14px 34px rgba(18,24,39,.07); }
+        .blogs-table { min-width:1120px; table-layout:fixed; }
+        .blogs-table th,
+        .blogs-table td { vertical-align:middle; }
+        .blogs-table th:last-child,
+        .blogs-table td:last-child { width:236px; }
         .blog-thumb { width:78px; height:58px; object-fit:cover; border-radius:10px; background:#f2f3f5; }
-        .text-clip { max-width:320px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-        .tag-list { --tag-height:24px; display:flex; flex-wrap:wrap; align-content:flex-start; gap:5px; max-width:260px; max-height:calc((var(--tag-height) * 2) + 5px); overflow:hidden; }
+        .text-clip { display:block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .blog-title { max-width:260px; color:var(--ink); }
+        .blog-excerpt { max-width:260px; }
+        .blog-slug { max-width:190px; }
+        .tag-list { --tag-height:24px; display:flex; flex-wrap:wrap; align-content:flex-start; gap:5px; max-width:220px; max-height:calc((var(--tag-height) * 2) + 5px); overflow:hidden; }
         .tag-pill { height:var(--tag-height); display:inline-flex; align-items:center; border-radius:999px; padding:0 8px; color:var(--gold); background:var(--gold-soft); font-size:12px; font-weight:800; line-height:1; white-space:nowrap; }
         .badge-published { color:#116149; background:#dff8ec; }
         .badge-draft { color:#7a4b00; background:#fff1cf; }
+        .status-filters { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+        .status-filter {
+            min-height:42px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            border:1px solid var(--line);
+            border-radius:999px;
+            padding:8px 18px;
+            color:var(--ink);
+            background:#fff;
+            font-weight:900;
+            box-shadow:0 8px 20px rgba(18,24,39,.04);
+        }
+        .status-filter:hover,
+        .status-filter.active {
+            border-color:var(--gold);
+            color:#fff;
+            background:var(--gold);
+        }
+        .blog-actions { display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:nowrap; }
+        .blog-actions form { margin:0; }
+        .blog-actions .btn { min-width:64px; min-height:34px; display:inline-flex; align-items:center; justify-content:center; font-weight:800; white-space:nowrap; }
+        @media (max-width: 1199px) { .blog-actions { flex-wrap:wrap; } }
         @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } .sidebar { position:static; } }
     </style>
 </head>
@@ -52,6 +84,9 @@
                 <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
                 <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
+                @if (auth()->user()?->hasPermission(\App\Support\AdminPermissions::USERS_MANAGE))
+                    <a class="nav-link" href="{{ route('admin.users.index') }}"><i class="fa-solid fa-users-gear"></i> Users</a>
+                @endif
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -79,8 +114,37 @@
                 @if (session('status'))
                     <div class="alert alert-success fw-bold">{{ session('status') }}</div>
                 @endif
+                @php
+                    $activeStatus = request('status');
+                    $statusFilters = [
+                        null => 'All',
+                        \App\Models\Blog::STATUS_PUBLISHED => 'Published',
+                        \App\Models\Blog::STATUS_DRAFT => 'Draft',
+                    ];
+                @endphp
+                <div class="status-filters" aria-label="Blog status filters">
+                    @foreach ($statusFilters as $filterStatus => $label)
+                        @php
+                            $isActive = blank($filterStatus) ? blank($activeStatus) : $activeStatus === $filterStatus;
+                        @endphp
+                        <a
+                            class="status-filter {{ $isActive ? 'active' : '' }}"
+                            href="{{ blank($filterStatus) ? route('admin.blogs.index') : route('admin.blogs.index', ['status' => $filterStatus]) }}"
+                        >{{ $label }}</a>
+                    @endforeach
+                </div>
                 <div class="panel table-responsive">
-                    <table class="table align-middle mb-0">
+                    <table class="table blogs-table align-middle mb-0">
+                        <colgroup>
+                            <col style="width:96px">
+                            <col style="width:280px">
+                            <col style="width:150px">
+                            <col style="width:230px">
+                            <col style="width:210px">
+                            <col style="width:120px">
+                            <col style="width:160px">
+                            <col style="width:236px">
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th>Image</th>
@@ -98,8 +162,8 @@
                                 <tr>
                                     <td><img class="blog-thumb" src="{{ $blog->imageUrl() }}" alt="{{ $blog->title }}"></td>
                                     <td>
-                                        <strong>{{ $blog->title }}</strong>
-                                        <div class="text-muted small text-clip">{{ $blog->short_description ?: 'No excerpt added.' }}</div>
+                                        <strong class="text-clip blog-title" title="{{ $blog->title }}">{{ $blog->title }}</strong>
+                                        <div class="text-muted small text-clip blog-excerpt" title="{{ $blog->short_description ?: 'No excerpt added.' }}">{{ $blog->short_description ?: 'No excerpt added.' }}</div>
                                     </td>
                                     <td>{{ $blog->categoryLabel() }}</td>
                                     <td>
@@ -111,19 +175,21 @@
                                             @endforelse
                                         </div>
                                     </td>
-                                    <td class="text-muted">{{ $blog->slug }}</td>
+                                    <td><span class="text-muted text-clip blog-slug" title="{{ $blog->slug }}">{{ $blog->slug }}</span></td>
                                     <td><span class="badge rounded-pill px-3 py-2 {{ $blog->status === 'published' ? 'badge-published' : 'badge-draft' }}">{{ ucfirst($blog->status) }}</span></td>
                                     <td>{{ $blog->published_at?->format('d M Y, h:i A') ?? '-' }}</td>
                                     <td class="text-end">
-                                        @if ($blog->status === 'published')
-                                            <a class="btn btn-sm btn-soft" href="{{ route('blogs.show', $blog->slug) }}" target="_blank">View</a>
-                                        @endif
-                                        <a class="btn btn-sm btn-warning" href="{{ route('admin.blogs.edit', $blog) }}">Edit</a>
-                                        <form class="d-inline" action="{{ route('admin.blogs.destroy', $blog) }}" method="post" data-delete-confirm>
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
-                                        </form>
+                                        <div class="blog-actions">
+                                            @if ($blog->status === 'published')
+                                                <a class="btn btn-sm btn-soft" href="{{ route('blogs.show', $blog->slug) }}" target="_blank">View</a>
+                                            @endif
+                                            <a class="btn btn-sm btn-warning" href="{{ route('admin.blogs.edit', $blog) }}">Edit</a>
+                                            <form action="{{ route('admin.blogs.destroy', $blog) }}" method="post" data-delete-confirm>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

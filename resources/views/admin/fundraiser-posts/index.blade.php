@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Fundraiser Posts | Karna Kabach Admin</title>
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
@@ -22,8 +23,11 @@
             --muted: #647083;
             --green-soft: #e2f4e6;
             --green: #168231;
+            --yellow-soft: #fff2cc;
+            --yellow: #b76a00;
             --red-soft: #fde4e2;
             --red: #b42318;
+            --red-dark: #7f1d1d;
         }
 
         body {
@@ -48,6 +52,7 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            min-width: 300px;
             border-right: 1px solid var(--line);
             padding: 30px 22px;
             background: #ffffff;
@@ -173,12 +178,102 @@
             margin: 0;
         }
 
-        .post-card__actions .btn {
+        .post-card__actions .btn,
+        .moderation-btn {
             min-height: 38px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             min-width: 96px;
+        }
+
+        .moderation-btn {
+            position: relative;
+            gap: 7px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            padding: 8px 16px;
+            color: #ffffff;
+            font-weight: 900;
+            line-height: 1;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+        }
+
+        .moderation-btn:hover,
+        .moderation-btn:focus {
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(18, 24, 39, 0.14);
+        }
+
+        .moderation-btn.is-loading {
+            pointer-events: none;
+            color: transparent !important;
+        }
+
+        .moderation-btn.is-loading::after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.55);
+            border-top-color: #ffffff;
+            border-radius: 999px;
+            animation: moderation-spin 0.7s linear infinite;
+        }
+
+        .moderation-btn.is-hidden,
+        .moderation-form.is-hidden {
+            display: none !important;
+        }
+
+        .moderation-btn--approve {
+            border-color: #168231;
+            background: #168231;
+        }
+
+        .moderation-btn--approve:hover,
+        .moderation-btn--approve:focus {
+            background: #106625;
+        }
+
+        .moderation-btn--hold {
+            border-color: #f2bd3d;
+            background: #f2bd3d;
+            color: #352100;
+        }
+
+        .moderation-btn--hold:hover,
+        .moderation-btn--hold:focus {
+            border-color: #d99100;
+            background: #d99100;
+            color: #ffffff;
+        }
+
+        .moderation-btn--reject {
+            border-color: #b42318;
+            background: #b42318;
+        }
+
+        .moderation-btn--reject:hover,
+        .moderation-btn--reject:focus {
+            background: #931f16;
+        }
+
+        .moderation-btn--delete {
+            border-color: var(--red-dark);
+            background: var(--red-dark);
+        }
+
+        .moderation-btn--delete:hover,
+        .moderation-btn--delete:focus {
+            background: #5f1515;
+        }
+
+        @keyframes moderation-spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .muted {
@@ -230,8 +325,14 @@
             border-radius: 999px;
             padding: 6px 10px;
             border: 0;
-            background: var(--gold-soft);
-            color: #932a19;
+            background: #edf1f7;
+            color: #586174;
+            font-weight: 900;
+        }
+
+        .badge-status.pending {
+            background: #edf1f7;
+            color: #586174;
         }
 
         .badge-status.approved {
@@ -240,13 +341,51 @@
         }
 
         .badge-status.hold {
-            color: #9a4f00;
-            background: #ffe8c2;
+            color: var(--yellow);
+            background: var(--yellow-soft);
         }
 
         .badge-status.rejected {
             color: #a12828;
             background: #ffe1e1;
+        }
+
+        .status-reason {
+            min-height: 20px;
+        }
+
+        .admin-toast-wrap {
+            position: fixed;
+            right: 22px;
+            top: 22px;
+            z-index: 11000;
+            display: grid;
+            gap: 10px;
+            width: min(360px, calc(100vw - 32px));
+        }
+
+        .admin-toast {
+            border: 1px solid rgba(22, 130, 49, 0.18);
+            border-radius: 14px;
+            padding: 13px 16px;
+            color: #0f5132;
+            background: #e7f7ec;
+            box-shadow: 0 18px 42px rgba(18, 24, 39, 0.16);
+            font-weight: 900;
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+
+        .admin-toast.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .admin-toast--error {
+            border-color: rgba(180, 35, 24, 0.18);
+            color: #842029;
+            background: #fde4e2;
         }
 
         .modal-backdrop.show {
@@ -463,6 +602,9 @@
                 <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
                 <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
+                @if (auth()->user()?->hasPermission(\App\Support\AdminPermissions::USERS_MANAGE))
+                    <a class="nav-link" href="{{ route('admin.users.index') }}"><i class="fa-solid fa-users-gear"></i> Users</a>
+                @endif
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -510,10 +652,10 @@
 
                 <div class="panel filters-panel mb-4">
                     <div class="d-flex flex-wrap gap-2">
-                        @foreach (['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'hold' => 'Hold', 'all' => 'All'] as $key => $label)
-                            <a class="filter-link {{ $status === $key ? 'active' : '' }}" href="{{ route('admin.fundraiser-posts.index', ['status' => $key]) }}">
+                        @foreach (['all' => 'All', 'pending' => 'Pending', 'approved' => 'Approved', 'hold' => 'Hold', 'rejected' => 'Rejected'] as $key => $label)
+                            <a class="filter-link {{ $status === $key ? 'active' : '' }}" href="{{ $key === 'all' ? route('admin.fundraiser-posts.index') : route('admin.fundraiser-posts.index', ['status' => $key]) }}">
                                 {{ $label }}
-                                <span>{{ $counts[$key] }}</span>
+                                <span data-status-count="{{ $key }}">{{ $counts[$key] }}</span>
                             </a>
                         @endforeach
                     </div>
@@ -522,13 +664,20 @@
                 <div class="row g-3">
                     @forelse ($posts as $post)
                         <div class="col-lg-6 col-xl-4">
-                            <article class="post-card">
+                            @php
+                                $actions = $post->adminActions();
+                                $canApprove = in_array(\App\Models\FundraiserPost::ACTION_APPROVE, $actions, true);
+                                $canHold = in_array(\App\Models\FundraiserPost::ACTION_HOLD, $actions, true);
+                                $canReject = in_array(\App\Models\FundraiserPost::ACTION_REJECT, $actions, true);
+                                $canDelete = in_array(\App\Models\FundraiserPost::ACTION_DELETE, $actions, true);
+                            @endphp
+                            <article class="post-card" data-post-card="{{ $post->id }}" data-current-status="{{ $post->status }}">
                                 @if ($post->main_image)
                                     <img src="{{ asset('storage/'.$post->main_image) }}" alt="{{ $post->title }}">
                                 @endif
                                 <div class="post-card__body">
                                     <div class="post-card__meta">
-                                        <span class="badge badge-status {{ $post->status }}">{{ ucfirst($post->status) }}</span>
+                                        <span class="badge badge-status {{ $post->status }}" data-status-badge>{{ $post->statusLabel() }}</span>
                                         <span class="muted small">{{ $post->created_at->diffForHumans() }}</span>
                                     </div>
                                     <h2 class="h5 fw-black">{{ $post->title }}</h2>
@@ -536,64 +685,57 @@
                                     <p class="mb-1"><strong>Fundraiser:</strong> {{ $post->fundraiser?->name ?? 'Unknown' }}</p>
                                     <p class="mb-1"><strong>Goal:</strong> Rs. {{ number_format((float) $post->goal_amount, 2) }}</p>
                                     <p class="mb-3"><strong>Location:</strong> {{ $post->location }}</p>
-                                    @if ($post->status === \App\Models\FundraiserPost::STATUS_HOLD && $post->hold_reason)
-                                        <p class="small fw-bold text-warning-emphasis">{{ $post->hold_reason }}</p>
-                                    @elseif ($post->status === \App\Models\FundraiserPost::STATUS_REJECTED && $post->rejected_reason)
-                                        <p class="small fw-bold text-danger">{{ $post->rejected_reason }}</p>
-                                    @endif
+                                    <p class="small fw-bold status-reason {{ $post->status === \App\Models\FundraiserPost::STATUS_REJECTED ? 'text-danger' : 'text-warning-emphasis' }}" data-status-reason>
+                                        @if ($post->status === \App\Models\FundraiserPost::STATUS_HOLD && $post->hold_reason)
+                                            {{ $post->hold_reason }}
+                                        @elseif ($post->status === \App\Models\FundraiserPost::STATUS_REJECTED && $post->rejected_reason)
+                                            {{ $post->rejected_reason }}
+                                        @endif
+                                    </p>
 
                                     @if ($post->supporting_file)
                                         <a class="document-link mb-3" href="{{ asset('storage/'.$post->supporting_file) }}" target="_blank" rel="noopener">View supporting file</a>
                                     @endif
 
                                     <div class="post-card__actions">
-                                        <button class="btn btn-warning btn-sm fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#approvePost{{ $post->id }}" @disabled($post->status === \App\Models\FundraiserPost::STATUS_APPROVED)>Approve</button>
-                                        <button class="btn btn-warning btn-sm fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#holdPost{{ $post->id }}" @disabled($post->status === \App\Models\FundraiserPost::STATUS_HOLD)>Hold</button>
-                                        <button class="btn btn-outline-light btn-sm fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#rejectPost{{ $post->id }}" @disabled($post->status === \App\Models\FundraiserPost::STATUS_REJECTED)>Reject</button>
-                                        <form action="{{ route('admin.fundraiser-posts.destroy', $post) }}" method="post" data-delete-confirm>
+                                        <form class="moderation-form {{ $canApprove ? '' : 'is-hidden' }}" action="{{ route('admin.fundraiser-posts.status', $post) }}" method="post" data-moderation-form data-action="approve">
                                             @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-outline-danger btn-sm fw-bold" type="submit">Delete</button>
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="{{ \App\Models\FundraiserPost::STATUS_APPROVED }}">
+                                            <button class="moderation-btn moderation-btn--approve btn-sm" type="submit"><i class="fa-solid fa-circle-check"></i>Approve</button>
                                         </form>
 
-                                        <div class="modal fade moderation-modal" id="approvePost{{ $post->id }}" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header border-0">
-                                                        <h2 class="modal-title h5 fw-bold">Approve post?</h2>
-                                                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body pt-0">
-                                                        <p class="muted mb-0">This campaign will become public when its fundraiser account is approved.</p>
-                                                    </div>
-                                                    <div class="modal-footer border-0">
-                                                        <button class="btn btn-light fw-bold" type="button" data-bs-dismiss="modal">Cancel</button>
-                                                        <form action="{{ route('admin.fundraiser-posts.approve', $post) }}" method="post">
-                                                            @csrf
-                                                            @method('PATCH')
-                                                            <button class="btn btn-warning fw-bold" type="submit">Approve</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <button class="moderation-btn moderation-btn--hold btn-sm {{ $canHold ? '' : 'is-hidden' }}" type="button" data-action="hold" data-bs-toggle="modal" data-bs-target="#holdPost{{ $post->id }}">
+                                            <i class="fa-solid fa-pause"></i>Hold
+                                        </button>
+
+                                        <button class="moderation-btn moderation-btn--reject btn-sm {{ $canReject ? '' : 'is-hidden' }}" type="button" data-action="reject" data-bs-toggle="modal" data-bs-target="#rejectPost{{ $post->id }}">
+                                            <i class="fa-solid fa-circle-xmark"></i>Reject
+                                        </button>
+
+                                        <form class="moderation-form {{ $canDelete ? '' : 'is-hidden' }}" action="{{ route('admin.fundraiser-posts.destroy', $post) }}" method="post" data-delete-confirm data-action="delete">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="moderation-btn moderation-btn--delete btn-sm" type="submit"><i class="fa-solid fa-trash-can"></i>Delete</button>
+                                        </form>
 
                                         <div class="modal fade moderation-modal" id="holdPost{{ $post->id }}" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
-                                                <form class="modal-content" action="{{ route('admin.fundraiser-posts.hold', $post) }}" method="post">
+                                                <form class="modal-content" action="{{ route('admin.fundraiser-posts.status', $post) }}" method="post" data-moderation-form data-modal-form data-action="hold">
                                                     @csrf
                                                     @method('PATCH')
+                                                    <input type="hidden" name="status" value="{{ \App\Models\FundraiserPost::STATUS_HOLD }}">
                                                     <div class="modal-header border-0">
                                                         <h2 class="modal-title h5 fw-bold">Hold post</h2>
                                                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body pt-0">
                                                         <label class="form-label fw-bold" for="post_hold_reason_{{ $post->id }}">Reason for holding</label>
-                                                        <textarea class="form-control" id="post_hold_reason_{{ $post->id }}" name="hold_reason" required>{{ old('hold_reason') }}</textarea>
+                                                        <textarea class="form-control" id="post_hold_reason_{{ $post->id }}" name="reason" required>{{ old('reason') }}</textarea>
                                                     </div>
                                                     <div class="modal-footer border-0">
                                                         <button class="btn btn-light fw-bold" type="button" data-bs-dismiss="modal">Cancel</button>
-                                                        <button class="btn btn-warning fw-bold" type="submit">Hold</button>
+                                                        <button class="moderation-btn moderation-btn--hold" type="submit">Hold</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -601,20 +743,22 @@
 
                                         <div class="modal fade moderation-modal" id="rejectPost{{ $post->id }}" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
-                                                <form class="modal-content" action="{{ route('admin.fundraiser-posts.reject', $post) }}" method="post">
+                                                <form class="modal-content" action="{{ route('admin.fundraiser-posts.status', $post) }}" method="post" data-moderation-form data-modal-form data-action="reject">
                                                     @csrf
                                                     @method('PATCH')
+                                                    <input type="hidden" name="status" value="{{ \App\Models\FundraiserPost::STATUS_REJECTED }}">
                                                     <div class="modal-header border-0">
-                                                        <h2 class="modal-title h5 fw-bold">Reject post</h2>
+                                                        <h2 class="modal-title h5 fw-bold">Reject post?</h2>
                                                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body pt-0">
+                                                        <p class="muted">Rejected posts stay hidden from the public site. You can approve the post again later if needed.</p>
                                                         <label class="form-label fw-bold" for="post_rejected_reason_{{ $post->id }}">Reason for rejection</label>
-                                                        <textarea class="form-control" id="post_rejected_reason_{{ $post->id }}" name="rejected_reason" required>{{ old('rejected_reason') }}</textarea>
+                                                        <textarea class="form-control" id="post_rejected_reason_{{ $post->id }}" name="reason" required>{{ old('reason') }}</textarea>
                                                     </div>
                                                     <div class="modal-footer border-0">
                                                         <button class="btn btn-light fw-bold" type="button" data-bs-dismiss="modal">Cancel</button>
-                                                        <button class="btn btn-outline-danger fw-bold" type="submit">Reject</button>
+                                                        <button class="moderation-btn moderation-btn--reject" type="submit">Reject</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -635,18 +779,152 @@
             </section>
         </main>
     </div>
-    <script>
-        document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
-            const delay = Number(alert.dataset.autoDismiss) || 3500;
-
-            window.setTimeout(() => {
-                alert.classList.add('is-hiding');
-                window.setTimeout(() => alert.remove(), 400);
-            }, delay);
-        });
-    </script>
+    <div class="admin-toast-wrap" data-toast-wrap aria-live="polite" aria-atomic="true"></div>
     @include('partials.delete-confirm-modal')
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        (() => {
+            const actionMap = {
+                pending: ['approve', 'hold', 'reject'],
+                approved: ['hold', 'reject'],
+                hold: ['approve', 'reject'],
+                rejected: ['approve', 'delete'],
+            };
+
+            const toastWrap = document.querySelector('[data-toast-wrap]');
+
+            const showToast = (message, type = 'success') => {
+                if (!toastWrap) {
+                    return;
+                }
+
+                const toast = document.createElement('div');
+                toast.className = `admin-toast ${type === 'error' ? 'admin-toast--error' : ''}`;
+                toast.textContent = message;
+                toastWrap.appendChild(toast);
+
+                requestAnimationFrame(() => toast.classList.add('is-visible'));
+                window.setTimeout(() => {
+                    toast.classList.remove('is-visible');
+                    window.setTimeout(() => toast.remove(), 260);
+                }, 3200);
+            };
+
+            const setLoading = (form, isLoading) => {
+                const button = form.querySelector('button[type="submit"]');
+
+                if (!button) {
+                    return;
+                }
+
+                button.disabled = isLoading;
+                button.classList.toggle('is-loading', isLoading);
+            };
+
+            const closeModal = (form) => {
+                const modal = form.closest('.modal');
+
+                if (!modal || !window.bootstrap) {
+                    return;
+                }
+
+                const instance = bootstrap.Modal.getInstance(modal) || bootstrap.Modal.getOrCreateInstance(modal);
+                instance.hide();
+            };
+
+            const updateCounts = (counts) => {
+                if (!counts) {
+                    return;
+                }
+
+                Object.entries(counts).forEach(([status, count]) => {
+                    document.querySelectorAll(`[data-status-count="${status}"]`).forEach((node) => {
+                        node.textContent = count;
+                    });
+                });
+            };
+
+            const updateCard = (post) => {
+                const card = document.querySelector(`[data-post-card="${post.id}"]`);
+
+                if (!card) {
+                    return;
+                }
+
+                card.dataset.currentStatus = post.status;
+
+                const badge = card.querySelector('[data-status-badge]');
+                if (badge) {
+                    badge.className = `badge badge-status ${post.status}`;
+                    badge.textContent = post.status_label;
+                }
+
+                const reason = card.querySelector('[data-status-reason]');
+                if (reason) {
+                    reason.textContent = post.status === 'hold'
+                        ? (post.hold_reason || '')
+                        : (post.status === 'rejected' ? (post.rejected_reason || '') : '');
+                    reason.classList.toggle('text-danger', post.status === 'rejected');
+                    reason.classList.toggle('text-warning-emphasis', post.status !== 'rejected');
+                }
+
+                const allowedActions = post.actions || actionMap[post.status] || [];
+
+                card.querySelectorAll('[data-action]').forEach((node) => {
+                    const action = node.dataset.action;
+                    node.classList.toggle('is-hidden', !allowedActions.includes(action));
+                });
+            };
+
+            document.querySelectorAll('[data-auto-dismiss]').forEach((alert) => {
+                const delay = Number(alert.dataset.autoDismiss) || 3500;
+
+                window.setTimeout(() => {
+                    alert.classList.add('is-hiding');
+                    window.setTimeout(() => alert.remove(), 400);
+                }, delay);
+            });
+
+            document.addEventListener('submit', async (event) => {
+                const form = event.target.closest('form[data-moderation-form]');
+
+                if (!form) {
+                    return;
+                }
+
+                event.preventDefault();
+                setLoading(form, true);
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: new FormData(form),
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        const message = data.message || Object.values(data.errors || {})[0]?.[0] || 'Unable to update fundraiser post status.';
+                        throw new Error(message);
+                    }
+
+                    updateCard(data.post);
+                    updateCounts(data.counts);
+                    closeModal(form);
+                    form.reset();
+                    showToast(data.message);
+                } catch (error) {
+                    showToast(error.message || 'Unable to update fundraiser post status.', 'error');
+                } finally {
+                    setLoading(form, false);
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
 

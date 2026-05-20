@@ -12,9 +12,12 @@ use Illuminate\View\View;
 
 class FundraiserPostUpdateController extends Controller
 {
-    public function campaigns(Request $request): View
+    public function campaigns(Request $request): View|RedirectResponse
     {
         $fundraiser = $request->attributes->get('fundraiser');
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
 
         $posts = $fundraiser->posts()
             ->addSelect([
@@ -31,9 +34,15 @@ class FundraiserPostUpdateController extends Controller
         return view('fundraiser.updates.campaigns', compact('fundraiser', 'posts'));
     }
 
-    public function index(Request $request, FundraiserPost $post): View
+    public function index(Request $request, FundraiserPost $post): View|RedirectResponse
     {
         $this->authorizeFundraiserPost($request, $post);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
+        if ($redirect = $this->ensureApprovedPostCanBeManaged($post)) {
+            return $redirect;
+        }
 
         $post->load('fundraiser')
             ->loadCount('paidDonations');
@@ -53,16 +62,26 @@ class FundraiserPostUpdateController extends Controller
 
     public function create(Request $request, FundraiserPost $post): RedirectResponse
     {
-        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
+        if ($redirect = $this->ensureApprovedPostCanBeManaged($post)) {
+            return $redirect;
+        }
 
         return redirect()->route('fundraiser.posts.updates.index', $post);
     }
 
     public function store(Request $request, FundraiserPost $post): RedirectResponse
     {
-        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
+        if ($redirect = $this->ensureApprovedPostCanBeManaged($post)) {
+            return $redirect;
+        }
 
         $validated = $this->validateUpdate($request);
         $imagePath = $request->file('update_image')?->store('fundraiser-updates', 'public');
@@ -84,10 +103,15 @@ class FundraiserPostUpdateController extends Controller
             ->with('status', 'Story update published successfully.');
     }
 
-    public function edit(Request $request, FundraiserPost $post, FundraiserPostUpdate $update): View
+    public function edit(Request $request, FundraiserPost $post, FundraiserPostUpdate $update): View|RedirectResponse
     {
-        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
+        if ($redirect = $this->ensureApprovedPostCanBeManaged($post)) {
+            return $redirect;
+        }
         $this->authorizeUpdate($post, $update);
 
         return view('fundraiser.updates.edit', compact('post', 'update'));
@@ -95,8 +119,13 @@ class FundraiserPostUpdateController extends Controller
 
     public function update(Request $request, FundraiserPost $post, FundraiserPostUpdate $update): RedirectResponse
     {
-        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
+        if ($redirect = $this->ensureApprovedPostCanBeManaged($post)) {
+            return $redirect;
+        }
         $this->authorizeUpdate($post, $update);
 
         $validated = $this->validateUpdate($request, true);
@@ -126,6 +155,12 @@ class FundraiserPostUpdateController extends Controller
     public function destroy(Request $request, FundraiserPost $post, FundraiserPostUpdate $update): RedirectResponse
     {
         $this->authorizeFundraiserPost($request, $post);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
+        if ($redirect = $this->ensureApprovedPostCanBeManaged($post)) {
+            return $redirect;
+        }
         $this->authorizeUpdate($post, $update);
 
         $this->deletePublicFile($update->update_image);
@@ -152,11 +187,33 @@ class FundraiserPostUpdateController extends Controller
         abort_unless($post->fundraiser_id === $request->attributes->get('fundraiser')->id, 404);
     }
 
-    private function ensureCanManagePosts(Request $request): void
+    private function ensureCanManagePosts(Request $request): ?RedirectResponse
     {
         $fundraiser = $request->attributes->get('fundraiser');
 
-        abort_if($fundraiser && ! $fundraiser->canManagePosts(), 403);
+        if (! $fundraiser || $fundraiser->canManagePosts()) {
+            return null;
+        }
+
+        return $this->restrictedAccessRedirect();
+    }
+
+    private function ensureApprovedPostCanBeManaged(FundraiserPost $post): ?RedirectResponse
+    {
+        if ($post->status === FundraiserPost::STATUS_APPROVED) {
+            return null;
+        }
+
+        return redirect()
+            ->route('fundraiser.posts.index')
+            ->with('error', 'You can only manage approved posts.');
+    }
+
+    private function restrictedAccessRedirect(): RedirectResponse
+    {
+        return redirect()
+            ->route('fundraiser.posts.index')
+            ->with('error', 'Your account is currently restricted. You can only view or delete posts.');
     }
 
     private function authorizeUpdate(FundraiserPost $post, FundraiserPostUpdate $update): void

@@ -96,54 +96,179 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            function updateUploadBox(input) {
+            const uploadState = new WeakMap();
+
+            function cloneFileList(files) {
+                const fileArray = Array.from(files || []);
+
+                if (!fileArray.length || typeof DataTransfer === 'undefined') {
+                    return null;
+                }
+
+                const transfer = new DataTransfer();
+                fileArray.forEach((file) => transfer.items.add(file));
+
+                return transfer.files;
+            }
+
+            function filesLabel(files) {
+                const fileArray = Array.from(files || []);
+
+                if (fileArray.length === 0) {
+                    return 'No file chosen';
+                }
+
+                return fileArray.length === 1 ? fileArray[0].name : `${fileArray.length} files selected`;
+            }
+
+            function findPreview(input) {
+                if (!input.dataset.imageInput) {
+                    return null;
+                }
+
+                return document.querySelector(`[data-image-preview="${input.dataset.imageInput}"]`);
+            }
+
+            function initialState(input) {
+                if (uploadState.has(input)) {
+                    return uploadState.get(input);
+                }
+
                 const box = input.closest('.upload-box');
+                const label = box ? box.querySelector('[data-file-label]') : null;
+                const clearButton = box ? box.querySelector('[data-clear-file]') : null;
+                const preview = findPreview(input);
+                const state = {
+                    box,
+                    label,
+                    clearButton,
+                    preview,
+                    files: cloneFileList(input.files),
+                    initialLabel: label?.textContent || 'No file chosen',
+                    initialPreviewSrc: preview?.getAttribute('src') || '',
+                    initialPreviewHidden: preview?.classList.contains('d-none') ?? true,
+                };
 
-                if (!box) {
-                    return;
+                uploadState.set(input, state);
+
+                return state;
+            }
+
+            function renderSelected(input, files) {
+                const state = initialState(input);
+                const hasFiles = files && files.length > 0;
+
+                if (state.label) {
+                    state.label.textContent = hasFiles ? filesLabel(files) : state.initialLabel;
                 }
 
-                const label = box.querySelector('[data-file-label]');
-                const clearButton = box.querySelector('[data-clear-file]');
-                const files = Array.from(input.files || []);
-
-                if (label) {
-                    label.textContent = files.length === 0
-                        ? 'No file chosen'
-                        : files.length === 1
-                            ? files[0].name
-                            : `${files.length} files selected`;
+                if (state.box) {
+                    state.box.classList.toggle('has-selected-file', hasFiles);
                 }
 
-                box.classList.toggle('has-selected-file', files.length > 0);
+                if (state.clearButton) {
+                    state.clearButton.classList.toggle('d-none', !hasFiles);
+                }
 
-                if (clearButton) {
-                    clearButton.classList.toggle('d-none', files.length === 0);
+                if (state.preview && hasFiles && files[0]?.type?.startsWith('image/')) {
+                    state.preview.src = URL.createObjectURL(files[0]);
+                    state.preview.classList.remove('d-none');
                 }
             }
 
-            document.querySelectorAll('.upload-box input[type="file"]').forEach((input) => {
-                updateUploadBox(input);
+            function resetSelected(input) {
+                const state = initialState(input);
 
-                input.addEventListener('change', () => updateUploadBox(input));
-            });
+                if (state.label) {
+                    state.label.textContent = state.initialLabel;
+                }
 
-            document.querySelectorAll('.upload-box [data-clear-file]').forEach((button) => {
-                button.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
+                if (state.box) {
+                    state.box.classList.remove('has-selected-file');
+                }
 
-                    const input = document.getElementById(button.dataset.clearFile);
+                if (state.clearButton) {
+                    state.clearButton.classList.add('d-none');
+                }
 
-                    if (!input) {
-                        return;
+                if (state.preview) {
+                    if (state.initialPreviewSrc) {
+                        state.preview.src = state.initialPreviewSrc;
+                    } else {
+                        state.preview.removeAttribute('src');
                     }
 
-                    input.value = '';
-                    updateUploadBox(input);
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                    state.preview.classList.toggle('d-none', state.initialPreviewHidden);
+                }
+            }
+
+            function handleFileChange(input) {
+                const state = initialState(input);
+                const files = input.files;
+
+                if (files && files.length > 0) {
+                    state.files = cloneFileList(files);
+                    renderSelected(input, files);
+                    return;
+                }
+
+                if (input.dataset.uploadClearing === 'true') {
+                    state.files = null;
+                    resetSelected(input);
+                    return;
+                }
+
+                if (state.files && state.files.length) {
+                    const restoredFiles = cloneFileList(state.files);
+
+                    if (restoredFiles) {
+                        input.files = restoredFiles;
+                    }
+
+                    renderSelected(input, restoredFiles || state.files);
+                }
+            }
+
+            function clearFile(input) {
+                const state = initialState(input);
+
+                input.dataset.uploadClearing = 'true';
+                state.files = null;
+                input.value = '';
+                resetSelected(input);
+                input.dispatchEvent(new CustomEvent('upload:clear', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+                delete input.dataset.uploadClearing;
+            }
+
+            function initUploads(root = document) {
+                root.querySelectorAll('.upload-box input[type="file"], input[type="file"][data-image-input]').forEach((input) => {
+                    initialState(input);
+                    renderSelected(input, input.files);
+                    input.addEventListener('change', () => handleFileChange(input));
                 });
-            });
+
+                root.querySelectorAll('.upload-box [data-clear-file]').forEach((button) => {
+                    button.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        const input = document.getElementById(button.dataset.clearFile);
+
+                        if (input) {
+                            clearFile(input);
+                        }
+                    });
+                });
+            }
+
+            window.KarnaUploadKeeper = {
+                init: initUploads,
+                clear: clearFile,
+                refresh: handleFileChange,
+            };
+
+            initUploads();
         });
     </script>
 @endonce

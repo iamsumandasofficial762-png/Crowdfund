@@ -103,7 +103,7 @@
                      <h4>Recent Posts</h4>
                      @forelse ($recentBlogs as $recentBlog)
                         <a class="blog-detail-recent" href="{{ route('blogs.show', $recentBlog->slug) }}">
-                           <img src="{{ $recentBlog->imageUrl() }}" alt="{{ $recentBlog->title }}">
+                           <img src="{{ $recentBlog->imageUrl() }}" alt="{{ $recentBlog->title }}" loading="lazy" decoding="async" width="416" height="300">
                            <span>
                               <small><i class="fa-solid fa-calendar-days"></i>{{ $recentBlog->displayDate()->format('F d, Y') }}</small>
                               <strong>{{ \Illuminate\Support\Str::limit($recentBlog->title, 56) }}</strong>

@@ -693,30 +693,44 @@
                 }
             }
 
-            input.addEventListener('change', () => {
-                if (input.files.length) {
-                    retainedFiles.set(input, cloneFileList(input.files));
-                    updateUploadState(input);
-                    return;
-                }
+                input.addEventListener('change', () => {
+                    if (input.files.length) {
+                        retainedFiles.set(input, cloneFileList(input.files));
+                        updateUploadState(input);
+                        return;
+                    }
 
-                const previousFiles = retainedFiles.get(input);
+                    if (input.dataset.uploadClearing === 'true') {
+                        updateUploadState(input);
+                        return;
+                    }
 
-                if (previousFiles && previousFiles.length) {
-                    input.files = cloneFileList(previousFiles);
-                }
+                    const previousFiles = retainedFiles.get(input);
 
-                updateUploadState(input);
-            });
+                    if (previousFiles && previousFiles.length) {
+                        const restoredFiles = cloneFileList(previousFiles);
 
-            input.closest('.upload-box').querySelectorAll('[data-clear-file]').forEach((button) => {
+                        if (restoredFiles) {
+                            input.files = restoredFiles;
+                        }
+
+                        updateUploadState(input);
+                        return;
+                    }
+                });
+
+                input.closest('.upload-box').querySelectorAll('[data-clear-file]').forEach((button) => {
                 button.addEventListener('click', (event) => {
                     event.preventDefault();
                     event.stopPropagation();
 
                     retainedFiles.delete(input);
+                    input.dataset.uploadClearing = 'true';
                     input.value = '';
                     updateUploadState(input);
+                    input.dispatchEvent(new CustomEvent('upload:clear', { bubbles: true }));
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                    delete input.dataset.uploadClearing;
                 });
             });
         });

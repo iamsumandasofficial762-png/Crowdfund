@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Donation;
 use App\Models\FundraiserPost;
+use App\Support\PublicSiteCache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 
 class BlogController extends Controller
@@ -17,6 +19,8 @@ class BlogController extends Controller
             : null;
 
         $blogs = Blog::published()
+            ->select(['id', 'blog_category_id', 'title', 'slug', 'category', 'short_description', 'featured_image', 'published_at', 'created_at', 'status'])
+            ->with('blogCategory:id,name,slug')
             ->category($selectedCategory)
             ->latest('published_at')
             ->latest()
@@ -37,6 +41,8 @@ class BlogController extends Controller
             ->firstOrFail();
 
         $recentBlogs = Blog::published()
+            ->select(['id', 'blog_category_id', 'title', 'slug', 'category', 'short_description', 'featured_image', 'published_at', 'created_at', 'status'])
+            ->with('blogCategory:id,name,slug')
             ->whereKeyNot($blog->getKey())
             ->latest('published_at')
             ->latest()
@@ -46,8 +52,19 @@ class BlogController extends Controller
         $recentFundraiserPosts = collect();
 
         if (Schema::hasTable('fundraiser_posts')) {
+            $postIds = Cache::remember(PublicSiteCache::EVENT_RECENT_FUNDRAISERS, PublicSiteCache::seconds(), function () {
+                return FundraiserPost::publiclyVisible()
+                    ->latest('approved_at')
+                    ->latest()
+                    ->take(3)
+                    ->pluck('id')
+                    ->all();
+            });
+
             $recentFundraiserPosts = FundraiserPost::publiclyVisible()
-                ->with('fundraiser')
+                ->select(['id', 'fundraiser_id', 'title', 'short_description', 'goal_amount', 'raised_amount', 'category', 'main_image', 'approved_at', 'created_at', 'status'])
+                ->with('fundraiser:id,name,status')
+                ->whereKey($postIds)
                 ->addSelect([
                     'actual_raised_amount' => Donation::query()
                         ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')
@@ -56,7 +73,6 @@ class BlogController extends Controller
                 ])
                 ->latest('approved_at')
                 ->latest()
-                ->take(3)
                 ->get();
         }
 
@@ -68,10 +84,13 @@ class BlogController extends Controller
 
     private function categoryCounts(): array
     {
-        $counts = Blog::published()
-            ->selectRaw('category, COUNT(*) as total')
-            ->groupBy('category')
-            ->pluck('total', 'category');
+        $counts = Cache::remember(PublicSiteCache::BLOG_CATEGORY_COUNTS, PublicSiteCache::seconds(), function () {
+            return Blog::published()
+                ->selectRaw('category, COUNT(*) as total')
+                ->groupBy('category')
+                ->pluck('total', 'category')
+                ->all();
+        });
 
         return collect(Blog::categoryOptions())
             ->map(fn (string $label, string $slug) => [
@@ -83,14 +102,16 @@ class BlogController extends Controller
 
     private function popularTags(): array
     {
-        return Blog::published()
-            ->get(['tags'])
-            ->flatMap(fn (Blog $blog) => $blog->tagList())
-            ->countBy()
-            ->sortDesc()
-            ->keys()
-            ->take(10)
-            ->values()
-            ->all();
+        return Cache::remember(PublicSiteCache::BLOG_POPULAR_TAGS, PublicSiteCache::seconds(), function () {
+            return Blog::published()
+                ->get(['tags'])
+                ->flatMap(fn (Blog $blog) => $blog->tagList())
+                ->countBy()
+                ->sortDesc()
+                ->keys()
+                ->take(10)
+                ->values()
+                ->all();
+        });
     }
 }

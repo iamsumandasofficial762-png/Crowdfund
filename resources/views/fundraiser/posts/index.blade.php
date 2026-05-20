@@ -55,9 +55,7 @@
                         </div>
                         <h4 class="fw-black">{{ $post->title }}</h4>
                         <p class="muted">{{ \Illuminate\Support\Str::limit($post->short_description, 105) }}</p>
-                        @if ($post->status === \App\Models\FundraiserPost::STATUS_HOLD && $post->hold_reason)
-                            <p class="small fw-bold text-warning-emphasis">{{ $post->hold_reason }}</p>
-                        @elseif ($post->status === \App\Models\FundraiserPost::STATUS_REJECTED && $post->rejected_reason)
+                        @if ($post->status === \App\Models\FundraiserPost::STATUS_REJECTED && $post->rejected_reason)
                             <p class="small fw-bold text-danger">{{ $post->rejected_reason }}</p>
                         @endif
 
@@ -92,7 +90,7 @@
                             @if ($post->status === \App\Models\FundraiserPost::STATUS_PENDING && $fundraiser->canManagePosts())
                                 <a class="btn btn-sm btn-outline-dark" href="{{ route('fundraiser.posts.edit', $post) }}">Edit</a>
                             @endif
-                            <form class="post-action-form {{ $post->status === \App\Models\FundraiserPost::STATUS_REJECTED ? 'post-action-full' : '' }}" action="{{ route('fundraiser.posts.destroy', $post) }}" method="post" data-delete-confirm>
+                            <form class="post-action-form {{ (! $fundraiser->canManagePosts() || in_array($post->status, [\App\Models\FundraiserPost::STATUS_HOLD, \App\Models\FundraiserPost::STATUS_REJECTED], true)) ? 'post-action-full' : '' }}" action="{{ route('fundraiser.posts.destroy', $post) }}" method="post" data-delete-confirm>
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>

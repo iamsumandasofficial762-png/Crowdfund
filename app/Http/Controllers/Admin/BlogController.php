@@ -6,19 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Models\AdminActivity;
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Support\UploadedImageOptimizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $status = $request->query('status');
+
         $blogs = Blog::query()
             ->with('blogCategory')
+            ->when(
+                in_array($status, [Blog::STATUS_PUBLISHED, Blog::STATUS_DRAFT], true),
+                fn ($query) => $query->where('status', $status)
+            )
             ->latest('published_at')
             ->latest()
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
         return view('admin.blogs.index', compact('blogs'));
     }
@@ -41,6 +49,7 @@ class BlogController extends Controller
 
         if ($request->hasFile('featured_image')) {
             $data['featured_image'] = $request->file('featured_image')->store('blogs', 'public');
+            UploadedImageOptimizer::optimizePublicImage($data['featured_image']);
         }
 
         $blog = Blog::create($data);
@@ -59,16 +68,13 @@ class BlogController extends Controller
     {
         return view('admin.blogs.edit', [
             'blog' => $blog,
-            'categories' => BlogCategory::active()
-                ->orWhereKey($blog->blog_category_id)
-                ->orderBy('name')
-                ->get(),
+            'categories' => $this->categoriesForForm($blog),
         ]);
     }
 
     public function update(Request $request, Blog $blog)
     {
-        $data = $this->validatedData($request);
+        $data = $this->validatedData($request, $blog);
         $data['slug'] = Blog::uniqueSlug($data['title'], $blog->getKey());
         $data['published_at'] = $this->publishedAt($data);
         $data['tags'] = Blog::normalizeTags($data['tags'] ?? null);
@@ -80,6 +86,7 @@ class BlogController extends Controller
             }
 
             $data['featured_image'] = $request->file('featured_image')->store('blogs', 'public');
+            UploadedImageOptimizer::optimizePublicImage($data['featured_image']);
         }
 
         $blog->update($data);
@@ -98,11 +105,17 @@ class BlogController extends Controller
         return redirect()->route('admin.blogs.index')->with('status', 'Blog deleted successfully.');
     }
 
-    private function validatedData(Request $request): array
+    private function validatedData(Request $request, ?Blog $blog = null): array
     {
         return $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'blog_category_id' => ['required', Rule::exists('blog_categories', 'id')->where('status', true)],
+            'blog_category_id' => [
+                'required',
+                Rule::exists('blog_categories', 'id')->where(function ($query) use ($blog) {
+                    $query->where('status', true)
+                        ->when($blog?->blog_category_id, fn ($query, $categoryId) => $query->orWhere('id', $categoryId));
+                }),
+            ],
             'tags' => ['nullable', 'string', 'max:1000'],
             'short_description' => ['nullable', 'string', 'max:1000'],
             'full_description' => ['required', 'string'],
@@ -119,5 +132,16 @@ class BlogController extends Controller
         }
 
         return $data['published_at'] ?: null;
+    }
+
+    private function categoriesForForm(?Blog $blog = null)
+    {
+        return BlogCategory::query()
+            ->where(function ($query) use ($blog) {
+                $query->where('status', true)
+                    ->when($blog?->blog_category_id, fn ($query, $categoryId) => $query->orWhere('id', $categoryId));
+            })
+            ->orderBy('name')
+            ->get();
     }
 }

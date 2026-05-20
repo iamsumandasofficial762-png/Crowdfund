@@ -60,7 +60,7 @@
                   <div class="cart-item-single">
                      <div class="cart-item-thumb">
                         <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
-                        <img src="{{ asset('assets/images/shop/cart-one.png') }}" alt="Image">
+                        <img src="{{ asset('assets/images/shop/cart-one.png') }}" alt="Image" loading="lazy" decoding="async">
                         </a>
                      </div>
                      <div class="cart-item-content">
@@ -88,7 +88,7 @@
                   <div class="cart-item-single">
                      <div class="cart-item-thumb">
                         <a href="{{ route('coming-soon', ['menu' => 'event-details']) }}">
-                        <img src="{{ asset('assets/images/shop/cart-two.png') }}" alt="Image">
+                        <img src="{{ asset('assets/images/shop/cart-two.png') }}" alt="Image" loading="lazy" decoding="async">
                         </a>
                      </div>
                      <div class="cart-item-content">
@@ -334,7 +334,7 @@
                   <div class="col-12 col-lg-5 col-xl-6">
                      <div class="about__thumb">
                         <div class="about__thumb-big">
-                           <img src="{{ asset('assets/images/difference/thumb-lg-two.jpg') }}" alt="Image" data-aos="fade-right"
+                           <img src="{{ asset('assets/images/difference/thumb-lg-two.jpg') }}" alt="Image" loading="lazy" decoding="async" data-aos="fade-right"
                               data-aos-duration="1000">
                            <div class="video-btn-wrapper">
                               <a href="https://www.youtube.com/watch?v=RvreULjnzFo" target="_blank" title="video Player"
@@ -344,7 +344,7 @@
                            </div>
                         </div>
                         <div class="about__thumb-sm">
-                           <img src="{{ asset('assets/images/difference/thumb-sm-two.jpg') }}" alt="Image" data-aos="fade-left"
+                           <img src="{{ asset('assets/images/difference/thumb-sm-two.jpg') }}" alt="Image" loading="lazy" decoding="async" data-aos="fade-left"
                               data-aos-duration="1000" data-aos-delay="100">
                            <div class="about__thumb-sm__content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                               <div class="about__thumb-sm__content-counter">
@@ -455,7 +455,7 @@
                         <div class="cause__slider-single van-tilt">
                            <div class="thumb">
                               <a href="{{ $postLink }}">
-                              <img src="{{ $postImage }}" alt="{{ $post->title }}">
+                              <img src="{{ $postImage }}" alt="{{ $post->title }}" loading="lazy" decoding="async" width="416" height="300">
                               </a>
                               <div class="tag">
                                  <a href="{{ $postLink }}">{{ $post->category }}</a>
@@ -504,7 +504,7 @@
                         <div class="cause__slider-single van-tilt">
                            <div class="thumb">
                               <a href="{{ route('donate-us') }}">
-                              <img src="{{ asset('assets/images/cause/two.png') }}" alt="Image">
+                              <img src="{{ asset('assets/images/cause/two.png') }}" alt="Image" loading="lazy" decoding="async" width="416" height="300">
                               </a>
                               <div class="tag">
                                  <a href="{{ route('donate-us') }}">Food</a>
@@ -549,7 +549,7 @@
                         <div class="cause__slider-single van-tilt">
                            <div class="thumb">
                               <a href="{{ route('donate-us') }}">
-                              <img src="{{ asset('assets/images/cause/three.png') }}" alt="Image">
+                              <img src="{{ asset('assets/images/cause/three.png') }}" alt="Image" loading="lazy" decoding="async" width="416" height="300">
                               </a>
                               <div class="tag">
                                  <a href="{{ route('donate-us') }}">Health</a>
@@ -1140,14 +1140,14 @@
                            </form>
                         </div>
                         <div class="community__thumb d-none d-lg-block" data-aos="fade-left" data-aos-duration="1000">
-                           <img src="{{ asset('assets/images/community/thumb.png') }}" alt="Image">
+                           <img src="{{ asset('assets/images/community/thumb.png') }}" alt="Image" loading="lazy" decoding="async">
                         </div>
                      </div>
                   </div>
                </div>
             </div>
             <div class="community-bg">
-               <img src="{{ asset('assets/images/banner/banner-one-bg.jpg') }}" alt="Image" class="parallax-image">
+               <img src="{{ asset('assets/images/banner/banner-one-bg.jpg') }}" alt="Image" class="parallax-image" loading="lazy" decoding="async">
             </div>
             <div class="gift" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                <img src="{{ asset('assets/images/community/gift.png') }}" alt="Image">
@@ -1185,7 +1185,7 @@
                         <div class="explore__single" data-aos="fade-up" data-aos-duration="1000">
                            <div class="thumb">
                               <a href="{{ route('events.index', ['category' => \App\Models\Event::CATEGORY_CHILD_TROUBLE_CARE]) }}#event-results">
-                              <img src="{{ asset('assets/images/award/one.png') }}" alt="Image">
+                              <img src="{{ asset('assets/images/award/one.png') }}" alt="Image" loading="lazy" decoding="async">
                               </a>
                            </div>
                            <a href="{{ route('events.index', ['category' => \App\Models\Event::CATEGORY_CHILD_TROUBLE_CARE]) }}#event-results" class="arr">
@@ -1199,7 +1199,7 @@
                         <div class="explore__single" data-aos="fade-up" data-aos-duration="1000">
                            <div class="thumb">
                               <a href="{{ route('events.index', ['category' => \App\Models\Event::CATEGORY_HEALTH_CARE_PROGRAM]) }}#event-results">
-                              <img src="{{ asset('assets/images/award/two.png') }}" alt="Image">
+                              <img src="{{ asset('assets/images/award/two.png') }}" alt="Image" loading="lazy" decoding="async">
                               </a>
                            </div>
                            <a href="{{ route('events.index', ['category' => \App\Models\Event::CATEGORY_HEALTH_CARE_PROGRAM]) }}#event-results" class="arr">
@@ -1213,7 +1213,7 @@
                         <div class="explore__single explore__single-tall" data-aos="fade-up" data-aos-duration="1000">
                            <div class="thumb">
                               <a href="{{ route('events.index', ['category' => \App\Models\Event::CATEGORY_EDUCATION_SAFETY_PROGRAM]) }}#event-results">
-                              <img src="{{ asset('assets/images/award/three.jpg') }}" alt="Image">
+                              <img src="{{ asset('assets/images/award/three.jpg') }}" alt="Image" loading="lazy" decoding="async">
                               </a>
                            </div>
                            <a href="{{ route('events.index', ['category' => \App\Models\Event::CATEGORY_EDUCATION_SAFETY_PROGRAM]) }}#event-results" class="arr">
@@ -1227,7 +1227,7 @@
                         <div class="explore__single explore__single-wide" data-aos="fade-up" data-aos-duration="1000">
                            <div class="thumb">
                               <a href="{{ route('events.index', ['category' => \App\Models\Event::CATEGORY_TRANSPORT_FOOD_PROGRAM]) }}#event-results">
-                              <img src="{{ asset('assets/images/award/four.jpg') }}" alt="Image">
+                              <img src="{{ asset('assets/images/award/four.jpg') }}" alt="Image" loading="lazy" decoding="async">
                               </a>
                            </div>
                            <a href="{{ route('events.index', ['category' => \App\Models\Event::CATEGORY_TRANSPORT_FOOD_PROGRAM]) }}#event-results" class="arr">
@@ -1778,7 +1778,7 @@
                         <div class="blog__single" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="{{ $loop->index * 200 }}">
                            <div class="blog__single-thumb">
                               <a href="{{ route('blogs.show', $blog->slug) }}">
-                              <img src="{{ $blog->imageUrl() }}" alt="{{ $blog->title }}">
+                              <img src="{{ $blog->imageUrl() }}" alt="{{ $blog->title }}" loading="lazy" decoding="async" width="416" height="300">
                               </a>
                            </div>
                            <div class="blog__single-content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="{{ 200 + ($loop->index * 200) }}">
@@ -1818,13 +1818,13 @@
             <div class="gallery__inner">
                <div class="gallery__slider">
                   <div class="gallery__single">
-                     <img src="{{ asset('assets/images/gallery/one.png') }}" alt="Image">
+                     <img src="{{ asset('assets/images/gallery/one.png') }}" alt="Image" loading="lazy" decoding="async">
                      <a href="{{ route('home') }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
                   </div>
                   <div class="gallery__single">
-                     <img src="{{ asset('assets/images/gallery/two.png') }}" alt="Image">
+                     <img src="{{ asset('assets/images/gallery/two.png') }}" alt="Image" loading="lazy" decoding="async">
                      <a href="{{ route('home') }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>
@@ -1848,7 +1848,7 @@
                      </a>
                   </div>
                   <div class="gallery__single">
-                     <img src="{{ asset('assets/images/gallery/six.png') }}" alt="Image">
+                     <img src="{{ asset('assets/images/gallery/six.png') }}" alt="Image" loading="lazy" decoding="async">
                      <a href="{{ route('home') }}">
                      <i class="fa-brands fa-instagram"></i>
                      </a>

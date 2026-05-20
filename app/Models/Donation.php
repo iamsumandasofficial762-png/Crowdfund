@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\PublicSiteCache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,6 +39,12 @@ class Donation extends Model
             'is_private' => 'boolean',
             'paid_at' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => PublicSiteCache::forgetPublicContent());
+        static::deleted(fn () => PublicSiteCache::forgetPublicContent());
     }
 
     public function publicDonorName(): string

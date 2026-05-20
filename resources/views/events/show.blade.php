@@ -69,7 +69,7 @@
                      <h3>More Events</h3>
                      @forelse ($relatedEvents as $relatedEvent)
                         <a class="event-detail-related" href="{{ route('events.show', $relatedEvent->slug) }}">
-                           <img src="{{ $relatedEvent->imageUrl() }}" alt="{{ $relatedEvent->title }}">
+                           <img src="{{ $relatedEvent->imageUrl() }}" alt="{{ $relatedEvent->title }}" loading="lazy" decoding="async" width="416" height="300">
                            <span>
                               <small>{{ $relatedEvent->event_date?->format('d M Y') ?? 'Soon' }}</small>
                               <strong>{{ \Illuminate\Support\Str::limit($relatedEvent->title, 58) }}</strong>

@@ -105,7 +105,7 @@
                               <div class="footer__blog-single">
                                  <div class="thumb">
                                     <a href="{{ $postLink }}">
-                                    <img src="{{ $postImage }}" alt="{{ $post->title }}">
+                                    <img src="{{ $postImage }}" alt="{{ $post->title }}" loading="lazy" decoding="async" width="88" height="78">
                                     </a>
                                  </div>
                                  <div class="content">
@@ -118,7 +118,7 @@
                               <div class="footer__blog-single">
                                  <div class="thumb">
                                     <a href="{{ route('fundraiser-posts.index') }}">
-                                    <img src="{{ asset('assets/images/cause/one.png') }}" alt="Fundraiser posts">
+                                    <img src="{{ asset('assets/images/cause/one.png') }}" alt="Fundraiser posts" loading="lazy" decoding="async" width="88" height="78">
                                     </a>
                                  </div>
                                  <div class="content">
@@ -206,13 +206,13 @@ Newtown, Kolkata, West Bengal 700161
                </div>
             </div>
             <div class="sprade" data-aos="zoom-in" data-aos-duration="1000">
-               <img src="{{ asset('assets/images/sprade.png') }}" alt="Image" class="base-img">
+               <img src="{{ asset('assets/images/sprade.png') }}" alt="Image" class="base-img" loading="lazy" decoding="async">
             </div>
             <div class="sprade-light" data-aos="zoom-in" data-aos-duration="1000">
-               <img src="{{ asset('assets/images/sprade-light.png') }}" alt="Image">
+               <img src="{{ asset('assets/images/sprade-light.png') }}" alt="Image" loading="lazy" decoding="async">
             </div>
             <div class="footer__thumb-right" data-aos="fade-left" data-aos-duration="1000">
-               <img src="{{ asset('assets/images/mask/footer-right.png') }}" alt="Image">
+               <img src="{{ asset('assets/images/mask/footer-right.png') }}" alt="Image" loading="lazy" decoding="async">
             </div>
          </footer>
          <!-- ==== / footer end ==== -->
@@ -233,36 +233,37 @@ Newtown, Kolkata, West Bengal 700161
       </div>
       <!-- ==== js dependencies start ==== -->
       <!-- jquery -->
-      <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+      <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}" defer></script>
       <!-- bootstrap five js -->
-      <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+      <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}" defer></script>
       <!-- nice select js -->
-      <script src="{{ asset('assets/js/jquery.nice-select.min.js') }}"></script>
+      <script src="{{ asset('assets/js/jquery.nice-select.min.js') }}" defer></script>
       <!-- magnific popup js -->
-      <script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
+      <script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}" defer></script>
       <!-- swiper slider js -->
-      <script src="{{ asset('assets/js/swiper-bundle.min.js') }}"></script>
+      <script src="{{ asset('assets/js/swiper-bundle.min.js') }}" defer></script>
       <!-- viewport js -->
-      <script src="{{ asset('assets/js/viewport.jquery.js') }}"></script>
+      <script src="{{ asset('assets/js/viewport.jquery.js') }}" defer></script>
       <!-- odometer js -->
-      <script src="{{ asset('assets/js/odometer.min.js') }}"></script>
+      <script src="{{ asset('assets/js/odometer.min.js') }}" defer></script>
       <!-- vanilla tilt js -->
-      <script src="{{ asset('assets/js/vanilla-tilt.min.js') }}"></script>
+      <script src="{{ asset('assets/js/vanilla-tilt.min.js') }}" defer></script>
       <!-- aos js -->
-      <script src="{{ asset('assets/js/aos.js') }}"></script>
+      <script src="{{ asset('assets/js/aos.js') }}" defer></script>
       <!-- phospor icons js -->
-      <script src="{{ asset('assets/js/phosphor-icon.js') }}"></script>
+      <script src="{{ asset('assets/js/phosphor-icon.js') }}" defer></script>
       <!-- splittext js -->
-      <script src="{{ asset('assets/js/SplitText.min.js') }}"></script>
+      <script src="{{ asset('assets/js/SplitText.min.js') }}" defer></script>
       <!-- scrollto js -->
-      <script src="{{ asset('assets/js/ScrollToPlugin.min.js') }}"></script>
+      <script src="{{ asset('assets/js/ScrollToPlugin.min.js') }}" defer></script>
       <!-- scrolltrigger js -->
-      <script src="{{ asset('assets/js/ScrollTrigger.min.js') }}"></script>
+      <script src="{{ asset('assets/js/ScrollTrigger.min.js') }}" defer></script>
       <!-- gsap js -->
-      <script src="{{ asset('assets/js/gsap.min.js') }}"></script>
+      <script src="{{ asset('assets/js/gsap.min.js') }}" defer></script>
       <!-- ==== / js dependencies end ==== -->
       <!-- main js -->
-      <script src="{{ asset('assets/js/custom.js') }}"></script>
+      @stack('scripts')
+      <script src="{{ asset('assets/js/custom.js') }}" defer></script>
    </body>
 
 <!-- Mirrored from webnextpro.com/tf/charitia/{{ route('home') }} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 May 2026 11:34:59 GMT -->

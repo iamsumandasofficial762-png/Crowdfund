@@ -46,6 +46,7 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            min-width: 300px;
             border-right: 1px solid var(--line);
             padding: 30px 22px;
             background: #ffffff;
@@ -657,11 +658,11 @@
 
         @media (max-width: 1199px) {
             .admin-layout {
-                grid-template-columns: 260px minmax(0, 1fr);
+                grid-template-columns: 300px minmax(0, 1fr);
             }
 
             .sidebar {
-                padding: 24px 16px;
+                padding: 30px 22px;
             }
 
             .report-grid {
@@ -822,6 +823,9 @@
                 <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
                 <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
+                @if (auth()->user()?->hasPermission(\App\Support\AdminPermissions::USERS_MANAGE))
+                    <a class="nav-link" href="{{ route('admin.users.index') }}"><i class="fa-solid fa-users-gear"></i> Users</a>
+                @endif
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>

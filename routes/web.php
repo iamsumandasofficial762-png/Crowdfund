@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\FundraiserController as AdminFundraiserController
 use App\Http\Controllers\Admin\FundraiserReferralController as AdminFundraiserReferralController;
 use App\Http\Controllers\Admin\FundraiserReportController as AdminFundraiserReportController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
+use App\Http\Controllers\Admin\UserManagementController as AdminUserManagementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactMessageController;
@@ -75,8 +76,7 @@ Route::prefix('fundraiser')->name('fundraiser.')->middleware('fundraiser.authent
 });
 
 Route::get('/admin', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+Route::post('/admin', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])
@@ -150,6 +150,34 @@ Route::get('/admin/supporters', [AdminFundraiserController::class, 'legacySuppor
 Route::get('/admin/settings', [AdminSettingsController::class, 'index'])
     ->middleware('jwt.session')
     ->name('admin.settings.index');
+
+Route::get('/admin/users', [AdminUserManagementController::class, 'index'])
+    ->middleware('jwt.session')
+    ->name('admin.users.index');
+
+Route::post('/admin/users', [AdminUserManagementController::class, 'store'])
+    ->middleware('jwt.session')
+    ->name('admin.users.store');
+
+Route::put('/admin/users/{user}', [AdminUserManagementController::class, 'update'])
+    ->middleware('jwt.session')
+    ->name('admin.users.update');
+
+Route::patch('/admin/users/{user}/hold', [AdminUserManagementController::class, 'hold'])
+    ->middleware('jwt.session')
+    ->name('admin.users.hold');
+
+Route::patch('/admin/users/{user}/activate', [AdminUserManagementController::class, 'activate'])
+    ->middleware('jwt.session')
+    ->name('admin.users.activate');
+
+Route::delete('/admin/users/{user}', [AdminUserManagementController::class, 'destroy'])
+    ->middleware('jwt.session')
+    ->name('admin.users.destroy');
+
+Route::patch('/admin/users/{id}/restore', [AdminUserManagementController::class, 'restore'])
+    ->middleware('jwt.session')
+    ->name('admin.users.restore');
 
 Route::get('/admin/blogs', [AdminBlogController::class, 'index'])
     ->middleware('jwt.session')
@@ -238,6 +266,10 @@ Route::delete('/admin/fundraiser-referrals/{referral}', [AdminFundraiserReferral
 Route::patch('/admin/fundraiser-posts/{post}/approve', [AdminFundraiserPostController::class, 'approve'])
     ->middleware('jwt.session')
     ->name('admin.fundraiser-posts.approve');
+
+Route::patch('/admin/fundraiser-posts/{post}/status', [AdminFundraiserPostController::class, 'updateStatus'])
+    ->middleware('jwt.session')
+    ->name('admin.fundraiser-posts.status');
 
 Route::patch('/admin/fundraiser-posts/{post}/reject', [AdminFundraiserPostController::class, 'reject'])
     ->middleware('jwt.session')

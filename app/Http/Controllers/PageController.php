@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Donation;
 use App\Models\Blog;
 use App\Models\FundraiserPost;
+use App\Support\PublicSiteCache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -16,8 +18,19 @@ class PageController extends Controller
         $recentFundraiserPosts = collect();
 
         if (Schema::hasTable('fundraiser_posts')) {
+            $postIds = Cache::remember(PublicSiteCache::HOME_POSTS, PublicSiteCache::seconds(), function () {
+                return FundraiserPost::publiclyVisible()
+                    ->latest('approved_at')
+                    ->latest()
+                    ->take(3)
+                    ->pluck('id')
+                    ->all();
+            });
+
             $recentFundraiserPosts = FundraiserPost::publiclyVisible()
-                ->with('fundraiser')
+                ->select(['id', 'fundraiser_id', 'title', 'short_description', 'goal_amount', 'raised_amount', 'category', 'main_image', 'approved_at', 'created_at', 'status'])
+                ->with(['fundraiser:id,name,status'])
+                ->whereKey($postIds)
                 ->addSelect([
                     'actual_raised_amount' => Donation::query()
                         ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')
@@ -26,17 +39,27 @@ class PageController extends Controller
                 ])
                 ->latest('approved_at')
                 ->latest()
-                ->take(3)
                 ->get();
         }
 
         $latestBlogs = collect();
 
         if (Schema::hasTable('blogs')) {
+            $blogIds = Cache::remember(PublicSiteCache::HOME_BLOGS, PublicSiteCache::seconds(), function () {
+                return Blog::published()
+                    ->latest('published_at')
+                    ->latest()
+                    ->take(3)
+                    ->pluck('id')
+                    ->all();
+            });
+
             $latestBlogs = Blog::published()
+                ->select(['id', 'blog_category_id', 'title', 'slug', 'category', 'short_description', 'featured_image', 'published_at', 'created_at', 'status'])
+                ->with('blogCategory:id,name,slug')
+                ->whereKey($blogIds)
                 ->latest('published_at')
                 ->latest()
-                ->take(3)
                 ->get();
         }
 
@@ -91,7 +114,8 @@ class PageController extends Controller
 
         if (Schema::hasTable('fundraiser_posts')) {
             $recentFundraiserPosts = FundraiserPost::publiclyVisible()
-                ->with('fundraiser')
+                ->select(['id', 'fundraiser_id', 'title', 'short_description', 'goal_amount', 'raised_amount', 'category', 'main_image', 'approved_at', 'created_at', 'status'])
+                ->with('fundraiser:id,name,status')
                 ->addSelect([
                     'actual_raised_amount' => Donation::query()
                         ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')

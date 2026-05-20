@@ -30,7 +30,7 @@
                         <div class="blog__single">
                            <div class="blog__single-thumb">
                               <a href="{{ route('blogs.show', $blog->slug) }}">
-                                 <img src="{{ $blog->imageUrl() }}" alt="{{ $blog->title }}">
+                                 <img src="{{ $blog->imageUrl() }}" alt="{{ $blog->title }}" loading="lazy" decoding="async" width="416" height="300">
                               </a>
                            </div>
                            <div class="blog__single-content">

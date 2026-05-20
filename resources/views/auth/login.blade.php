@@ -1,7 +1,3 @@
-@php
-    $authMode = old('auth_mode', 'login');
-@endphp
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -163,34 +159,6 @@
             margin: 0 auto;
         }
 
-        .auth-switch {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 24px;
-            border: 1px solid var(--auth-line);
-            border-radius: 999px;
-            padding: 6px;
-            background: #ffffff;
-        }
-
-        .auth-switch button {
-            min-height: 42px;
-            border: 0;
-            border-radius: 999px;
-            color: var(--auth-muted);
-            background: transparent;
-            font: inherit;
-            font-weight: 900;
-            transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
-        }
-
-        .auth-switch button.active {
-            color: #ffffff;
-            background: linear-gradient(180deg, #c94a35, var(--auth-gold));
-            box-shadow: 0 12px 26px rgba(147, 42, 25, 0.22);
-        }
-
         .auth-stage {
             position: relative;
             min-height: 420px;
@@ -202,27 +170,11 @@
             min-height: 410px;
         }
 
-        .auth-card[data-mode="register"] .auth-stage {
-            min-height: 560px;
-        }
-
         .auth-form {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transform: translateX(38px) scale(0.98);
-            pointer-events: none;
-            transition: opacity 0.34s ease, transform 0.34s ease;
-        }
-
-        .auth-form.active {
+            position: relative;
             opacity: 1;
             transform: translateX(0) scale(1);
             pointer-events: auto;
-        }
-
-        .auth-form.leaving-left {
-            transform: translateX(-38px) scale(0.98);
         }
 
         .auth-title {
@@ -425,9 +377,6 @@
                 min-height: 430px;
             }
 
-            .auth-card[data-mode="register"] .auth-stage {
-                min-height: 585px;
-            }
         }
 
         @media (max-width: 575px) {
@@ -454,15 +403,12 @@
                 min-height: 430px;
             }
 
-            .auth-card[data-mode="register"] .auth-stage {
-                min-height: 610px;
-            }
         }
     </style>
 </head>
 <body>
     <main class="auth-shell">
-        <section class="auth-card" data-auth-card data-initial-mode="{{ $authMode }}" data-mode="{{ $authMode === 'register' ? 'register' : 'login' }}">
+        <section class="auth-card" data-auth-card data-mode="login">
             <aside class="auth-brand">
                 <a class="auth-brand__logo" href="{{ route('home') }}" aria-label="Karna Kabach home">
                     <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
@@ -477,11 +423,6 @@
 
             <section class="auth-form-panel" aria-label="Authentication forms">
                 <div class="auth-form-wrap">
-                    <div class="auth-switch" role="tablist" aria-label="Login or register">
-                        <button type="button" class="{{ $authMode !== 'register' ? 'active' : '' }}" data-auth-switch="login" role="tab" aria-selected="{{ $authMode !== 'register' ? 'true' : 'false' }}">Login</button>
-                        <button type="button" class="{{ $authMode === 'register' ? 'active' : '' }}" data-auth-switch="register" role="tab" aria-selected="{{ $authMode === 'register' ? 'true' : 'false' }}">Register</button>
-                    </div>
-
                     @if (session('status'))
                         <div class="alert alert-success alert-auto-dismiss mb-4" role="status" data-auto-dismiss="3500">{{ session('status') }}</div>
                     @endif
@@ -497,9 +438,8 @@
                     @endif
 
                     <div class="auth-stage">
-                        <form class="auth-form {{ $authMode !== 'register' ? 'active' : '' }}" data-auth-form="login" action="{{ route('login.submit') }}" method="post">
+                        <form class="auth-form" data-auth-form="login" action="{{ route('login.submit') }}" method="post">
                             @csrf
-                            <input type="hidden" name="auth_mode" value="login">
 
                             <h2 class="auth-title">Welcome back</h2>
                             <p class="auth-copy">Login to continue managing campaigns, supporters, and donations.</p>
@@ -508,7 +448,7 @@
                                 <label for="login_email">Email</label>
                                 <div class="auth-input">
                                     <i class="fa-regular fa-envelope"></i>
-                                    <input class="form-control" type="email" id="login_email" name="email" value="{{ $authMode !== 'register' ? old('email') : '' }}" placeholder="admin@example.com" autocomplete="username" required autofocus>
+                                    <input class="form-control" type="email" id="login_email" name="email" value="{{ old('email') }}" placeholder="admin@example.com" autocomplete="username" required autofocus>
                                 </div>
                             </div>
 
@@ -534,61 +474,6 @@
                                 <span class="spinner-border" aria-hidden="true"></span>
                                 <span>Login securely</span>
                             </button>
-
-                            <p class="auth-note">New here? <button type="button" data-auth-switch="register">Create an account</button></p>
-                        </form>
-
-                        <form class="auth-form {{ $authMode === 'register' ? 'active' : '' }}" data-auth-form="register" action="{{ route('register.submit') }}" method="post">
-                            @csrf
-                            <input type="hidden" name="auth_mode" value="register">
-
-                            <h2 class="auth-title">Create account</h2>
-                            <p class="auth-copy">Register once and enter the admin dashboard instantly with JWT protection.</p>
-
-                            <div class="auth-field">
-                                <label for="register_name">Full Name</label>
-                                <div class="auth-input">
-                                    <i class="fa-regular fa-user"></i>
-                                    <input class="form-control" type="text" id="register_name" name="name" value="{{ old('name') }}" placeholder="Your full name" autocomplete="name" required>
-                                </div>
-                            </div>
-
-                            <div class="auth-field">
-                                <label for="register_email">Email</label>
-                                <div class="auth-input">
-                                    <i class="fa-regular fa-envelope"></i>
-                                    <input class="form-control" type="email" id="register_email" name="email" value="{{ $authMode === 'register' ? old('email') : '' }}" placeholder="you@example.com" autocomplete="email" required>
-                                </div>
-                            </div>
-
-                            <div class="auth-field">
-                                <label for="register_password">Password</label>
-                                <div class="auth-input">
-                                    <i class="fa-solid fa-lock"></i>
-                                    <input class="form-control" type="password" id="register_password" name="password" placeholder="Minimum 8 characters" autocomplete="new-password" required>
-                                    <button class="password-toggle" type="button" data-toggle-password="register_password" aria-label="Show password">
-                                        <span class="fa-regular fa-eye"></span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="auth-field">
-                                <label for="password_confirmation">Confirm Password</label>
-                                <div class="auth-input">
-                                    <i class="fa-solid fa-shield-halved"></i>
-                                    <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" placeholder="Repeat password" autocomplete="new-password" required>
-                                    <button class="password-toggle" type="button" data-toggle-password="password_confirmation" aria-label="Show password">
-                                        <span class="fa-regular fa-eye"></span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <button class="btn-auth mt-2" type="submit">
-                                <span class="spinner-border" aria-hidden="true"></span>
-                                <span>Create account</span>
-                            </button>
-
-                            <p class="auth-note">Already registered? <button type="button" data-auth-switch="login">Login instead</button></p>
                         </form>
                     </div>
                 </div>
@@ -599,30 +484,6 @@
     @include('partials.auto-alerts')
     <script>
         (function () {
-            const card = document.querySelector('[data-auth-card]');
-            const switchers = document.querySelectorAll('[data-auth-switch]');
-            const forms = document.querySelectorAll('[data-auth-form]');
-
-            function setMode(mode) {
-                card.dataset.mode = mode;
-
-                switchers.forEach((button) => {
-                    const active = button.dataset.authSwitch === mode;
-                    button.classList.toggle('active', active);
-                    button.setAttribute('aria-selected', active ? 'true' : 'false');
-                });
-
-                forms.forEach((form) => {
-                    const active = form.dataset.authForm === mode;
-                    form.classList.toggle('active', active);
-                    form.classList.toggle('leaving-left', !active && mode === 'register');
-                });
-            }
-
-            switchers.forEach((button) => {
-                button.addEventListener('click', () => setMode(button.dataset.authSwitch));
-            });
-
             document.querySelectorAll('[data-toggle-password]').forEach((button) => {
                 button.addEventListener('click', () => {
                     const input = document.getElementById(button.dataset.togglePassword);
@@ -644,8 +505,6 @@
                     button.setAttribute('disabled', 'disabled');
                 });
             });
-
-            setMode(card.dataset.initialMode === 'register' ? 'register' : 'login');
         })();
     </script>
 </body>

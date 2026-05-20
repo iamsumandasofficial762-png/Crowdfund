@@ -88,24 +88,3 @@
     <button class="btn btn-warning fw-bold px-4" type="submit">{{ $buttonLabel }}</button>
     <a class="btn btn-soft" href="{{ route('admin.blogs.index') }}">Cancel</a>
 </div>
-<script>
-    document.querySelectorAll('[data-image-input]').forEach((input) => {
-        input.addEventListener('change', () => {
-            const preview = document.querySelector(`[data-image-preview="${input.dataset.imageInput}"]`);
-            const file = input.files && input.files[0];
-
-            if (!preview) {
-                return;
-            }
-
-            if (!file) {
-                preview.removeAttribute('src');
-                preview.classList.add('d-none');
-                return;
-            }
-
-            preview.src = URL.createObjectURL(file);
-            preview.classList.remove('d-none');
-        });
-    });
-</script>

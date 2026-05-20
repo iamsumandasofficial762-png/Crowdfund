@@ -5,18 +5,26 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AdminActivity;
 use App\Models\Event;
+use App\Support\UploadedImageOptimizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $status = $request->query('status');
+
         $events = Event::query()
+            ->when(
+                in_array($status, [Event::STATUS_PUBLISHED, Event::STATUS_DRAFT], true),
+                fn ($query) => $query->where('status', $status)
+            )
             ->latest('event_date')
             ->latest()
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
         return view('admin.events.index', compact('events'));
     }
@@ -36,6 +44,7 @@ class EventController extends Controller
 
         if ($request->hasFile('event_image')) {
             $data['event_image'] = $request->file('event_image')->store('events', 'public');
+            UploadedImageOptimizer::optimizePublicImage($data['event_image']);
         }
 
         $event = Event::create($data);
@@ -69,6 +78,7 @@ class EventController extends Controller
             }
 
             $data['event_image'] = $request->file('event_image')->store('events', 'public');
+            UploadedImageOptimizer::optimizePublicImage($data['event_image']);
         }
 
         $event->update($data);

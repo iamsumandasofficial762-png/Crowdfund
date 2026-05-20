@@ -217,9 +217,13 @@
                     return;
                 }
 
-                if (!selectedFile) {
+                if (!selectedFile && file.dataset.uploadClearing === 'true') {
                     preview.innerHTML = fallbackPreviewHtml;
                     preview.classList.toggle('has-image', fallbackHasImage);
+                    return;
+                }
+
+                if (!selectedFile) {
                     return;
                 }
 

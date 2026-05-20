@@ -2724,7 +2724,7 @@
                                  <h4>{{ $update->title ?: 'Campaign update' }}</h4>
                                  <p>{!! nl2br(e($update->update_text)) !!}</p>
                                  @if ($update->update_image)
-                                    <img class="public-update-card__image" src="{{ asset('storage/' . $update->update_image) }}" alt="{{ $update->title ?: 'Campaign update image' }}">
+                                    <img class="public-update-card__image" src="{{ asset('storage/' . $update->update_image) }}" alt="{{ $update->title ?: 'Campaign update image' }}" loading="lazy" decoding="async">
                                  @endif
                                  <button class="public-update-card__share" type="button" data-public-share="{{ route('donate-us', $selectedPost) }}">
                                     <i class="fa-solid fa-share-nodes"></i> Share update
@@ -3790,7 +3790,7 @@
             return;
          }
 
-         reportFileName && (reportFileName.textContent = 'No file selected');
+         return;
       });
 
       donationOpenButtons.forEach((button) => {

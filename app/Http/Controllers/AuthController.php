@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -41,7 +40,17 @@ class AuthController extends Controller
                 ->withErrors(['email' => 'The provided credentials do not match our records.']);
         }
 
-        Auth::login(JWTAuth::setToken($token)->authenticate());
+        $user = JWTAuth::setToken($token)->authenticate()?->load('role.permissions');
+
+        if (! $user || ! $user->isActive()) {
+            JWTAuth::setToken($token)->invalidate();
+
+            return back()
+                ->withInput($request->only('email') + ['auth_mode' => 'login'])
+                ->withErrors(['email' => 'Your account is currently on hold. Please contact the administrator.']);
+        }
+
+        Auth::login($user);
         $request->session()->regenerate();
         $request->session()->put('jwt_token', $token);
 
@@ -50,31 +59,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
-
-        try {
-            $token = JWTAuth::fromUser($user);
-        } catch (JWTException) {
-            return back()
-                ->withInput($request->only('name', 'email') + ['auth_mode' => 'register'])
-                ->withErrors(['email' => 'Account created, but login token could not be generated. Please login.']);
-        }
-
-        Auth::login($user);
-        $request->session()->regenerate();
-        $request->session()->put('jwt_token', $token);
-
-        return redirect()->route('admin.dashboard')->with('status', 'Account created successfully.');
+        abort(404);
     }
 
     public function logout(Request $request)

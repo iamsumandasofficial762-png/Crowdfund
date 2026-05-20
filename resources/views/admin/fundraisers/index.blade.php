@@ -12,10 +12,10 @@
         :root { --gold:#932a19; --gold-soft:#f7e1df; --bg:#f7f8fb; --line:#dde2ea; --ink:#071226; --muted:#647083; }
         body { margin:0; color:var(--ink); background:var(--bg); font-family:Nunito, system-ui, sans-serif; }
         a { text-decoration:none; }
-        .admin-layout { min-height:100vh; display:grid; grid-template-columns:280px 1fr; }
-        .sidebar { padding:24px; border-right:1px solid var(--line); background:#fff; }
+        .admin-layout { min-height:100vh; display:grid; grid-template-columns:300px minmax(0,1fr); }
+        .sidebar { position:sticky; top:0; height:100vh; min-width:300px; padding:30px 22px; border-right:1px solid var(--line); background:#fff; }
         .brand img { width:154px; }
-        .nav-link { display:flex; align-items:center; gap:10px; margin-bottom:8px; border-radius:12px; padding:12px 14px; color:var(--ink); font-weight:900; }
+        .nav-link { display:flex; align-items:center; gap:12px; margin-bottom:10px; border-radius:12px; padding:13px 15px; color:#2f3a4c; font-weight:800; line-height:1.2; }
         .nav-link:hover,.nav-link.active { color:var(--gold); background:var(--gold-soft); }
         .topbar { border-bottom:1px solid var(--line); background:#fff; }
         .topbar-inner,.content { padding:24px; }
@@ -83,6 +83,9 @@
                 <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
                 <a class="nav-link active" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
+                @if (auth()->user()?->hasPermission(\App\Support\AdminPermissions::USERS_MANAGE))
+                    <a class="nav-link" href="{{ route('admin.users.index') }}"><i class="fa-solid fa-users-gear"></i> Users</a>
+                @endif
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>

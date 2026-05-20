@@ -432,7 +432,8 @@
      * 10. banner one slider
      * ======================================
      */
-    var bannerOne = new Swiper(".banner-two__slider", {
+    if (document.querySelector(".banner-two__slider")) {
+      var bannerOne = new Swiper(".banner-two__slider", {
       loop: true,
       speed: 2000,
       slidesPerView: 1,
@@ -452,13 +453,15 @@
         prevEl: ".prev-banner",
       },
     });
+    }
 
     /**
      * ======================================
      * 11. banner two slider
      * ======================================
      */
-    var bannerTwo = new Swiper(".banner__slider", {
+    if (document.querySelector(".banner__slider")) {
+      var bannerTwo = new Swiper(".banner__slider", {
       loop: true,
       speed: 2000,
       slidesPerView: 1,
@@ -474,13 +477,15 @@
         pauseOnMouseEnter: true,
       },
     });
+    }
 
     /**
      * ======================================
      * 12. banner three slider
      * ======================================
      */
-    var bannerThree = new Swiper(".banner-three__slider", {
+    if (document.querySelector(".banner-three__slider")) {
+      var bannerThree = new Swiper(".banner-three__slider", {
       loop: true,
       speed: 2000,
       slidesPerView: 1,
@@ -496,13 +501,15 @@
         pauseOnMouseEnter: true,
       },
     });
+    }
 
     /**
      * ======================================
      * 13. banner four slider
      * ======================================
      */
-    var bannerFour = new Swiper(".banner-four__slider", {
+    if (document.querySelector(".banner-four__slider")) {
+      var bannerFour = new Swiper(".banner-four__slider", {
       loop: true,
       speed: 2000,
       slidesPerView: 1,
@@ -522,13 +529,15 @@
         prevEl: ".prev-banner",
       },
     });
+    }
 
     /**
      * ======================================
      * 14. difference slider
      * ======================================
      */
-    var differenceSlider = new Swiper(".difference__slider", {
+    if (document.querySelector(".difference__slider")) {
+      var differenceSlider = new Swiper(".difference__slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -552,13 +561,15 @@
         },
       },
     });
+    }
 
     /**
      * ======================================
      * 15. cause slider
      * ======================================
      */
-    var causeSlider = new Swiper(".cause__slider", {
+    if (document.querySelector(".cause__slider")) {
+      var causeSlider = new Swiper(".cause__slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -590,13 +601,15 @@
         },
       },
     });
+    }
 
     /**
      * ======================================
      * 16. cause two slider
      * ======================================
      */
-    var causeTwoSliderThumb = new Swiper(".cause-two__content-slider", {
+    if (document.querySelector(".cause-two__content-slider") && document.querySelector(".cause-two__slider")) {
+      var causeTwoSliderThumb = new Swiper(".cause-two__content-slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -620,7 +633,7 @@
       },
     });
 
-    var causeTwoSlider = new Swiper(".cause-two__slider", {
+      var causeTwoSlider = new Swiper(".cause-two__slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -661,6 +674,7 @@
         },
       },
     });
+    }
 
     /**
      * ======================================
@@ -668,24 +682,27 @@
      * ======================================
      */
 
-    $(".difference-two__content-single").hide();
-    $(".difference-two__content-single:first").show();
-
-    $(".difference-two__tab-btn").on("click", function () {
-      $(".difference-two__tab-btn").removeClass("active");
-      $(this).addClass("active");
+    if ($(".difference-two__content-single").length > 0) {
       $(".difference-two__content-single").hide();
-      var target = $(this).data("target");
-      $(target).fadeIn(500);
-      return false;
-    });
+      $(".difference-two__content-single:first").show();
+
+      $(".difference-two__tab-btn").on("click", function () {
+        $(".difference-two__tab-btn").removeClass("active");
+        $(this).addClass("active");
+        $(".difference-two__content-single").hide();
+        var target = $(this).data("target");
+        $(target).fadeIn(500);
+        return false;
+      });
+    }
 
     /**
      * ======================================
      * 18. partner slider
      * ======================================
      */
-    var partners = new Swiper(".partner__slider", {
+    if (document.querySelector(".partner__slider")) {
+      var partners = new Swiper(".partner__slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -710,20 +727,24 @@
         },
       },
     });
+    }
 
     /**
      * ======================================
      * 19. nice select
      * ======================================
      */
-    $("select").niceSelect();
+    if ($("select").length > 0 && $.fn.niceSelect) {
+      $("select").niceSelect();
+    }
 
     /**
      * ======================================
      * 20. team slider
      * ======================================
      */
-    var teamTwoSlider = new Swiper(".team-two-slider", {
+    if (document.querySelector(".team-two-slider")) {
+      var teamTwoSlider = new Swiper(".team-two-slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -746,6 +767,7 @@
         },
       },
     });
+    }
 
     /**
      * ======================================
@@ -876,7 +898,8 @@
      * 24. product details slider
      * ======================================
      */
-    var productGallery = new Swiper(".product-details-slider-gallery", {
+    if (document.querySelector(".product-details-slider-gallery") && document.querySelector(".product-details-slider")) {
+      var productGallery = new Swiper(".product-details-slider-gallery", {
       loop: true,
       speed: 1000,
       slidesPerView: 2,
@@ -901,7 +924,7 @@
       },
     });
 
-    var productSlider = new Swiper(".product-details-slider", {
+      var productSlider = new Swiper(".product-details-slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -919,13 +942,15 @@
         swiper: productGallery,
       },
     });
+    }
 
     /**
      * ======================================
      * 25. testimonial slider
      * ======================================
      */
-    var testimonial = new Swiper(".testimonial__slider", {
+    if (document.querySelector(".testimonial__slider")) {
+      var testimonial = new Swiper(".testimonial__slider", {
       loop: true,
       speed: 2000,
       slidesPerView: 1,
@@ -945,13 +970,15 @@
         prevEl: ".prev-testimonial",
       },
     });
+    }
 
     /**
      * ======================================
      * 26. testimonial slider four
      * ======================================
      */
-    var testimonialSlider = new Swiper(".testimonial-slider", {
+    if (document.querySelector(".testimonial-slider")) {
+      var testimonialSlider = new Swiper(".testimonial-slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -966,13 +993,15 @@
         prevEl: ".prev-testimonial",
       },
     });
+    }
 
     /**
      * ======================================
      * 27. testimonial two slider
      * ======================================
      */
-    var testimonialTwo = new Swiper(".testimonial-two-slider", {
+    if (document.querySelector(".testimonial-two-slider")) {
+      var testimonialTwo = new Swiper(".testimonial-two-slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -993,13 +1022,15 @@
         },
       },
     });
+    }
 
     /**
      * ======================================
      * 28. testimonial three slider
      * ======================================
      */
-    var testimonialThree = new Swiper(".testimonial-three__slider", {
+    if (document.querySelector(".testimonial-three__slider")) {
+      var testimonialThree = new Swiper(".testimonial-three__slider", {
       loop: true,
       speed: 1000,
       slidesPerView: 1,
@@ -1022,13 +1053,15 @@
         },
       },
     });
+    }
 
     /**
      * ======================================
      * 29. donor reviews slider
      * ======================================
      */
-    var donorReviews = new Swiper(".donor-reviews__carousel", {
+    if (document.querySelector(".donor-reviews__carousel")) {
+      var donorReviews = new Swiper(".donor-reviews__carousel", {
       loop: true,
       speed: 900,
       slidesPerView: 1,
@@ -1063,6 +1096,7 @@
         },
       },
     });
+    }
 
     /**
      * ======================================
@@ -1070,17 +1104,19 @@
      * ======================================
      */
 
-    $(".product-tab-content-single").hide();
-    $(".product-tab-content-single:first").show();
-
-    $(".product-tab__btn").on("click", function () {
-      $(".product-tab__btn").removeClass("active");
-      $(this).addClass("active");
+    if ($(".product-tab-content-single").length > 0) {
       $(".product-tab-content-single").hide();
-      var target = $(this).data("target");
-      $(target).fadeIn(500);
-      return false;
-    });
+      $(".product-tab-content-single:first").show();
+
+      $(".product-tab__btn").on("click", function () {
+        $(".product-tab__btn").removeClass("active");
+        $(this).addClass("active");
+        $(".product-tab-content-single").hide();
+        var target = $(this).data("target");
+        $(target).fadeIn(500);
+        return false;
+      });
+    }
 
     document.querySelectorAll(".range__slider").forEach(function (el) {
       el.oninput = function () {
@@ -1137,7 +1173,7 @@
 
     let Vantilt = document.querySelectorAll(".van-tilt");
 
-    if (Vantilt) {
+    if (Vantilt.length > 0 && window.VanillaTilt) {
       VanillaTilt.init(document.querySelectorAll(".van-tilt"), {
         max: 5,
         speed: 3000,
@@ -1165,45 +1201,53 @@
      * 34. aos initialization
      * ======================================
      */
-    AOS.init({
-      once: true,
-    });
+    if (window.AOS && document.querySelector("[data-aos]")) {
+      AOS.init({
+        once: true,
+      });
+    }
 
     /**
      * ======================================
      * 35. register gsap
      * ======================================
      */
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+    if (window.gsap && window.ScrollTrigger && window.ScrollToPlugin) {
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+    }
 
     /**
      * ======================================
      * 36. gsap null config
      * ======================================
      */
-    gsap.config({
-      nullTargetWarn: false,
-    });
+    if (window.gsap) {
+      gsap.config({
+        nullTargetWarn: false,
+      });
+    }
 
     /**
      * ======================================
      * 37. target section with gsap
      * ======================================
      */
-    $('a[href^="#"]:not([href="#"])').on("click", function (event) {
-      event.preventDefault();
+    if (window.gsap && window.ScrollToPlugin) {
+      $('a[href^="#"]:not([href="#"])').on("click", function (event) {
+        event.preventDefault();
 
-      var target = $(this).attr("href");
+        var target = $(this).attr("href");
 
-      gsap.to(window, {
-        scrollTo: {
-          y: target,
-          offsetY: 100,
-        },
-        duration: 1,
-        ease: "power3.inOut",
+        gsap.to(window, {
+          scrollTo: {
+            y: target,
+            offsetY: 100,
+          },
+          duration: 1,
+          ease: "power3.inOut",
+        });
       });
-    });
+    }
 
     /**
      * ======================================

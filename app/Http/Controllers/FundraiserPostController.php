@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AdminActivity;
 use App\Models\Donation;
 use App\Models\FundraiserPost;
+use App\Support\UploadedImageOptimizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,8 @@ class FundraiserPostController extends Controller
     public function index(): View
     {
         $posts = FundraiserPost::publiclyVisible()
-            ->with('fundraiser')
+            ->select(['id', 'fundraiser_id', 'title', 'short_description', 'goal_amount', 'raised_amount', 'category', 'main_image', 'approved_at', 'created_at', 'status'])
+            ->with('fundraiser:id,name,status')
             ->addSelect([
                 'actual_raised_amount' => Donation::query()
                     ->selectRaw('COALESCE(SUM(CASE WHEN main_amount > 0 THEN main_amount WHEN amount > tip_amount THEN amount - tip_amount ELSE 0 END), 0)')
@@ -77,9 +79,11 @@ class FundraiserPostController extends Controller
         return view('fundraiser.posts.index', compact('fundraiser', 'posts', 'status', 'search', 'counts'));
     }
 
-    public function create(Request $request): View
+    public function create(Request $request): View|RedirectResponse
     {
-        $this->ensureCanManagePosts($request);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
 
         return view('fundraiser.posts.create', [
             'fundraiser' => $request->attributes->get('fundraiser'),
@@ -89,12 +93,16 @@ class FundraiserPostController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $this->ensureCanManagePosts($request);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
 
         $validated = $this->validatePost($request);
 
         $mainImage = $request->file('main_image')->store('fundraiser-posts/images', 'public');
         $supportingFile = $request->file('supporting_file')?->store('fundraiser-posts/supporting-files', 'public');
+        UploadedImageOptimizer::optimizePublicImage($mainImage);
+        UploadedImageOptimizer::optimizePublicImage($supportingFile);
 
         $post = FundraiserPost::create([
             'fundraiser_id' => $request->attributes->get('fundraiser')->id,
@@ -152,10 +160,15 @@ class FundraiserPostController extends Controller
         return view('fundraiser.posts.show', compact('post', 'donations', 'stats'));
     }
 
-    public function edit(Request $request, FundraiserPost $post): View
+    public function edit(Request $request, FundraiserPost $post): View|RedirectResponse
     {
-        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
+        if ($redirect = $this->redirectIfPostCannotOpenEditPage($post)) {
+            return $redirect;
+        }
         abort_unless($post->status === FundraiserPost::STATUS_PENDING, 403);
 
         return view('fundraiser.posts.edit', [
@@ -166,8 +179,13 @@ class FundraiserPostController extends Controller
 
     public function update(Request $request, FundraiserPost $post): RedirectResponse
     {
-        $this->ensureCanManagePosts($request);
         $this->authorizeFundraiserPost($request, $post);
+        if ($redirect = $this->ensureCanManagePosts($request)) {
+            return $redirect;
+        }
+        if ($redirect = $this->redirectIfPostCannotOpenEditPage($post)) {
+            return $redirect;
+        }
         abort_unless($post->status === FundraiserPost::STATUS_PENDING, 403);
 
         $validated = $this->validatePost($request, true);
@@ -186,11 +204,13 @@ class FundraiserPostController extends Controller
         if ($request->hasFile('main_image')) {
             $this->deletePublicFile($post->main_image);
             $data['main_image'] = $request->file('main_image')->store('fundraiser-posts/images', 'public');
+            UploadedImageOptimizer::optimizePublicImage($data['main_image']);
         }
 
         if ($request->hasFile('supporting_file')) {
             $this->deletePublicFile($post->supporting_file);
             $data['supporting_file'] = $request->file('supporting_file')->store('fundraiser-posts/supporting-files', 'public');
+            UploadedImageOptimizer::optimizePublicImage($data['supporting_file']);
         }
 
         $post->update($data);
@@ -234,11 +254,33 @@ class FundraiserPostController extends Controller
         abort_unless($post->fundraiser_id === $request->attributes->get('fundraiser')->id, 404);
     }
 
-    private function ensureCanManagePosts(Request $request): void
+    private function ensureCanManagePosts(Request $request): ?RedirectResponse
     {
         $fundraiser = $request->attributes->get('fundraiser');
 
-        abort_if($fundraiser && ! $fundraiser->canManagePosts(), 403);
+        if (! $fundraiser || $fundraiser->canManagePosts()) {
+            return null;
+        }
+
+        return $this->restrictedAccessRedirect();
+    }
+
+    private function redirectIfPostCannotOpenEditPage(FundraiserPost $post): ?RedirectResponse
+    {
+        if (! in_array($post->status, [FundraiserPost::STATUS_HOLD, FundraiserPost::STATUS_REJECTED], true)) {
+            return null;
+        }
+
+        return redirect()
+            ->route('fundraiser.posts.index')
+            ->with('error', 'You can only manage approved posts.');
+    }
+
+    private function restrictedAccessRedirect(): RedirectResponse
+    {
+        return redirect()
+            ->route('fundraiser.posts.index')
+            ->with('error', 'Your account is currently restricted. You can only view or delete posts.');
     }
 
     private function deletePublicFile(?string $path): void

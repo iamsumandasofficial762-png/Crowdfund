@@ -19,7 +19,7 @@
                <div class="col-12 col-md-6 col-xl-4">
                   <article class="event-list-card">
                      <a class="event-list-card__image" href="{{ route('events.show', $event->slug) }}">
-                        <img src="{{ $event->imageUrl() }}" alt="{{ $event->title }}">
+                        <img src="{{ $event->imageUrl() }}" alt="{{ $event->title }}" loading="lazy" decoding="async" width="416" height="300">
                         <span>{{ $event->event_date?->format('M d') ?? 'Soon' }}</span>
                      </a>
                      <div class="event-list-card__body">

@@ -67,6 +67,7 @@
         }
 
         .fundraiser-nav a,
+        .fundraiser-nav .nav-disabled,
         .logout-button {
             min-height: 44px;
             display: inline-flex;
@@ -92,6 +93,13 @@
             background: var(--gold-hover);
             box-shadow: 0 14px 28px rgba(147, 42, 25, 0.18);
             transform: translateY(-1px);
+        }
+
+        .fundraiser-nav .nav-disabled {
+            color: var(--muted);
+            background: #f4f6f9;
+            cursor: not-allowed;
+            opacity: 0.72;
         }
 
         .logout-button:hover {
@@ -258,6 +266,10 @@
         }
 
         .post-card-actions .post-action-primary {
+            grid-column: 1 / -1;
+        }
+
+        .post-card-actions .post-action-full {
             grid-column: 1 / -1;
         }
 
@@ -861,6 +873,7 @@
             }
 
             .fundraiser-nav a,
+            .fundraiser-nav .nav-disabled,
             .logout-button {
                 width: 100%;
                 min-width: 0;
@@ -920,6 +933,7 @@
             }
 
             .fundraiser-nav a,
+            .fundraiser-nav .nav-disabled,
             .logout-button {
                 min-height: 42px;
                 gap: 6px;
@@ -1043,6 +1057,7 @@
             }
 
             .fundraiser-nav a,
+            .fundraiser-nav .nav-disabled,
             .logout-button {
                 min-height: 40px;
                 padding: 8px 10px;
@@ -1052,6 +1067,9 @@
     @stack('styles')
 </head>
 <body>
+    @php
+        $fundraiserIsRestricted = ($currentFundraiser ?? null) && ! $currentFundraiser->canManagePosts();
+    @endphp
     <header class="fundraiser-topbar py-3">
         <div class="container d-flex align-items-center justify-content-between gap-3 flex-wrap">
             <a class="fundraiser-brand" href="{{ route('fundraiser.dashboard') }}">
@@ -1061,15 +1079,21 @@
                 <a class="{{ request()->routeIs('fundraiser.dashboard') ? 'active' : '' }}" href="{{ route('fundraiser.dashboard') }}">
                     <i class="fa-solid fa-table-cells-large"></i> Dashboard
                 </a>
-                <a class="{{ request()->routeIs('fundraiser.posts.create') ? 'active' : '' }}" href="{{ route('fundraiser.posts.create') }}">
-                    <i class="fa-solid fa-plus"></i> Create Post
-                </a>
+                @if ($fundraiserIsRestricted)
+                    <span class="nav-disabled" aria-disabled="true"><i class="fa-solid fa-plus"></i> Post creation blocked</span>
+                @else
+                    <a class="{{ request()->routeIs('fundraiser.posts.create') ? 'active' : '' }}" href="{{ route('fundraiser.posts.create') }}">
+                        <i class="fa-solid fa-plus"></i> Create Post
+                    </a>
+                @endif
                 <a class="{{ request()->routeIs('fundraiser.posts.index', 'fundraiser.posts.show', 'fundraiser.posts.edit') ? 'active' : '' }}" href="{{ route('fundraiser.posts.index') }}">
                     <i class="fa-solid fa-rectangle-list"></i> My Posts
                 </a>
-                <a class="{{ request()->routeIs('fundraiser.updates.*', 'fundraiser.posts.updates.*') ? 'active' : '' }}" href="{{ route('fundraiser.updates.campaigns') }}">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Story Updates
-                </a>
+                @unless ($fundraiserIsRestricted)
+                    <a class="{{ request()->routeIs('fundraiser.updates.*', 'fundraiser.posts.updates.*') ? 'active' : '' }}" href="{{ route('fundraiser.updates.campaigns') }}">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Story Updates
+                    </a>
+                @endunless
                 <form action="{{ route('fundraiser.logout') }}" method="post">
                     @csrf
                     <button class="logout-button" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
@@ -1082,15 +1106,10 @@
         <div class="container">
             @include('partials.flash-messages')
 
-            @if (($currentFundraiser ?? null)?->status === \App\Models\Fundraiser::STATUS_HOLD)
+            @if ($fundraiserIsRestricted)
                 <div class="moderation-alert mb-4">
-                    <strong>Your fundraiser account/post is currently on hold.</strong>
-                    <p>{{ $currentFundraiser->hold_reason ?: 'Please contact the admin team for more information.' }}</p>
-                </div>
-            @elseif (($currentFundraiser ?? null)?->status === \App\Models\Fundraiser::STATUS_REJECTED)
-                <div class="moderation-alert mb-4">
-                    <strong>Your fundraiser account has been rejected.</strong>
-                    <p>{{ $currentFundraiser->rejected_reason ?: 'Please contact the admin team for more information.' }}</p>
+                    <strong>Your account is currently restricted.</strong>
+                    <p>Your account is currently restricted. You can only view or delete posts.</p>
                 </div>
             @endif
 
@@ -1153,13 +1172,23 @@
                         return;
                     }
 
+                    if (input.dataset.uploadClearing === 'true') {
+                        updateUploadState(input);
+                        return;
+                    }
+
                     const previousFiles = retainedFiles.get(input);
 
                     if (previousFiles && previousFiles.length) {
-                        input.files = cloneFileList(previousFiles);
-                    }
+                        const restoredFiles = cloneFileList(previousFiles);
 
-                    updateUploadState(input);
+                        if (restoredFiles) {
+                            input.files = restoredFiles;
+                        }
+
+                        updateUploadState(input);
+                        return;
+                    }
                 });
             });
 
@@ -1174,10 +1203,13 @@
                         return;
                     }
 
+                    input.dataset.uploadClearing = 'true';
                     retainedFiles.delete(input);
                     input.value = '';
                     updateUploadState(input);
+                    input.dispatchEvent(new CustomEvent('upload:clear', { bubbles: true }));
                     input.dispatchEvent(new Event('change', { bubbles: true }));
+                    delete input.dataset.uploadClearing;
                 });
             });
         })();

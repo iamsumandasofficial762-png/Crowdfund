@@ -11,10 +11,10 @@
         :root { --gold:#932a19; --gold-soft:#f7e1df; --bg:#f7f8fb; --line:#dde2ea; --ink:#071226; }
         body { margin:0; color:var(--ink); background:var(--bg); font-family:Nunito, system-ui, sans-serif; }
         a { text-decoration:none; }
-        .admin-layout { min-height:100vh; display:grid; grid-template-columns:280px 1fr; }
-        .sidebar { padding:24px; border-right:1px solid var(--line); background:#fff; }
+        .admin-layout { min-height:100vh; display:grid; grid-template-columns:300px minmax(0,1fr); }
+        .sidebar { position:sticky; top:0; height:100vh; min-width:300px; padding:30px 22px; border-right:1px solid var(--line); background:#fff; }
         .brand img { width:154px; }
-        .nav-link { display:flex; align-items:center; gap:10px; margin-bottom:8px; border-radius:12px; padding:12px 14px; color:var(--ink); font-weight:900; }
+        .nav-link { display:flex; align-items:center; gap:12px; margin-bottom:10px; border-radius:12px; padding:13px 15px; color:#2f3a4c; font-weight:800; line-height:1.2; }
         .nav-link:hover,.nav-link.active { color:var(--gold); background:var(--gold-soft); }
         .topbar { border-bottom:1px solid var(--line); background:#fff; }
         .topbar-inner,.content { padding:24px; }
@@ -30,6 +30,26 @@
         .text-clip { max-width:320px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
         .badge-published { color:#116149; background:#dff8ec; }
         .badge-draft { color:#7a4b00; background:#fff1cf; }
+        .status-filters { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+        .status-filter {
+            min-height:42px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            border:1px solid var(--line);
+            border-radius:999px;
+            padding:8px 18px;
+            color:var(--ink);
+            background:#fff;
+            font-weight:900;
+            box-shadow:0 8px 20px rgba(18,24,39,.04);
+        }
+        .status-filter:hover,
+        .status-filter.active {
+            border-color:var(--gold);
+            color:#fff;
+            background:var(--gold);
+        }
         [data-auto-dismiss] { transition: opacity .35s ease, transform .35s ease, margin .35s ease, padding .35s ease, border-width .35s ease; }
         [data-auto-dismiss].is-hiding { opacity:0; transform:translateY(-8px); margin-top:0 !important; margin-bottom:0 !important; padding-top:0 !important; padding-bottom:0 !important; border-width:0 !important; overflow:hidden; }
         @media (max-width: 991px) { .admin-layout { grid-template-columns:1fr; } }
@@ -49,6 +69,9 @@
                 <a class="nav-link" href="{{ route('admin.blog-categories.index') }}"><i class="fa-solid fa-tags"></i> Blog Categories</a>
                 <a class="nav-link" href="{{ route('admin.donations.index') }}"><i class="fa-solid fa-indian-rupee-sign"></i> Donations</a>
                 <a class="nav-link" href="{{ route('admin.fundraisers.index') }}"><i class="fa-solid fa-user-tie"></i> Fundraisers</a>
+                @if (auth()->user()?->hasPermission(\App\Support\AdminPermissions::USERS_MANAGE))
+                    <a class="nav-link" href="{{ route('admin.users.index') }}"><i class="fa-solid fa-users-gear"></i> Users</a>
+                @endif
                 <a class="nav-link" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear"></i> Settings</a>
             </nav>
         </aside>
@@ -65,6 +88,25 @@
             </header>
             <div class="content">
                 @if (session('status'))<div class="alert alert-success fw-bold" data-auto-dismiss="3500">{{ session('status') }}</div>@endif
+                @php
+                    $activeStatus = request('status');
+                    $statusFilters = [
+                        null => 'All',
+                        \App\Models\Event::STATUS_PUBLISHED => 'Published',
+                        \App\Models\Event::STATUS_DRAFT => 'Draft',
+                    ];
+                @endphp
+                <div class="status-filters" aria-label="Event status filters">
+                    @foreach ($statusFilters as $filterStatus => $label)
+                        @php
+                            $isActive = blank($filterStatus) ? blank($activeStatus) : $activeStatus === $filterStatus;
+                        @endphp
+                        <a
+                            class="status-filter {{ $isActive ? 'active' : '' }}"
+                            href="{{ blank($filterStatus) ? route('admin.events.index') : route('admin.events.index', ['status' => $filterStatus]) }}"
+                        >{{ $label }}</a>
+                    @endforeach
+                </div>
                 <div class="panel table-responsive">
                     <table class="table align-middle mb-0">
                         <thead>

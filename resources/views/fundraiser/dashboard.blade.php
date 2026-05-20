@@ -104,7 +104,11 @@
                     <div class="text-center py-4">
                         <h5 class="fw-black">No fundraiser posts yet.</h5>
                         <p class="muted">Create your first campaign and submit it for approval.</p>
-                        <a href="{{ route('fundraiser.posts.create') }}" class="btn btn-gold">Create Post</a>
+                        @if ($fundraiser->canManagePosts())
+                            <a href="{{ route('fundraiser.posts.create') }}" class="btn btn-gold">Create Post</a>
+                        @else
+                            <span class="btn btn-gold opacity-75 pe-none" aria-disabled="true">Post creation blocked</span>
+                        @endif
                     </div>
                 </div>
             @endforelse

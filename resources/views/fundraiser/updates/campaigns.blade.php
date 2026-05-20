@@ -78,7 +78,11 @@
                 <h1 class="fw-black mb-2">Choose a campaign to update</h1>
                 <p class="muted mb-0">Post treatment progress, urgent announcements, thank-you notes, and other campaign updates.</p>
             </div>
-            <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}"><i class="fa-solid fa-plus"></i>Create Post</a>
+            @if ($fundraiser->canManagePosts())
+                <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}"><i class="fa-solid fa-plus"></i>Create Post</a>
+            @else
+                <span class="btn btn-gold opacity-75 pe-none" aria-disabled="true"><i class="fa-solid fa-lock"></i>Post creation blocked</span>
+            @endif
         </div>
     </section>
 
@@ -113,9 +117,13 @@
                                 <span>Goal: <strong>Rs. {{ number_format($goal, 0) }}</strong></span>
                             </div>
                         </div>
-                        <a class="btn btn-gold w-100" href="{{ route('fundraiser.posts.updates.index', $post) }}">
-                            <i class="fa-solid fa-pen-to-square"></i>Manage Updates
-                        </a>
+                        @if ($post->status === \App\Models\FundraiserPost::STATUS_APPROVED && $fundraiser->canManagePosts())
+                            <a class="btn btn-gold w-100" href="{{ route('fundraiser.posts.updates.index', $post) }}">
+                                <i class="fa-solid fa-pen-to-square"></i>Manage Updates
+                            </a>
+                        @else
+                            <a class="btn btn-soft w-100" href="{{ route('fundraiser.posts.show', $post) }}">View Details</a>
+                        @endif
                     </div>
                 </article>
             </div>
@@ -124,7 +132,11 @@
                 <section class="dashboard-panel p-5 text-center">
                     <h4 class="fw-black">No fundraiser posts yet.</h4>
                     <p class="muted">Create your first campaign before posting story updates.</p>
-                    <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}">Create Post</a>
+                    @if ($fundraiser->canManagePosts())
+                        <a class="btn btn-gold" href="{{ route('fundraiser.posts.create') }}">Create Post</a>
+                    @else
+                        <span class="btn btn-gold opacity-75 pe-none" aria-disabled="true">Post creation blocked</span>
+                    @endif
                 </section>
             </div>
         @endforelse

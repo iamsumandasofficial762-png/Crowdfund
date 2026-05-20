@@ -30,12 +30,6 @@
       <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
       <!-- sticky header css -->
       <link rel="stylesheet" href="{{ asset('assets/css/sticky-header.css') }}">
-      <!-- box layout css -->
-      <link rel="stylesheet" href="{{ asset('assets/css/box-layout.css') }}">
-      <!-- dark mode css -->
-      <link rel="stylesheet" href="{{ asset('assets/css/dark-mode.css') }}">
-      <!-- rtl version css -->
-      <link rel="stylesheet" href="{{ asset('assets/css/rtl-version.css') }}">
       <style>
          :root {
             --site-header-height: 70px;
