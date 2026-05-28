@@ -32,11 +32,13 @@
         </div>
         <div class="activity-menu__body">
             @forelse (($latestAdminActivities ?? collect()) as $activity)
-                <a class="activity-item {{ $activity->is_read ? '' : 'is-unread' }}" href="{{ route('admin.activities.index') }}">
-                    <strong>{{ $activity->title }}</strong>
-                    <p>{{ \Illuminate\Support\Str::limit($activity->message, 92) }}</p>
-                    <time>{{ $activity->created_at->diffForHumans() }}</time>
-                </a>
+                @if(is_object($activity) && method_exists($activity, 'getAttribute'))
+                    <a class="activity-item {{ $activity->is_read ? '' : 'is-unread' }}" href="{{ route('admin.activities.index') }}">
+                        <strong>{{ $activity->title }}</strong>
+                        <p>{{ \Illuminate\Support\Str::limit($activity->message, 92) }}</p>
+                        <time>{{ $activity->created_at->diffForHumans() }}</time>
+                    </a>
+                @endif
             @empty
                 <div class="activity-menu__empty">No activities yet.</div>
             @endforelse

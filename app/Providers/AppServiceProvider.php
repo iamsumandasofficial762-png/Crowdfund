@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('admin.*', function ($view) {
-            [$latestAdminActivities, $unreadAdminActivityCount] = Cache::remember(
+            $cacheData = Cache::remember(
                 'admin.activity_bell.summary',
                 now()->addSeconds(30),
                 function () {
@@ -38,6 +38,20 @@ class AppServiceProvider extends ServiceProvider
                     ];
                 }
             );
+
+            // Ensure cache data is valid
+            $latestAdminActivities = is_array($cacheData) && isset($cacheData[0]) && is_object($cacheData[0]) 
+                ? $cacheData[0] 
+                : (is_array($cacheData) && isset($cacheData[0]) ? $cacheData[0] : collect());
+            
+            $unreadAdminActivityCount = is_array($cacheData) && isset($cacheData[1]) && is_int($cacheData[1]) 
+                ? $cacheData[1] 
+                : 0;
+
+            // If latestAdminActivities is not a collection, ensure it becomes one
+            if (! $latestAdminActivities instanceof \Illuminate\Support\Collection) {
+                $latestAdminActivities = collect($latestAdminActivities);
+            }
 
             $view->with(compact('latestAdminActivities', 'unreadAdminActivityCount'));
         });
