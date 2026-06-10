@@ -11,7 +11,7 @@
       <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
       <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
       <!-- #title -->
-      <title>Karna Kabach</title>
+      <title>Karna Kavach</title>
       <!-- #keywords -->
       <meta name="keywords" content="charity, nonprofit, fundraising, donation, html, bootstrap, scss">
       <!-- #description -->
@@ -179,11 +179,10 @@
                            <div class="col-12 col-lg-6">
                               <div class="topbar__list-wrapper">
                                  <ul class="topbar__list">
-                                    <li><a href="tel:2305-587-3407"><i class="ph ph-phone-call"></i>+2(305)
-                                       587-3407</a>
+                                    <li><a href="tel:+918584037967"><i class="ph ph-phone-call"></i>+91 85840 37967</a>
                                     </li>
-                                    <li><a href="mailto:support@example.com"><i
-                                       class="ph ph-envelope-simple"></i>support@example.com</a>
+                                    <li><a href="mailto:admin@karnakavach.org"><i
+                                       class="ph ph-envelope-simple"></i>admin@karnakavach.org</a>
                                     </li>
                                  </ul>
                               </div>
@@ -409,7 +408,7 @@
                <div class="mobile-menu__header nav-fade">
                   <div class="logo">
                      <a href="{{ route('home') }}" aria-label="home page" title="logo">
-                     <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
+                     <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kavach">
                      </a>
                   </div>
                   <button aria-label="close mobile menu" class="close-mobile-menu">

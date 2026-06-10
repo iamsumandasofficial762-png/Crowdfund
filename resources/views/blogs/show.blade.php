@@ -27,7 +27,7 @@
                   <img class="blog-detail-article__image" src="{{ $blog->imageUrl() }}" alt="{{ $blog->title }}">
                   <div class="blog-detail-article__meta">
                      <span><i class="fa-solid fa-calendar-days"></i>{{ $blog->displayDate()->format('d M Y') }}</span>
-                     <span><i class="fa-solid fa-user"></i>Karna Kabach Team</span>
+                     <span><i class="fa-solid fa-user"></i>Karna Kavach Team</span>
                      <span><i class="fa-solid fa-tags"></i>{{ $blog->categoryLabel() }}</span>
                   </div>
                   <h2>{{ $blog->title }}</h2>
@@ -50,7 +50,7 @@
                   </div>
                   <blockquote>
                      <p>Every story shared with care can move help closer to the people who need it most.</p>
-                     <cite>Karna Kabach</cite>
+                     <cite>Karna Kavach</cite>
                   </blockquote>
                   <div class="blog-detail-summary">
                      <h3>Summary</h3>
@@ -83,8 +83,8 @@
             <div class="col-12 col-xl-4">
                <aside class="blog-detail-sidebar">
                   <div class="blog-detail-widget blog-detail-author">
-                     <img src="{{ asset('assets/images/avatar/avatar-user.png') }}" alt="Karna Kabach Team">
-                     <h4>Karna Kabach Team</h4>
+                     <img src="{{ asset('assets/images/avatar/avatar-user.png') }}" alt="Karna Kavach Team">
+                     <h4>Karna Kavach Team</h4>
                      <p>Stories, updates, and field notes from the people helping campaigns reach more supporters.</p>
                      <div class="blog-detail-author__social">
                         <a href="https://www.facebook.com/" target="_blank" aria-label="facebook"><i class="fa-brands fa-facebook-f"></i></a>

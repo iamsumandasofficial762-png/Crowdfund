@@ -17,7 +17,7 @@
 @endphp
 
 <a class="brand d-inline-flex mb-4" href="{{ route('admin.dashboard') }}">
-    <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
+    <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kavach">
 </a>
 <nav>
     @foreach ($adminNavItems as $item)

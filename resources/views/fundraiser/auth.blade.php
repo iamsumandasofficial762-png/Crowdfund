@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fundraiser Login | Karna Kabach</title>
+    <title>Fundraiser Login | Karna Kavach</title>
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
@@ -69,19 +69,22 @@
             position: relative;
             z-index: 1;
             display: inline-flex;
-            width: max-content;
+            width: 184px;
+            height: 184px;
             align-items: center;
-            border: 1px solid rgba(147, 42, 25, 0.32);
-            border-radius: 999px;
-            padding: 9px 15px;
-            background: rgba(255, 255, 255, 0.88);
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.26);
+            justify-content: center;
+            border: 1px solid rgba(239, 190, 93, 0.42);
+            border-radius: 50%;
+            padding: 18px;
+            overflow: hidden;
+            background: #030b09;
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.36), 0 0 0 8px rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
         }
 
         .auth-brand__logo img {
-            width: 166px;
-            max-width: 46vw;
+            width: 100%;
+            max-width: none;
             height: auto;
             display: block;
         }
@@ -425,9 +428,15 @@
                 padding: 22px 18px;
             }
 
+            .auth-brand__logo {
+                width: 152px;
+                height: 152px;
+                padding: 14px;
+            }
+
             .auth-brand__logo img {
-                width: 136px;
-                max-width: 64vw;
+                width: 100%;
+                max-width: none;
             }
 
             .auth-brand h1 {
@@ -493,8 +502,8 @@
     <main class="auth-page">
         <section class="auth-card" data-card data-mode="{{ $mode === 'register' ? 'register' : 'login' }}">
             <aside class="auth-brand">
-                <a class="auth-brand__logo" href="{{ route('home') }}" aria-label="Karna Kabach home">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
+                <a class="auth-brand__logo" href="{{ route('home') }}" aria-label="Karna Kavach home">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kavach">
                 </a>
                 <div>
                     <p class="text-warning fw-bold text-uppercase mb-2">Fundraiser Access</p>

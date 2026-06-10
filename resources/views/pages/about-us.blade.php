@@ -52,7 +52,7 @@
                         <div class="about__thumb-sm">
                            <img src="assets/images/difference/thumb-sm-two.jpg" alt="Image" data-aos="fade-left"
                               data-aos-duration="1000" data-aos-delay="100">
-                           <div class="about__thumb-sm__content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                           <!-- <div class="about__thumb-sm__content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                               <div class="about__thumb-sm__content-counter">
                                  <h2><span class="odometer" data-odometer-final="15"></span><span>+</span></h2>
                                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" fill="none">
@@ -65,7 +65,7 @@
                                  </svg>
                               </div>
                               <p>Years Experience</p>
-                           </div>
+                           </div> -->
                         </div>
                      </div>
                   </div>
@@ -74,8 +74,7 @@
                         <div class="section__header">
                            <span>Supporting Our Cause Together</span>
                            <h2 class="title-animation">Support Our Mission and Make a Difference</h2>
-                           <p>Business tailored it design, management & support services business agency elit, sed
-                              do eiusmod tempor.
+                           <p>Empowering lives through education, healthcare, and community support initiatives that create lasting social impact. 
                            </p>
                         </div>
                         <hr class="divider">
@@ -93,7 +92,7 @@
                            </div>
                            <div class="about__content-review" data-aos="fade-up" data-aos-duration="1000">
                               <div class="about__content-review__counter">
-                                 <h3><span class="odometer" data-odometer-final="999"></span><span>+</span></h3>
+                                 <h3><span class="odometer" data-odometer-final="99"></span><span>+</span></h3>
                                  <p>Active Reviews</p>
                               </div>
                               <div class="join-users">
@@ -120,7 +119,7 @@
          </section>
          <!-- ==== / about section end ==== -->
          <!-- ==== counter section start ==== -->
-         <section class="counter pt-120 pb-120">
+         <!-- <section class="counter pt-120 pb-120">
             <div class="container">
                <div class="row">
                   <div class="col-12">
@@ -182,7 +181,7 @@
             <div class="shape-left" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="300">
                <img src="assets/images/shape-left.png" alt="Image" class="base-img">
             </div>
-         </section>
+         </section> -->
          <!-- ==== / counter section end ==== -->
          <!-- ==== team section start ==== -->
          <section class="team-area pt-120 pb-120">
@@ -240,9 +239,9 @@
                                     <div class="content">
                                        <span>Volunteer</span>
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Arjun Mukherjee</a></h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -277,9 +276,9 @@
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Ananya Sen
                                           </a>
                                        </h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -315,9 +314,9 @@
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Suman kumar
                                           </a>
                                        </h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -350,9 +349,9 @@
                                     <div class="content">
                                        <span>Volunteer</span>
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Priya Roy</a></h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -387,9 +386,9 @@
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Aarav Sharma
                                           </a>
                                        </h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -425,9 +424,9 @@
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Rohan Das
                                           </a>
                                        </h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -521,16 +520,14 @@
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                        data-bs-target="#collapseOne" aria-expanded="true"
                                        aria-controls="collapseOne">
-                                    What kind of recipes can I find on your website?
+                                    What kind of causes can I support?
                                     </button>
                                  </h6>
                                  <div id="collapseOne" class="accordion-collapse collapse show"
                                     aria-labelledby="headingOne" data-bs-parent="#accordion">
                                     <div class="accordion-body">
                                        <p>
-                                          It is a long established fact that a reader will be distracted by
-                                          the readable the a content of a page when looking at its layout.
-                                          Many desktop publishing packages and web page editors.
+                                          You can support medical treatment, education, food assistance, child care, and other verified community needs.
                                        </p>
                                     </div>
                                  </div>
@@ -540,16 +537,14 @@
                                     <button class="accordion-button collapsed" type="button"
                                        data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                        aria-expanded="false" aria-controls="collapseTwo">
-                                    Are the recipes suitable for beginners?
+                                    Is my donation secure?
                                     </button>
                                  </h6>
                                  <div id="collapseTwo" class="accordion-collapse collapse"
                                     aria-labelledby="headingTwo" data-bs-parent="#accordion">
                                     <div class="accordion-body">
                                        <p>
-                                          It is a long established fact that a reader will be distracted by
-                                          the readable the a content of a page when looking at its layout.
-                                          Many desktop publishing packages and web page editors.
+                                          Yes, donations are processed through safe payment methods, and campaign updates help donors stay informed.
                                        </p>
                                     </div>
                                  </div>
@@ -559,16 +554,14 @@
                                     <button class="accordion-button collapsed" type="button"
                                        data-bs-toggle="collapse" data-bs-target="#collapseThree"
                                        aria-expanded="false" aria-controls="collapseThree">
-                                    Do you offer cooking tips and techniques?
+                                    Can I start a fundraiser?
                                     </button>
                                  </h6>
                                  <div id="collapseThree" class="accordion-collapse collapse"
                                     aria-labelledby="headingThree" data-bs-parent="#accordion">
                                     <div class="accordion-body">
                                        <p>
-                                          It is a long established fact that a reader will be distracted by
-                                          the readable the a content of a page when looking at its layout.
-                                          Many desktop publishing packages and web page editors.
+                                          Yes, you can start a fundraiser by sharing the required details, documents, and story behind the cause.
                                        </p>
                                     </div>
                                  </div>
@@ -578,16 +571,14 @@
                                     <button class="accordion-button collapsed" type="button"
                                        data-bs-toggle="collapse" data-bs-target="#collapseFour"
                                        aria-expanded="false" aria-controls="collapseFour">
-                                    How frequently do you update your recipe collection?
+                                    How do I know where my donation goes?
                                     </button>
                                  </h6>
                                  <div id="collapseFour" class="accordion-collapse collapse"
                                     aria-labelledby="headingFour" data-bs-parent="#accordion">
                                     <div class="accordion-body">
                                        <p>
-                                          It is a long established fact that a reader will be distracted by
-                                          the readable the a content of a page when looking at its layout.
-                                          Many desktop publishing packages and web page editors.
+                                          Campaign pages show goals, raised amounts, and updates so donors can clearly understand the impact of their support.
                                        </p>
                                     </div>
                                  </div>
@@ -658,18 +649,15 @@
                                                    <i class="fa-solid fa-star"></i>
                                                    <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <p>lorem ipsum dolor sit amet consectetur. ut tellus
-                                                   suspendisse
-                                                   nulla aliquam. risus rutrum tellus eget ultrices pretium
-                                                   nisi amet facilisis.
+                                                <p>Karna Kabach made it incredibly easy to support causes that truly matter. The platform is transparent, reliable, and keeps donors informed about the impact of their contributions.
                                                 </p>
                                                 <div class="testimonial__cta">
                                                    <div class="quote-icon">
                                                       <i class="fa-solid fa-quote-right"></i>
                                                    </div>
                                                    <div class="testimonial__cta-content">
-                                                      <span>Marketing Manager</span>
-                                                      <h4>Rohan Dutta</h4>
+                                                      <span>Community Volunteer</span>
+                                                      <h4>Priya Sharma</h4>
                                                    </div>
                                                 </div>
                                              </div>
@@ -694,18 +682,15 @@
                                                    <i class="fa-solid fa-star"></i>
                                                    <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <p>lorem ipsum dolor sit amet consectetur. ut tellus
-                                                   suspendisse
-                                                   nulla aliquam. risus rutrum tellus eget ultrices pretium
-                                                   nisi amet facilisis.
+                                                <p>The dedication and transparency shown by Karna Kabach inspire confidence. It's wonderful to see how collective generosity can transform lives and strengthen communities.
                                                 </p>
                                                 <div class="testimonial__cta">
                                                    <div class="quote-icon">
                                                       <i class="fa-solid fa-quote-right"></i>
                                                    </div>
                                                    <div class="testimonial__cta-content">
-                                                      <span>Marketing Manager</span>
-                                                      <h4>Meera Kapoor</h4>
+                                                      <span>regular donor</span>
+                                                      <h4>Ananya Roy</h4>
                                                    </div>
                                                 </div>
                                              </div>
@@ -730,18 +715,15 @@
                                                    <i class="fa-solid fa-star"></i>
                                                    <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <p>lorem ipsum dolor sit amet consectetur. ut tellus
-                                                   suspendisse
-                                                   nulla aliquam. risus rutrum tellus eget ultrices pretium
-                                                   nisi amet facilisis.
+                                                <p>I was looking for a trusted way to contribute to social causes, and Karna Kabach exceeded my expectations. Every campaign is presented clearly, making it easy to help those in need.
                                                 </p>
                                                 <div class="testimonial__cta">
                                                    <div class="quote-icon">
                                                       <i class="fa-solid fa-quote-right"></i>
                                                    </div>
                                                    <div class="testimonial__cta-content">
-                                                      <span>Marketing Manager</span>
-                                                      <h4>Aarav Sen</h4>
+                                                      <span>Social Impact Advocate</span>
+                                                      <h4>Rahul Mehta</h4>
                                                    </div>
                                                 </div>
                                              </div>

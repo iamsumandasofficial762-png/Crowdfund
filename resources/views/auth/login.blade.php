@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Auth | Karna Kabach Admin</title>
+    <title>Auth | Karna Kavach Admin</title>
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
@@ -86,19 +86,22 @@
             position: relative;
             z-index: 1;
             display: inline-flex;
-            width: max-content;
+            width: 184px;
+            height: 184px;
             align-items: center;
-            border: 1px solid rgba(147, 42, 25, 0.34);
-            border-radius: 999px;
-            padding: 10px 17px;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+            justify-content: center;
+            border: 1px solid rgba(239, 190, 93, 0.42);
+            border-radius: 50%;
+            padding: 18px;
+            overflow: hidden;
+            background: #030b09;
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.38), 0 0 0 8px rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
         }
 
         .auth-brand__logo img {
-            width: 148px;
-            max-width: 52vw;
+            width: 100%;
+            max-width: none;
             height: auto;
             display: block;
         }
@@ -395,6 +398,12 @@
                 padding: 28px 20px;
             }
 
+            .auth-brand__logo {
+                width: 152px;
+                height: 152px;
+                padding: 14px;
+            }
+
             .auth-form-panel {
                 padding: 28px 20px 34px;
             }
@@ -410,8 +419,8 @@
     <main class="auth-shell">
         <section class="auth-card" data-auth-card data-mode="login">
             <aside class="auth-brand">
-                <a class="auth-brand__logo" href="{{ route('home') }}" aria-label="Karna Kabach home">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
+                <a class="auth-brand__logo" href="{{ route('home') }}" aria-label="Karna Kavach home">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kavach">
                 </a>
 
                 <div class="auth-brand__content">

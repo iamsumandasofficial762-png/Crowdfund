@@ -1393,11 +1393,13 @@
       text-align: left;
       font: inherit;
       font-weight: 700;
+      line-height: 1.35;
       cursor: pointer;
       transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
    }
 
    .donation-modal__method i {
+      flex: 0 0 24px;
       width: 24px;
       height: 24px;
       border-radius: 50%;
@@ -1407,6 +1409,12 @@
       color: var(--donate-orange);
       background: transparent;
       font-size: 14px;
+   }
+
+   .donation-modal__method span {
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow-wrap: anywhere;
    }
 
    .donation-modal__method.is-active {
@@ -1568,6 +1576,24 @@
       background: var(--donate-brick-dark);
    }
 
+   .donation-modal__gateway-alert {
+      display: none;
+      margin: 18px 0 0;
+      padding: 12px 16px;
+      border: 1px solid rgba(168, 50, 32, 0.24);
+      border-radius: 10px;
+      color: var(--donate-brick-dark);
+      background: #fff4ed;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.45;
+      text-align: center;
+   }
+
+   .donation-modal__gateway-alert.is-visible {
+      display: block;
+   }
+
    .donation-modal__method:hover {
       border: 1px solid var(--donate-brick);
    }
@@ -1576,6 +1602,22 @@
       border: 1px solid var(--donate-brick);
       color: #ffffff;
       background: var(--donate-brick-dark);
+   }
+
+   @media (max-width: 575px) {
+      .donation-modal__method {
+         min-height: 42px;
+         gap: 10px;
+         padding: 10px 12px;
+         font-size: 15px;
+      }
+
+      .donation-modal__method i {
+         flex-basis: 22px;
+         width: 22px;
+         height: 22px;
+         font-size: 12px;
+      }
    }
 
    button.btn--secondary[data-donation-open] {
@@ -2626,7 +2668,7 @@
                         <div class="story-trust-section">
                            <section class="story-info-card" aria-labelledby="cost-breakup-title">
                               <h4 class="story-section-title" id="cost-breakup-title">Cost Breakup</h4>
-                              <p class="cost-breakup__note">Karna Kabach is a free platform, no fees charged for fundraising</p>
+                              <p class="cost-breakup__note">Karna Kavach is a free platform, no fees charged for fundraising</p>
                               <div class="story-title-rule" aria-hidden="true"></div>
 
                               <div class="cost-row">
@@ -2690,7 +2732,7 @@
 
                            <section class="story-disclaimer">
                               <h4>Disclaimer</h4>
-                              <p class="mb-0">In alignment with child protection and privacy guidelines, Karna Kabach does not mandate public disclosure of the name or photograph of any individual below 18 years of age on fundraiser pages. Any such disclosures are made voluntarily by the parent or legal guardian.</p>
+                              <p class="mb-0">In alignment with child protection and privacy guidelines, Karna Kavach does not mandate public disclosure of the name or photograph of any individual below 18 years of age on fundraiser pages. Any such disclosures are made voluntarily by the parent or legal guardian.</p>
                            </section>
 
                            <section class="story-simple-card">
@@ -2983,7 +3025,7 @@
             </div>
 
             <p class="donation-modal__note">
-               Karna Kabach charges NO fees. We rely on donors like you to cover for our expenses. Kindly consider a tip. Thank you.
+               Karna Kavach charges NO fees. We rely on donors like you to cover for our expenses. Kindly consider a tip. Thank you.
             </p>
 
             <div class="donation-modal__tip">
@@ -3051,6 +3093,7 @@
             </div>
 
             <button class="donation-modal__submit" type="submit" data-donation-total>Continue to pay Rs 2,900</button>
+            <div class="donation-modal__gateway-alert" data-donation-gateway-alert role="alert" aria-live="assertive"></div>
          </form>
 
          <div class="donation-exit" data-donation-exit aria-hidden="true">
@@ -3075,7 +3118,7 @@
                </div>
                <div class="donation-exit__secure">
                   <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
-                  <span>Your donation is secure with Karna Kabach</span>
+                  <span>Your donation is secure with Karna Kavach</span>
                </div>
             </section>
          </div>
@@ -3238,7 +3281,7 @@
       <section class="refer-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="referModalTitle">
          <div class="refer-modal__head">
             <div>
-               <h3 id="referModalTitle">Raise funds online with Karna Kabach</h3>
+               <h3 id="referModalTitle">Raise funds online with Karna Kavach</h3>
                <p>Fill in the details and our team will connect shortly</p>
             </div>
             <button class="refer-modal__close" type="button" data-refer-close aria-label="Close referral form">
@@ -3364,6 +3407,7 @@
       const donationAmountInput = document.querySelector('[data-donation-amount]');
       const donationTipSelect = document.querySelector('[data-donation-tip]');
       const donationTotalButton = document.querySelector('[data-donation-total]');
+      const donationGatewayAlert = document.querySelector('[data-donation-gateway-alert]');
       const donationTipAmountInput = document.querySelector('[data-donation-tip-amount]');
       const donationTotalAmountInput = document.querySelector('[data-donation-total-amount]');
       const donationSummaryAmount = document.querySelector('[data-donation-summary-amount]');
@@ -3450,6 +3494,17 @@
          }
 
          return donationNameInput.checkValidity() && donationContactInput.checkValidity();
+      };
+
+      const showDonationGatewayMessage = () => {
+         if (!donationGatewayAlert) {
+            window.alert('We are working on the payment gateway. Please try again later.');
+            return;
+         }
+
+         donationGatewayAlert.textContent = 'We are working on the payment gateway. Please try again later.';
+         donationGatewayAlert.classList.add('is-visible');
+         donationGatewayAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       };
 
       const syncDonationSticky = () => {
@@ -3695,6 +3750,7 @@
             setDonationMethod(method);
          }
          updateDonationTotal();
+         donationGatewayAlert?.classList.remove('is-visible');
          donationModal.classList.add('is-open');
          donationModal.setAttribute('aria-hidden', 'false');
          document.body.style.overflow = 'hidden';
@@ -3818,12 +3874,15 @@
       donationNameInput?.addEventListener('input', validateDonationIdentity);
       donationContactInput?.addEventListener('input', validateDonationIdentity);
       donationForm?.addEventListener('submit', (event) => {
-         if (validateDonationIdentity()) {
+         event.preventDefault();
+         event.stopPropagation();
+
+         if (!validateDonationIdentity()) {
+            donationForm.reportValidity();
             return;
          }
 
-         event.preventDefault();
-         donationForm.reportValidity();
+         showDonationGatewayMessage();
       });
 
       donationModal?.addEventListener('click', (event) => {

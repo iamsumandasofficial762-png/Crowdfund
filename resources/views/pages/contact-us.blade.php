@@ -143,8 +143,7 @@
                <div class="row">
                   <div class="col-12">
                      <div class="map-inner" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14731.466891410182!2d88.44925396382753!3d22.62145157826544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f89fdd81deeb33%3A0x191e034976d7c464!2sEk%20Tower%2C%204B%2C%20Action%20Area%20II%2C%20Action%20Area%20IID%2C%20Newtown%2C%20New%20Town%2C%20West%20Bengal%20700161!5e0!3m2!1sen!2sin!4v1779107838333!5m2!1sen!2sin" 
-                           width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3681.119576075419!2d88.44359077600129!3d22.68659212878133!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f89f22350abf7d%3A0x1e06d24adb90b70b!2s4d%2C%20158%2C%20E%20Station%20Rd%2C%20Bhattacharya%20Pada%2C%20Chandra%20Pally%2C%20New%20Barrakpur%2C%20Kolkata%2C%20West%20Bengal%20700131!5e0!3m2!1sen!2sin!4v1780681856827!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                      </div>
                   </div>
                </div>
@@ -160,8 +159,7 @@
                         <div class="section__header mb-55" data-aos="fade-up" data-aos-duration="1000">
                            <span>Get In Touch</span>
                            <h2 class="title-animation">Contact Us</h2>
-                           <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                              doloremque laudantium, totam rem aperiam, eaque inventore
+                           <p>We are here to support your journey of giving. Whether you have questions about donations, fundraising campaigns, volunteer opportunities, or partnerships, our team is ready to assist you. Reach out to us and make a difference today.
                            </p>
                         </div>
                         <div class="topbar__item mt-60">
@@ -171,7 +169,7 @@
                               </div>
                               <div class="topbar__item-single__content">
                                  <span>Call Us:</span>
-                                 <p><a href="tel:6231255667">6231255667</a></p>
+                                 <p><a href="tel:+918584037967">+91 85840 37967</a></p>
                               </div>
                            </div>
                            <div class="topbar__item-single" data-aos="fade-up" data-aos-duration="1000"
@@ -182,7 +180,7 @@
                               <div class="topbar__item-single__content">
                                  <span>E-Mail us:
                                  </span>
-                                 <p><a href="mailto:support@example.com">example@email.com</a></p>
+                                 <p><a href="mailto:admin@karnakavach.org">admin@karnakavach.org</a></p>
                               </div>
                            </div>
                            <div class="topbar__item-single" data-aos="fade-up" data-aos-duration="1000"
@@ -192,10 +190,9 @@
                               </div>
                               <div class="topbar__item-single__content">
                                  <span>
-                                 kolkata, west bengal
+                                 North 24 Parganas, west bengal - 700131
                                  </span>
-                                 <p><a href="https://maps.app.goo.gl/oyBEwhxRQuHmkTqE6" target="_blank">Shrachi EK Tower, EKT/5/Office-B,
-Newtown, Kolkata, West Bengal 700161</a>
+                                 <p><a href="https://maps.app.goo.gl/yAKY3bvNeCmV2hPk6" target="_blank">4d 158, Station Road East, New Berrackpore</a>
                                  </p>
                               </div>
                            </div>

@@ -943,7 +943,7 @@
                <strong data-goal-want>1,00,000</strong>
             </div>
             <div class="pricing-goal__breakup-row">
-               <span>Karna Kabach platform fee (&#8377;) :</span>
+               <span>Karna Kavach platform fee (&#8377;) :</span>
                <strong data-goal-platform-fee>0</strong>
             </div>
             <div class="pricing-goal__breakup-row">

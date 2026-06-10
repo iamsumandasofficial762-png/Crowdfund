@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Approved Fundraisers | Karna Kabach</title>
+    <title>Approved Fundraisers | Karna Kavach</title>
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/css/all.min.css') }}">
@@ -118,8 +118,8 @@
     <main class="public-page">
         <div class="shell">
             <header class="topline">
-                <a class="logo" href="{{ route('home') }}" aria-label="Karna Kabach home">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
+                <a class="logo" href="{{ route('home') }}" aria-label="Karna Kavach home">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kavach">
                 </a>
                 <a class="btn btn-warning fw-bold" href="{{ route('fundraiser-details') }}">Start a fundraiser</a>
             </header>

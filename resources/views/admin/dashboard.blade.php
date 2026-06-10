@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Admin Dashboard | Karna Kabach</title>
+    <title>Admin Dashboard | Karna Kavach</title>
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -811,7 +811,7 @@
     <div class="admin-layout">
         <aside class="sidebar" id="sidebar">
             <a class="brand d-inline-flex mb-4" href="{{ route('admin.dashboard') }}">
-                <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kabach">
+                <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kavach">
             </a>
             <nav>
                 <a class="nav-link active" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
@@ -1290,7 +1290,7 @@
             </div>
             <div class="profile-card__row">
                 <span class="muted">Panel</span>
-                <strong>Karna Kabach</strong>
+                <strong>Karna Kavach</strong>
             </div>
         </section>
     </div>

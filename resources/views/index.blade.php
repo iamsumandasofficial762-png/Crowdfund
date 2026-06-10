@@ -373,7 +373,7 @@
                         <div class="about__thumb-sm">
                            <img src="{{ asset('assets/images/difference/thumb-sm-two.jpg') }}" alt="Image" loading="lazy" decoding="async" data-aos="fade-left"
                               data-aos-duration="1000" data-aos-delay="100">
-                           <div class="about__thumb-sm__content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                           <!-- <div class="about__thumb-sm__content" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                               <div class="about__thumb-sm__content-counter">
                                  <h2><span class="odometer" data-odometer-final="15"></span><span>+</span></h2>
                                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" fill="none">
@@ -386,7 +386,7 @@
                                  </svg>
                               </div>
                               <p>Years Experience</p>
-                           </div>
+                           </div> -->
                         </div>
                      </div>
                   </div>
@@ -395,8 +395,7 @@
                         <div class="section__header">
                            <span>Supporting Our Cause Together</span>
                            <h2 class="title-animation">Support Our Mission and Make a Difference</h2>
-                           <p>Business tailored it design, management & support services business agency elit, sed
-                              do eiusmod tempor.
+                           <p>Empowering lives through education, healthcare, and community support initiatives that create lasting social impact. 
                            </p>
                         </div>
                         <hr class="divider">
@@ -414,7 +413,7 @@
                            </div>
                            <div class="about__content-review" data-aos="fade-up" data-aos-duration="1000">
                               <div class="about__content-review__counter">
-                                 <h3><span class="odometer" data-odometer-final="999"></span><span>+</span></h3>
+                                 <h3><span class="odometer" data-odometer-final="99"></span><span>+</span></h3>
                                  <p>Active Reviews</p>
                               </div>
                               <div class="join-users">
@@ -995,35 +994,30 @@
                                  <div class="difference-two__tab-content">
                                     <div class="difference-two__content-single" id="mission">
                                        <ul>
-                                          <li><i class="fa-solid fa-check"></i>We help companies develop
-                                             powerful corporate social
+                                          <li><i class="fa-solid fa-check"></i>Empower individuals and communities through transparent fundraising initiatives.
                                           </li>
-                                          <li><i class="fa-solid fa-check"></i>Helped fund 3,265 Project
-                                             powerful corporate poor
+                                          <li><i class="fa-solid fa-check"></i>Provide financial support for healthcare, education, and emergency relief programs.
                                           </li>
-                                          <li><i class="fa-solid fa-check"></i>Dedicated Tech Services</li>
+                                          <li><i class="fa-solid fa-check"></i>Connect generous donors with verified causes to create meaningful social impact.</li>
                                        </ul>
                                     </div>
                                     <div class="difference-two__content-single" id="vision">
                                        <ul>
-                                          <li><i class="fa-solid fa-check"></i>We help companies develop
-                                             powerful corporate social
+                                          <li><i class="fa-solid fa-check"></i>Build a world where everyone has access to opportunities, care, and support.
                                           </li>
-                                          <li><i class="fa-solid fa-check"></i>Helped fund 3,265 Project
-                                             powerful corporate poor
+                                          <li><i class="fa-solid fa-check"></i>Create a trusted platform that inspires compassion and collective action.
                                           </li>
-                                          <li><i class="fa-solid fa-check"></i>Dedicated Tech Services</li>
+                                          <li><i class="fa-solid fa-check"></i>Foster sustainable community development through generosity and collaboration.</li>
                                        </ul>
                                     </div>
                                     <div class="difference-two__content-single" id="excellence">
                                        <ul>
-                                          <li><i class="fa-solid fa-check"></i>We help companies develop
-                                             powerful corporate social
+                                          <li><i class="fa-solid fa-check"></i>Maintain complete transparency and accountability in every donation.
                                           </li>
-                                          <li><i class="fa-solid fa-check"></i>Helped fund 3,265 Project
-                                             powerful corporate poor
+                                          <li><i class="fa-solid fa-check"></i>Ensure secure, efficient, and reliable fundraising experiences for donors and beneficiaries.
+
                                           </li>
-                                          <li><i class="fa-solid fa-check"></i>Dedicated Tech Services</li>
+                                          <li><i class="fa-solid fa-check"></i>Deliver measurable impact through innovation, integrity, and continuous improvement.</li>
                                        </ul>
                                     </div>
                                  </div>
@@ -1143,7 +1137,7 @@
                                     <span class="donation-amount custom-amount">Custom</span>
                                  </div>
                               </div>
-                              <div class="donation-form__single">
+                              <!-- <div class="donation-form__single">
                                  <h5>Select Payment Method</h5>
                                  <div class="radio-wrapper mt-30">
                                     <div class="radio-single">
@@ -1159,7 +1153,7 @@
                                        <label for="cardDonation">Credit Card</label>
                                     </div>
                                  </div>
-                              </div>
+                              </div> -->
                               <div class="mt-40">
                                  <button type="submit" aria-label="donate us" title="donate us" data-text="Donate Now"
                                     class="btn--secondary"><span>Donate Now</span></button>
@@ -1271,8 +1265,8 @@
                <div class="row align-items-center gutter-24">
                   <div class="col-12 col-lg-8">
                      <div class="section__header--secondary">
-                        <h3 class="title-animation">400+ Winning Awards</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, cumque.</p>
+                        
+                        <p>Recognized for our commitment to social impact, donor trust, and community support. Every milestone belongs to the people who choose to give.</p>
                      </div>
                   </div>
                   <div class="col-12 col-lg-4">
@@ -1288,7 +1282,7 @@
          </section>
          <!-- ==== / event section end ==== -->
          <!-- ==== counter section start ==== -->
-         <section class="counter-area count-alt">
+         <!-- <section class="counter-area count-alt">
             <div class="container">
                <div class="row">
                   <div class="col-12">
@@ -1351,7 +1345,7 @@
                   </div>
                </div>
             </div>
-         </section>
+         </section> -->
          <!-- ==== / counter section end ==== -->
          <!-- ==== team section start ==== -->
          <section class="team-area pt-120 pb-120">
@@ -1409,9 +1403,9 @@
                                     <div class="content">
                                        <span>Volunteer</span>
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Arjun Mukherjee</a></h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -1446,9 +1440,9 @@
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Ananya Sen
                                           </a>
                                        </h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -1484,9 +1478,9 @@
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Rohan Das
                                           </a>
                                        </h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -1519,9 +1513,9 @@
                                     <div class="content">
                                        <span>Volunteer</span>
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Priya Roy</a></h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -1556,9 +1550,9 @@
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Aarav Sharma
                                           </a>
                                        </h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -1594,9 +1588,9 @@
                                        <h4><a href="{{ route('coming-soon', ['menu' => 'team-details']) }}">Thomas Ster
                                           </a>
                                        </h4>
-                                       <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
+                                       <!-- <p><a href="tel:256-255-6579"><i class="ph ph-phone-call"></i> Call: +256 255
                                           6579</a>
-                                       </p>
+                                       </p> -->
                                     </div>
                                  </div>
                               </div>
@@ -1633,16 +1627,14 @@
                                  <h6 class="accordion-header" id="headingOne">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    What kind of recipes can I find on your website?
+                                    What kind of causes can I support?
                                     </button>
                                  </h6>
                                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                     data-bs-parent="#accordion">
                                     <div class="accordion-body">
                                        <p>
-                                          It is a long established fact that a reader will be distracted by
-                                          the readable the a content of a page when looking at its layout.
-                                          Many desktop publishing packages and web page editors.
+                                          You can support medical treatment, education, food assistance, child care, and other verified community needs.
                                        </p>
                                     </div>
                                  </div>
@@ -1651,16 +1643,14 @@
                                  <h6 class="accordion-header" id="headingTwo">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Are the recipes suitable for beginners?
+                                    Is my donation secure?
                                     </button>
                                  </h6>
                                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                                     data-bs-parent="#accordion">
                                     <div class="accordion-body">
                                        <p>
-                                          It is a long established fact that a reader will be distracted by
-                                          the readable the a content of a page when looking at its layout.
-                                          Many desktop publishing packages and web page editors.
+                                          Yes, donations are processed through safe payment methods, and campaign updates help donors stay informed.
                                        </p>
                                     </div>
                                  </div>
@@ -1669,16 +1659,14 @@
                                  <h6 class="accordion-header" id="headingThree">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Do you offer cooking tips and techniques?
+                                    Can I start a fundraiser?
                                     </button>
                                  </h6>
                                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                                     data-bs-parent="#accordion">
                                     <div class="accordion-body">
                                        <p>
-                                          It is a long established fact that a reader will be distracted by
-                                          the readable the a content of a page when looking at its layout.
-                                          Many desktop publishing packages and web page editors.
+                                          Yes, you can start a fundraiser by sharing the required details, documents, and story behind the cause.
                                        </p>
                                     </div>
                                  </div>
@@ -1687,16 +1675,14 @@
                                  <h6 class="accordion-header" id="headingFour">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                        data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                    How frequently do you update your recipe collection?
+                                    How do I know where my donation goes?
                                     </button>
                                  </h6>
                                  <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
                                     data-bs-parent="#accordion">
                                     <div class="accordion-body">
                                        <p>
-                                          It is a long established fact that a reader will be distracted by
-                                          the readable the a content of a page when looking at its layout.
-                                          Many desktop publishing packages and web page editors.
+                                          Campaign pages show goals, raised amounts, and updates so donors can clearly understand the impact of their support.
                                        </p>
                                     </div>
                                  </div>

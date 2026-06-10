@@ -3,7 +3,185 @@
 @endphp
 <footer class="footer footer-two">
             <style>
+               .footer-two {
+                  overflow: hidden;
+               }
+
+               .footer-two > .container {
+                  padding-top: 58px;
+               }
+
+               .footer-two .divider {
+                  display: none;
+               }
+
+               .footer-two .gutter-60 {
+                  --bs-gutter-x: 72px;
+                  align-items: flex-start;
+               }
+
+               .footer-two .footer__brand-widget {
+                  margin-top: -6px;
+                  max-width: 390px;
+               }
+
+               .footer-two .footer__logo {
+                  margin-bottom: 28px;
+                  text-align: center;
+               }
+
+               .footer-two .footer__logo a {
+                  display: inline-flex;
+               }
+
+               .footer-two .footer__logo img {
+                  display: block;
+                  width: min(100%, 300px);
+                  height: auto;
+               }
+
+               .footer-two .footer__brand-widget .footer__widget-content p {
+                  max-width: 360px;
+                  margin-inline: 0;
+                  font-size: 18px;
+                  line-height: 1.8;
+               }
+
+               .footer-two .footer__widget-intro {
+                  margin-bottom: 34px;
+               }
+
+               .footer-two .footer__widget-list li {
+                  margin-bottom: 23px;
+               }
+
+               .footer-two .footer__widget-list a {
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 11px;
+                  font-size: 18px;
+                  line-height: 1.2;
+               }
+
+               .footer-two .footer__widget-list a i {
+                  font-size: 17px;
+               }
+
+               .footer-two .footer__blog-single {
+                  align-items: center;
+                  gap: 18px;
+                  margin-bottom: 42px;
+               }
+
+               .footer-two .footer__blog-single .thumb img {
+                  width: 96px;
+                  min-width: 96px;
+                  height: 96px;
+               }
+
+               .footer-two .footer__blog-single h6 {
+                  max-width: 260px;
+                  margin-bottom: 12px;
+                  font-size: 21px;
+                  line-height: 1.35;
+               }
+
+               .footer-two .footer__blog-single p {
+                  font-size: 16px;
+               }
+
+               .footer-two .footer__contact-list li {
+                  margin-bottom: 28px;
+               }
+
+               .footer-two .footer__contact-list li a {
+                  align-items: flex-start;
+                  gap: 20px;
+                  font-size: 18px;
+                  line-height: 1.65;
+               }
+
+               .footer-two .footer__contact-list li a i {
+                  width: 22px;
+                  min-width: 22px;
+                  margin-top: 7px;
+                  text-align: center;
+                  font-size: 19px;
+               }
+
+               .footer-two .footer__bottom {
+                  margin-top: 86px;
+               }
+
+               .footer-two .footer__bottom .container {
+                  max-width: 100%;
+                  padding-inline: 0;
+               }
+
+               .footer-two .footer__bottom-inner {
+                  width: min(88vw, 1508px);
+                  padding: 38px max(10vw, 24px);
+                  border-top-right-radius: 54px;
+               }
+
+               .footer-two .footer__bottom-inner::after {
+                  display: none;
+               }
+
+               .footer-two .footer__bottom-list {
+                  gap: 30px;
+               }
+
+               .footer-two .footer__bottom-list span {
+                  width: 1px;
+                  height: 18px;
+                  background-color: var(--white);
+                  margin-bottom: -3px;
+               }
+
+               .footer-two .footer__bottom-left p {
+                  margin-top: 16px;
+                  font-size: 17px;
+               }
+
+               .footer-two .footer__bottom-left p a {
+                  font-weight: 800;
+               }
+
+               .footer-two .social {
+                  gap: 12px;
+               }
+
+               .footer-two .social a {
+                  width: 54px;
+                  min-width: 54px;
+                  height: 54px;
+                  font-size: 19px;
+               }
+
                @media (max-width: 575px) {
+                  .footer-two > .container {
+                     padding-top: 42px;
+                  }
+
+                  .footer-two .footer__brand-widget {
+                     margin-top: 0;
+                  }
+
+                  .footer-two .footer__logo {
+                     margin-bottom: 18px;
+                  }
+
+                  .footer-two .footer__logo img {
+                     width: min(100%, 300px);
+                  }
+
+                  .footer-two .footer__brand-widget .footer__widget-content p,
+                  .footer-two .footer__contact-list li a,
+                  .footer-two .footer__widget-list a {
+                     font-size: 16px;
+                  }
+
                   .footer-two .footer__widget-list {
                      display: grid;
                      grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -20,6 +198,31 @@
                      gap: 8px;
                      line-height: 1.25;
                   }
+
+                  .footer-two .footer__blog-single {
+                     gap: 14px;
+                     margin-bottom: 28px;
+                  }
+
+                  .footer-two .footer__blog-single .thumb img {
+                     width: 76px;
+                     min-width: 76px;
+                     height: 76px;
+                  }
+
+                  .footer-two .footer__blog-single h6 {
+                     font-size: 17px;
+                  }
+
+                  .footer-two .footer__bottom {
+                     margin-top: 50px;
+                  }
+
+                  .footer-two .footer__bottom-inner {
+                     width: 100%;
+                     padding: 30px 18px;
+                     border-top-right-radius: 34px;
+                  }
                }
             </style>
             <div class="container">
@@ -30,20 +233,14 @@
                </div>
                <div class="row gutter-60">
                   <div class="col-12 col-md-6 col-xl-4">
-                     <div class="footer__widget" data-aos="fade-up" data-aos-duration="1200">
+                     <div class="footer__widget footer__brand-widget" data-aos="fade-up" data-aos-duration="1200">
                         <div class="footer__logo">
                            <a href="{{ route('home') }}">
-                           <img src="{{ asset('assets/images/logo.png') }}" alt="Image">
+                           <img src="{{ asset('assets/images/logo.png') }}" alt="Karna Kavach">
                            </a>
                         </div>
                         <div class="footer__widget-content">
-                           <p>Lorem ipsum dolor amet consetetur
-                              adi pisicing elit sed eiusm tempor in
-                              cididunt ut labore dolore magna aliqua
-                              enim ad minim venitam
-                           </p>
-                           <p>Quis nostrud exercita laboris nisi ut
-                              aliquip commodo exercita.
+                           <p>Karna Kavach is dedicated to empowering lives through compassion, education, healthcare, and community support. Together with donors, volunteers, and partners, we strive to create opportunities, inspire hope, and build a brighter future for those in need.
                            </p>
                         </div>
                      </div>
@@ -143,16 +340,14 @@
                         </div>
                         <div class="footer__widget-content">
                            <ul class="footer__contact-list">
+                              <li><a href="tel:+918584037967"><i class="fa-solid fa-phone-flip"></i>+91 85840 37967</a></li>
+                              <li><a href="mailto:admin@karnakavach.org"><i class="fa-regular fa-envelope"></i>admin@karnakavach.org</a></li>
                               <li><a
                                  href="https://maps.app.goo.gl/VR5s8LHLYJkszX1Y8"
-                                 target="_blank"><i class="fa-solid fa-location-dot"></i>Shrachi EK Tower, EKT/5/Office-B,
-Newtown, Kolkata, West Bengal 700161
+                                 target="_blank"><i class="fa-solid fa-location-dot"></i>4d 158, Station Road East, New Berrackpore<br>
+North 24 Parganas, west bengal - 700131
                                  </a>
                               </li>
-                              <li><a href="tel:2305-587-3407"><i class="fa-solid fa-phone-flip"></i>+2(305)
-                                 587-3407</a>
-                              </li>
-                              <li><a href="mailto:info@example.com"><i class="fa-regular fa-envelope"></i>info@example.com</a></li>
                            </ul>
                         </div>
                      </div>
@@ -173,9 +368,7 @@ Newtown, Kolkata, West Bengal 700161
                                        <li><a href="{{ route('coming-soon', ['menu' => 'privacy-policy']) }}">Privacy Policy</a></li>
                                     </ul>
                                     <p class="text-center text-lg-start">Copyright &copy; <span id="copyrightYear"></span> <a
-                                       href="{{ route('home') }}">Karna Kabach </a>.
-                                       All rights
-                                       reserved.
+                                       href="{{ route('home') }}">Karna Kavach Foundation</a>. All Rights Reserved.
                                     </p>
                                  </div>
                               </div>
