@@ -3179,7 +3179,8 @@
             <i class="fa-solid fa-xmark"></i>
          </button>
 
-         <form class="payment-details-form" action="{{ route('coming-soon', ['menu' => 'payment-details']) }}" method="get">
+         <form class="payment-details-form" action="{{ route('donations.payment-details.store', $selectedPost) }}" method="post">
+            @csrf
             <h3 id="paymentDetailsTitle">Payment details</h3>
             <p class="payment-details-form__note">
                If you have paid via UPI, PayTM QR code/button or bank transfer, please provide the details to receive payment acknowledgement, and updates on the campaign

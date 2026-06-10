@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CallbackRequestSubmitted;
+use App\Mail\ContactMessageSubmitted;
 use App\Models\AdminActivity;
 use App\Models\ContactMessage;
 use App\Models\FundraiserReferral;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ContactMessageController extends Controller
 {
@@ -27,7 +31,7 @@ class ContactMessageController extends Controller
 
             $alternatePhone = trim(($validated['alternate_country_code'] ?? '').' '.($validated['alternate_phone'] ?? ''));
 
-            ContactMessage::create([
+            $contactMessage = ContactMessage::create([
                 'name' => $validated['name'],
                 'email' => '',
                 'phone' => trim($validated['country_code'].' '.$validated['phone']),
@@ -60,6 +64,17 @@ class ContactMessageController extends Controller
                 'created_by' => $validated['name'],
             ]);
 
+            try {
+                Mail::to($this->adminMailRecipient())->send(
+                    new CallbackRequestSubmitted($contactMessage, $this->sourcePage($request))
+                );
+            } catch (\Throwable $e) {
+                Log::error('Callback request email failed', [
+                    'message' => $e->getMessage(),
+                    'contact_message_id' => $contactMessage->id ?? null,
+                ]);
+            }
+
             return back()->with('status', 'Thank you. Our team will contact you shortly.');
         }
 
@@ -70,7 +85,7 @@ class ContactMessageController extends Controller
             'message' => ['nullable', 'string', 'max:3000'],
         ]);
 
-        ContactMessage::create($validated);
+        $contactMessage = ContactMessage::create($validated);
 
         AdminActivity::create([
             'title' => 'New Contact Form Submitted',
@@ -79,6 +94,27 @@ class ContactMessageController extends Controller
             'created_by' => $validated['name'],
         ]);
 
+        try {
+            Mail::to($this->adminMailRecipient())->send(
+                new ContactMessageSubmitted($contactMessage, $this->sourcePage($request))
+            );
+        } catch (\Throwable $e) {
+            Log::error('Contact message email failed', [
+                'message' => $e->getMessage(),
+                'contact_message_id' => $contactMessage->id ?? null,
+            ]);
+        }
+
         return back()->with('status', 'Your message has been submitted successfully.');
+    }
+
+    private function adminMailRecipient(): ?string
+    {
+        return config('mail.admin_address') ?: env('MAIL_ADMIN_ADDRESS') ?: config('mail.from.address');
+    }
+
+    private function sourcePage(Request $request): string
+    {
+        return $request->headers->get('referer') ?: $request->fullUrl();
     }
 }

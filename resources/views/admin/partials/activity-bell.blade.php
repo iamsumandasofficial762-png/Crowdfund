@@ -44,7 +44,7 @@
             @endforelse
         </div>
         <div class="activity-menu__foot">
-            <span>{{ number_format(($latestAdminActivities ?? collect())->count()) }} latest</span>
+            <span>Showing {{ number_format(($latestAdminActivities ?? collect())->count()) }} latest</span>
             <a href="{{ route('admin.activities.index') }}">View All</a>
         </div>
     </div>

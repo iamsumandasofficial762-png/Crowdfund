@@ -40,6 +40,7 @@ Route::post('/donate/start', [DonationController::class, 'captureAmount'])->name
 Route::get('/donate/campaigns', [DonationController::class, 'campaigns'])->name('donations.campaigns');
 Route::get('/donate-us/{post?}', [PageController::class, 'donate'])->name('donate-us');
 Route::post('/donate-us/{post}/donations', [DonationController::class, 'store'])->name('donations.store');
+Route::post('/donate-us/{post}/payment-details', [DonationController::class, 'storePaymentDetails'])->name('donations.payment-details.store');
 Route::post('/donate-us/{post}/reports', [FundraiserReportController::class, 'store'])->name('fundraiser-reports.store');
 Route::post('/site-reports', [SiteReportController::class, 'store'])->name('site-reports.store');
 Route::post('/fundraiser-referrals/{post?}', [FundraiserReferralController::class, 'store'])->name('fundraiser-referrals.store');

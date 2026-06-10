@@ -25,6 +25,7 @@ class Donation extends Model
         'message',
         'is_private',
         'payment_method',
+        'transaction_id',
         'status',
         'paid_at',
     ];

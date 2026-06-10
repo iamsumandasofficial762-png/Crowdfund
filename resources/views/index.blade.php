@@ -1720,14 +1720,16 @@
                            </h2>
                         </div>
                         <div class="contact__form" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
-                           <form action="#" method="post">
+                           <form action="{{ route('contact-messages.store') }}" method="post">
+                              @csrf
+                              <input type="hidden" name="name" value="Home page visitor">
                               <div class="input-group">
                                  <div class="input-single">
-                                    <input type="email" name="contact-email" id="contactEmail" required placeholder="your email...">
+                                    <input type="email" name="email" id="contactEmail" required placeholder="your email...">
                                     <i class="fa-solid fa-paper-plane"></i>
                                  </div>
                                  <div class="input-single">
-                                    <input type="text" name="contact-number" id="contactNumber" required placeholder="your phone...">
+                                    <input type="text" name="phone" id="contactNumber" required placeholder="your phone...">
                                     <i class="fa-solid fa-phone"></i>
                                  </div>
                               </div>
@@ -1736,12 +1738,12 @@
                                  <i class="fa-solid fa-location-dot"></i>
                               </div>
                               <div class="input-single alter-input">
-                                 <textarea name="contact-message" id="contactMessage" placeholder="your message..."></textarea>
+                                 <textarea name="message" id="contactMessage" placeholder="your message..."></textarea>
                                  <i class="fa-solid fa-envelope"></i>
                               </div>
                               <div class="form-cta">
                                  <button type="submit" aria-label="submit message" title="submit message" class="btn--secondary"
-                                    data-text="Get A Quote"><span>Get A Quote</span></button>
+                                    data-text="submit"><span>submit</span></button>
                               </div>
                            </form>
                         </div>

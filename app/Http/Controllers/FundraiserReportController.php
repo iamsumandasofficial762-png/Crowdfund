@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\FundraiserReportSubmitted;
 use App\Models\AdminActivity;
 use App\Models\FundraiserPost;
 use App\Models\FundraiserReport;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class FundraiserReportController extends Controller
 {
@@ -39,6 +42,27 @@ class FundraiserReportController extends Controller
             'created_by' => $report->name,
         ]);
 
+        try {
+            Mail::to($this->adminMailRecipient())->send(
+                new FundraiserReportSubmitted($report, $this->sourcePage($request))
+            );
+        } catch (\Throwable $e) {
+            Log::error('Fundraiser report email failed', [
+                'message' => $e->getMessage(),
+                'fundraiser_report_id' => $report->id ?? null,
+            ]);
+        }
+
         return back()->with('status', 'Your report has been submitted successfully.');
+    }
+
+    private function adminMailRecipient(): ?string
+    {
+        return config('mail.admin_address') ?: env('MAIL_ADMIN_ADDRESS') ?: config('mail.from.address');
+    }
+
+    private function sourcePage(Request $request): string
+    {
+        return $request->headers->get('referer') ?: $request->fullUrl();
     }
 }

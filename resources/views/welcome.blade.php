@@ -1,8 +1,8 @@
-APP_NAME=Laravel
-APP_ENV=local
+APP_NAME=Karna-Kavach
+APP_ENV=production
 APP_KEY=base64:NZtHdpb3M39cXx0YDyexzTvnA5C8TB2NydR1QEL2iC0=
-APP_DEBUG=true
-APP_URL=https://kk.wamender.com/
+APP_DEBUG=false
+APP_URL=https:https://karnakavach.org/
 
 APP_LOCALE=en
 APP_FALLBACK_LOCALE=en
@@ -47,14 +47,16 @@ REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=null
 REDIS_PORT=6379
 
-MAIL_MAILER=log
+MAIL_MAILER=smtp
 MAIL_SCHEME=null
-MAIL_HOST=127.0.0.1
-MAIL_PORT=2525
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_HOST=mail.karnakavach.org
+MAIL_PORT=465
+MAIL_USERNAME=noreply@karnakavach.org
+MAIL_PASSWORD=TLu]&23jmuie2JwQ
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS=noreply@karnakavach.org
 MAIL_FROM_NAME="${APP_NAME}"
+MAIL_ADMIN_ADDRESS=noreply@karnakavach.org
 
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=

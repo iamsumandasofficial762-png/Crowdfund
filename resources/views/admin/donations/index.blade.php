@@ -48,8 +48,9 @@
         .donations-table th:nth-child(7),
         .donations-table th:nth-child(8),
         .donations-table th:nth-child(9) { width:110px; }
-        .donations-table th:nth-child(10),
-        .donations-table th:nth-child(11) { width:90px; }
+        .donations-table th:nth-child(10) { width:120px; }
+        .donations-table th:nth-child(11) { width:180px; }
+        .donations-table th:nth-child(12) { width:90px; }
         .text-clip { display:block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
         .amount-cell { white-space:nowrap; }
         .status-pill { display:inline-flex; align-items:center; justify-content:center; border-radius:999px; padding:5px 10px; color:#116149; background:#dff8ec; font-size:12px; font-weight:900; white-space:nowrap; }
@@ -219,6 +220,7 @@
                                 <th>Tip</th>
                                 <th>Total</th>
                                 <th>Method</th>
+                                <th>Transaction ID</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -240,11 +242,12 @@
                                     <td class="amount-cell" data-label="Main">Rs. {{ number_format((float) ($donation->main_amount ?: $donation->amount), 0) }}</td>
                                     <td class="amount-cell" data-label="Tip">Rs. {{ number_format((float) $donation->tip_amount, 0) }}</td>
                                     <td class="amount-cell" data-label="Total">Rs. {{ number_format((float) $donation->amount, 0) }}</td>
-                                    <td data-label="Method">{{ ucfirst($donation->payment_method ?: '-') }}</td>
+                                    <td data-label="Method">{{ ucfirst(str_replace('_', ' ', $donation->payment_method ?: '-')) }}</td>
+                                    <td data-label="Transaction ID"><span class="text-clip" title="{{ $donation->transaction_id ?: '-' }}">{{ $donation->transaction_id ?: '-' }}</span></td>
                                     <td data-label="Status"><span class="status-pill">{{ ucfirst($donation->status) }}</span></td>
                                 </tr>
                             @empty
-                                <tr class="empty-row"><td colspan="11" class="text-center text-muted py-5">No donations yet.</td></tr>
+                                <tr class="empty-row"><td colspan="12" class="text-center text-muted py-5">No donations yet.</td></tr>
                             @endforelse
                         </tbody>
                     </table>

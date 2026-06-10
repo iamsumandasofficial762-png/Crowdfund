@@ -239,7 +239,7 @@
                            </div>
                            <div class="form-cta">
                               <button type="submit" aria-label="submit message" title="submit message"
-                                 class="btn--secondary" data-text="Get A Quote"><span>Get A Quote</span></button>
+                                 class="btn--secondary" data-text="submit"><span>submit</span></button>
                            </div>
                         </form>
                      </div>
